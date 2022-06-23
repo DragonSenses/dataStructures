@@ -1,4 +1,4 @@
-import java.lang.StringBuilder;
+import java.lang.StringBuilder; //To be used in toString() for mutability and concatenation within a loop
 
 /**
  * 
@@ -54,7 +54,7 @@ public class SinglyLinkedList <E> {
 
     //Access Methods
     public int size() { return this.size; }
-    public boolean isEmpty() { return this,size == 0; }
+    public boolean isEmpty() { return this.size == 0; }
     
     public E first(){
         if(this.isEmpty() == true) { return null; } 
@@ -73,7 +73,7 @@ public class SinglyLinkedList <E> {
         this.first = new Node<>(e,first);
         //Special Case: if list was empty, then the head node becomes the tail
         if(this.size == 0){
-            this.last == first;
+            this.last = this.first;
         }
         this.size++;
     }
@@ -83,7 +83,7 @@ public class SinglyLinkedList <E> {
         Node<E> newNode = new Node<>(e,null);
         //Special Case: empty list 
         if(this.size == 0){
-            this.first == newNode;
+            this.first = newNode;
         } else{
             last.setNext(newNode); //Change the link of old Tail
         }
@@ -112,18 +112,16 @@ public class SinglyLinkedList <E> {
     * 2. Make the penultimate node the new tail, and set its link to null
     * 3. Dispose of the former tail node
     * @returns the data within the last node
-    * @throws NoSuchElementException if tail is null and list is empty
     */
     public E removeLast(){
+        E oldTailData = this.last.getData();
         if (this.isEmpty()) { return null; }
-        if (this.last == null) { throw new NoSuchElementException();}
         else if (first == last){
             //When there is only one node, unlink both head and tail, and nullify
             this.first.setNext(null);
-            this.first == null;
-            this.last == null;
+            this.first = null;
+            this.last = null;
         } else{ 
-            E oldTailData = this.tail.getData();
             //Traverse to find the penultimate node
             Node <E> penultimate = this.first; //Start from the head of the list
             while (penultimate.next != this.last){
@@ -136,34 +134,39 @@ public class SinglyLinkedList <E> {
         return oldTailData;
     }
 
-    public static void printList(SinglyLinkedList list){
-        Node <E> currNode = list.first;
-        System.out.print("LinkedList: ");
-
-		// Traverse through the LinkedList
-		while (currNode != null) {
-			// Print the data at current node
-			System.out.print(currNode.data + " ");
-
-			// Go to next node
-			currNode = currNode.next;
-		}
-
-		System.out.println();
-    }
-
+    /**
+     * @returns A String representation of SinglyLinkedList
+     */
     @Override
     public String toString() {
         StringBuilder list = new StringBuilder();
         list.append("LinkedList: ");
 
         //Traverse through each node to add data to String
-        for(Node curr = this.head; curr.next != null; curr = curr.next){
+        for(Node<E> curr = this.first; curr.next != null; curr = curr.next){
             list.append(curr.getData() + "");
             list.append(" ");
         }
-
+        //Condition stops at the tail node since curr.next == null
+        //Still must print out the last Node's data
+        list.append(this.last.getData() + "");
         list.append("\n");
         return list.toString();
+    }
+
+    // A quick test
+    public static void main(String[] args) {
+        SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+        list.addFirst(4);
+        list.addFirst(3);
+        list.addFirst(2);
+        list.addFirst(1);
+        list.addLast(5);
+
+        System.out.println(list.toString());
+        System.out.println(list.removeFirst());
+        System.out.println(list.toString());
+        System.out.println(list.removeLast());
+        System.out.println(list.toString());
     }
 }
