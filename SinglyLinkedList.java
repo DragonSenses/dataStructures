@@ -1,10 +1,12 @@
+import java.lang.StringBuilder;
+
 /**
  * 
  * @author kendr
  * A Linked List is a collection of nodes that form a linear sequence. 
  * A Singly linked List has each node store two values. 
  * 	1) Data: a reference to an object that is an element of the sequence
- *      2) Link: a reference to the next node of the list 
+ *  2) Link: a reference to the next node of the list 
  * 
  * Generic LinkedList allows for variety of data types
  */
@@ -54,7 +56,6 @@ public class SinglyLinkedList <E> {
     public int size() { return this.size; }
     public boolean isEmpty() { return this,size == 0; }
     
-    
     public E first(){
         if(this.isEmpty() == true) { return null; } 
         return first.getData();
@@ -66,7 +67,6 @@ public class SinglyLinkedList <E> {
     }
 
     //Update Methods
-
     //Adds element to the front of the list
     public void addFirst(E e){
         //Assign the first node to the new Node, with a link to the old First
@@ -104,5 +104,66 @@ public class SinglyLinkedList <E> {
             this.last = null;
         }
         return data;
+    }
+
+    /**
+    * Removes the Last Node. This can be done in 3 steps:
+    * 1. Update next link of the penultimate node, finding this by traversal
+    * 2. Make the penultimate node the new tail, and set its link to null
+    * 3. Dispose of the former tail node
+    * @returns the data within the last node
+    * @throws NoSuchElementException if tail is null and list is empty
+    */
+    public E removeLast(){
+        if (this.isEmpty()) { return null; }
+        if (this.last == null) { throw new NoSuchElementException();}
+        else if (first == last){
+            //When there is only one node, unlink both head and tail, and nullify
+            this.first.setNext(null);
+            this.first == null;
+            this.last == null;
+        } else{ 
+            E oldTailData = this.tail.getData();
+            //Traverse to find the penultimate node
+            Node <E> penultimate = this.first; //Start from the head of the list
+            while (penultimate.next != this.last){
+                penultimate = penultimate.next;
+            }
+            this.last = penultimate;
+            this.last.setNext(null);
+        }
+        this.size--; //Decrement the List
+        return oldTailData;
+    }
+
+    public static void printList(SinglyLinkedList list){
+        Node <E> currNode = list.first;
+        System.out.print("LinkedList: ");
+
+		// Traverse through the LinkedList
+		while (currNode != null) {
+			// Print the data at current node
+			System.out.print(currNode.data + " ");
+
+			// Go to next node
+			currNode = currNode.next;
+		}
+
+		System.out.println();
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder list = new StringBuilder();
+        list.append("LinkedList: ");
+
+        //Traverse through each node to add data to String
+        for(Node curr = this.head; curr.next != null; curr = curr.next){
+            list.append(curr.getData() + "");
+            list.append(" ");
+        }
+
+        list.append("\n");
+        return list.toString();
     }
 }
