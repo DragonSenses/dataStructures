@@ -17,7 +17,7 @@ public class CircularlyLinkedList<E> {
         private E data;             // Reference to data stored in node
         private Node<E> next;       // Reference to subsequent node in list
         
-		public Node (E e, Node <E> n){
+		public Node (E e, Node <E> n){ 
             this.data = e;
             this.next = n;
         }
@@ -43,22 +43,40 @@ public class CircularlyLinkedList<E> {
 	public boolean isEmpty() { return size == 0; }
 
 	//Access Methods
+	/**
+	 *  
+	 * @return The first node data without removing, null if empty list
+	 */
 	public E first() {
-		return null;
+		if(isEmpty()) { return null; }
+		return tail.getNext().getData();
 	}
 
-	
+	/**
+	 * 
+	 * @return The last node data without removing, null if empty list
+	 */
 	public E last() {
-		return null;
+		if(isEmpty()) { return null; }
+		return tail.getData();
 	}
 
 	//Update Methods
-	public void addFirst() { 
-
+	/**
+	 * Adds element E node to the front of the list.
+	 * @param e - The element to add
+	 */
+	public void addFirst(E e) { 
+		if(isEmpty()){ //Case 1, empty list set node as tail
+			tail = new Node<>(e,null);
+			tail.setNext(tail); //Set the tail to link to itself circularly
+		}else {
+			Node<E> newNode = new Node<>(e,tail.getNext());
+		}
 	}
 
 	
-	public void addLast() {
+	public void addLast(E e) {
 
 	}
 
