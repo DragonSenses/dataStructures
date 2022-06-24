@@ -11,7 +11,7 @@
  * @author kendr
  *
  */
-public class CircularlyLinkedList {
+public class CircularlyLinkedList<E> {
 	/** Nested Node Class */
     private static class Node <E> {
         private E data;             // Reference to data stored in node
@@ -32,7 +32,7 @@ public class CircularlyLinkedList {
         public void setNext(Node<E> n) { this.next = n;}
     } // end of Nested Node Class
 	
-	//Instance Variables of CircularlyLinkedList
+	//Instance Variables or Member Fields of CircularlyLinkedList
 	private Node<E> tail = null; // Only store tail, since head = tail.next
 	private int size = 0; 		 // Number of nodes in the list
 
@@ -44,12 +44,12 @@ public class CircularlyLinkedList {
 
 	//Access Methods
 	public E first() {
-
+		return null;
 	}
 
 	
 	public E last() {
-
+		return null;
 	}
 
 	//Update Methods
@@ -67,7 +67,7 @@ public class CircularlyLinkedList {
 	}
 
 	public E removeFirst() {
-
+		return null;
 	}
 
 	//Quick test
