@@ -77,7 +77,7 @@ public class DoublyLinkedList <E> { // Generics allows for variety of data types
 		head.setNext(tail);
 	}
 
-	//Access Methods
+	/** Access Methods **/
 	/**
 	 * @return the number of nodes within the list
 	 */
@@ -106,7 +106,69 @@ public class DoublyLinkedList <E> { // Generics allows for variety of data types
 		return tail.getPrev().getData(); //Last element is before the sentinel tail node
 	}
 
+	/** Private Helper Methods **/
+	/**
+	 * Private update method that adds element e in betwixt two given nodes
+	 */
+	private void insert(E e, Node<E> precursor, Node<E> successor){
+		//Create a new node while updating both its links
+		Node<E> latest = new Node<>(e, precursor, successor);
+		precursor.setNext(latest);
+		successor.setPrev(latest);
+		size++; 
+	}
+
+	/**
+	 * Removes the given node from the list, updates neighbor links, and return its data
+	 * 
+	 * @return The data of the removed Node
+	 */
+	private E remove(Node<E> node){
+		//Acquire the two neighbors of the node to delete
+		Node<E> before = node.getPrev();
+		Node<E> after = node.getNext();
+		before.setNext(after); //Set the node.previous.next link to that of successor
+		after.setPrev(before); //Set the node.next.prev link to that of precursor
+		size--; //Decrement number of nodes
+		return node.getData();
+	}
+
+	/** Update Methods **/
+	/**
+	 * Adds node with element e to the front of the list
+	 * @param e	The data of the node to add
+	 */
+	public void addFirst(E e){
+		insert(e,head,head.getNext());
+	}
+
+	/**
+	 * Adds node with element e to the end of the list
+	 * @param e The data of the node to add
+	 */
+	public void addLast(E e){
+		insert(e,tail.getPrev(),tail);
+	}
+
+	/**
+	 * Removes and returns first element of the list
+	 * @return The data of the node removed
+	 */
+	public E removeFirst(){
+		if(isEmpty()) { return null; } // Nothing to Remove
+		return remove(head.getNext()); // Remember, first element is after sentinel head node
+	}
+
+	/**
+	 * Removes and returns the last element of the list
+	 * @return The data of the node removed
+	 */
+	public E removeLast(){
+		if(isEmpty()) { return null; } // Nothing to Remove
+		return remove(tail.getPrev()); // Remember, last element is before sentinel tail node
+	}
 	
+
 	// Quick Test
 	public static void main(String[] args) {
 
