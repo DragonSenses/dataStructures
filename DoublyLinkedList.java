@@ -1,4 +1,4 @@
-
+import java.lang.StringBuilder;
 /**
  * @author kendr
  *         Downside to SinglyLinkedLists is inefficiency in deleting arbitrary
@@ -168,10 +168,44 @@ public class DoublyLinkedList <E> { // Generics allows for variety of data types
 		return remove(tail.getPrev()); // Remember, last element is before sentinel tail node
 	}
 	
+	/**
+     * @returns A String representation of SinglyLinkedList
+     */
+    @Override
+    public String toString() {
+        StringBuilder list = new StringBuilder();
+        list.append("LinkedList: ");
+
+		//The first element of the list is after sentinel node 
+		Node<E> curr = this.head.getNext(); 
+
+        //Traverse through each node to add data to StringBuilder
+        for(; curr.next != null; curr = curr.next){
+            list.append(curr.getData() + "");
+            list.append(" ");
+        }
+        //Condition stops at the tail sentinel node since curr.next == null
+        return list.toString();
+    }
 
 	// Quick Test
 	public static void main(String[] args) {
+			DoublyLinkedList<Integer> list = new DoublyLinkedList<>();
+			list.addFirst(4);
+			list.addFirst(3);
+			list.addFirst(2);
+			list.addFirst(1);
+			list.addLast(5);
+			System.out.println(list.toString()); //Expect List 1-5
+			System.out.println("Size is: " + list.size());
 
+			System.out.println("Removed: " + list.removeFirst());
+			System.out.println(list.toString()); //Expect List 2-5
+			System.out.println("Size is: " + list.size());
+
+			System.out.println("Removed: " + list.removeLast());
+			System.out.println(list.toString()); //Expect List 2-5
+			System.out.println("Size is: " + list.size());
 	}
 
 }
