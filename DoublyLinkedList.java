@@ -26,7 +26,7 @@
  *         like it does for SinglyLinkedLists
  * 
  */
-public class DoublyLinkedList {
+public class DoublyLinkedList <E> { // Generics allows for variety of data types
 	/** Nested Node Class */
 	private static class Node<E> {
 		private E data; // Reference to data stored in node
@@ -64,7 +64,49 @@ public class DoublyLinkedList {
 			this.next = n;
 		}
 	} // end of Nested Node Class
+	//Instance Variables of DoublyLinkedList
+	private Node<E> head; // Sentinel node head
+	private Node<E> tail; // Sentinel node tail
+	private int size = 0;
 
+	/** Default Constructor **/
+	public DoublyLinkedList(){
+		//When initializing sentinel nodes only the one link matters, the rest are null even data
+		this.head = new Node<>(null,null,null); //Must initialize tail to set the reference to it
+		this.tail = new Node<>(null,this.head,null);
+		head.setNext(tail);
+	}
+
+	//Access Methods
+	/**
+	 * @return the number of nodes within the list
+	 */
+    public int size() { return this.size; } 
+
+	/**
+	 * @return true if list is empty, false otherwise
+	 */
+    public boolean isEmpty() { return this.size == 0; }
+
+	/**
+	 * Returns but does not remove the first node.data of the list
+	 * @return The first element of the list
+	 */
+	public E first(){
+		if(isEmpty()) { return null; }
+		return head.getNext().getData(); //First element is after the sentinel head node
+	}
+
+	/**
+	 * Returns but does not remove the last node.data of the list
+	 * @return The last element of the list
+	 */
+	public E last(){
+		if(isEmpty()) { return null; }
+		return tail.getPrev().getData(); //Last element is before the sentinel tail node
+	}
+
+	
 	// Quick Test
 	public static void main(String[] args) {
 
