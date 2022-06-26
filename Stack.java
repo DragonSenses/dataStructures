@@ -10,7 +10,8 @@ import java.util.NoSuchElementException;
  * @author kendr
  */
 public class Stack<E>{
-    private static final int INIT_SIZE = 8;  //Initial size of the Stack
+    //Instance variables
+    private static final int INIT_SIZE = 8;  //Initial size of every Stack
 
     private E[] arr;      // Underlying array of elements
     private int size;     // number of elements on stack
