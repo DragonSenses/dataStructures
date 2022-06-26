@@ -174,6 +174,24 @@ public class SinglyLinkedList <E> {
      */
     @Override
     public boolean equals(Object o){
+        //1. Null Treatment
+        if(o == null) { return false; } 
+        /*2. Class Equivalence - getClass() vs. instanceof
+         * getClass() only returns true if object is actually an instance of the specified class but
+         * instanceof operator returns true even if the object is a subclass of a specified class or
+         * interface in Java; allows implementation of equality between super and sub classes but does
+         * not satisfy symmetry: x.equals(y) is true then y.equals(x) is also true, but if you swap x
+         * with a subclass then x instanceof y is true but y instanceof x will be false, hence equals 
+         * is false. We do not consider a SinglyLinkedList to be equivalent to DoublyLinkedList with 
+         * with the same contents, a more stable approach 
+         */
+        if(this.getClass() != o.getClass()) { return false; }
+        //Although declared formal type parameter <E> cannot detect at runtime whether other list has
+        //a matching type. Type erasure, maps richer types at one level to less rich types at lower level
+        SinglyLinkedList other = (SinglyLinkedList) o; // Typecast and use nonparameterized type
+        //3. Size Check
+        if(this.size != other.size) { return false; }
+        
         return true; // When reached, every element matched successfuly
     }
 
