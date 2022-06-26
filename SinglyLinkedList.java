@@ -191,7 +191,13 @@ public class SinglyLinkedList <E> {
         SinglyLinkedList other = (SinglyLinkedList) o; // Typecast and use nonparameterized type
         //3. Size Check
         if(this.size != other.size) { return false; }
-        
+        Node ptrA = this.first;  // Traverses through the primary list
+        Node ptrB = other.first; // Traverse through the secondary list
+        while(ptrA != null){ //For every node within each list, check if element is equal
+            if(!ptrA.getData().equals(ptrB.getData())) { return false; }
+            ptrA = ptrA.getNext(); 
+            ptrB = ptrB.getNext();
+        }
         return true; // When reached, every element matched successfuly
     }
 
