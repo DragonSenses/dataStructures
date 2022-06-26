@@ -43,8 +43,8 @@ public class Stack<E>{
     }
 
     /**
-     * Returns, but does not remove, the item at the top of the Stack
-     * @return The item most recently inserted to the Stack
+     * Returns, but does not remove, the element at the top of the Stack
+     * @return The element most recently inserted to the Stack
      * @throws NoSuchElementException if stack is empty
      */
     public E peek(){
@@ -70,6 +70,31 @@ public class Stack<E>{
     }
 
     /** Update Methods **/
+    /**
+     * Removes and Returns the element most recently added to the Stack
+     * @return The element most recently inserted to the stack
+     * @throws NoSuchElementException if Stack is empty
+     */
+    public E pop(){
+        if(isEmpty()){ throw new NoSuchElementException("Stack is empty"); }
+        E element = arr[size-1]; //Hold the data temporarily
+        //Delete the element from the array, then decrement size
+        arr[size-1] = null; 
+        this.size--; 
 
-    
+        //Rescale if used stack capacity is 25%
+        if(size > 0 && size == arr.length/4) { rescale(arr.length/2); }
+
+        return element;
+    }
+
+    /**
+     * Adds the element to the top of the stack
+     * @param data The element to add
+     */
+    public void push(E data){
+        //Rescale if full stack 
+        if(this.size == arr.length) { rescale(2*arr.length); }
+        arr[size++] = data;
+    }
 }
