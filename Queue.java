@@ -5,5 +5,7 @@
  * @author kendr
  */
 public class Queue <E> {
-    
+    // Instance Variables
+    private E[] data;
+    private int f
 }

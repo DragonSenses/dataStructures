@@ -80,7 +80,7 @@ public class Stack<E>{
         if(isEmpty()){ throw new NoSuchElementException("Stack is empty"); }
         E element = arr[size-1]; //Hold the data temporarily
         //Delete the element from the array, then decrement size
-        arr[size-1] = null; 
+        arr[size-1] = null; //Dereference to help garbage collection
         this.size--; 
 
         //Rescale if used stack capacity is 25%
