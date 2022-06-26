@@ -188,6 +188,57 @@ public class DoublyLinkedList <E> { // Generics allows for variety of data types
         return list.toString();
     }
 
+	/**
+	 * Higher level notion of equivalence where we define two DoublyLinkedList
+	 * as equivalent if:
+	 * I) They have the same Length
+	 * II) The contents that are element-by-element are equivalent
+	 * 
+	 * @param o - The DoublyLinkedList object parameter to compare with the
+	 *          caller
+	 * @return True, if both lists are the same size and the contents are
+	 *         element-by-element equivalent, otherwise false
+	 */
+	@Override
+	public boolean equals(Object o) {
+		// 1. Null Treatment
+		if (o == null) {
+			return false;
+		}
+		/*
+		 * 2. Class Equivalence - getClass() vs. instanceof
+		 * getClass() only returns true if object is actually an instance of the
+		 * specified class but instanceof operator returns true even if the object
+		 * is a subclass of a specified class or interface in Java; allows implementation
+		 * of equality between super and subclasses but does not satisfy symmetry: 
+		 * x.equals(y) is true then y.equals(x) is also true, but if you swap x
+		 * with a subclass then x instanceof y is true but y instanceof x will be false,
+		 * hence equals is false. We do not consider a DoublyLinkedList to be 
+		 * equivalent to SinglyLinkedList with with the same contents
+		 */
+		if (this.getClass() != o.getClass()) {
+			return false;
+		}
+		// Although declared formal type parameter <E> cannot detect at runtime whether
+		// other list has a matching type. See Type erasure.
+		DoublyLinkedList other = (DoublyLinkedList) o; // Typecast and use nonparameterized type
+		// 3. Size Check
+		if (this.size != other.size) {
+			return false;
+		}
+		Node ptrA = this.head; // Traverses through the primary list
+		Node ptrB = other.head; // Traverse through the secondary list
+		
+		//Traversal through both lists
+		for (;ptrA != null; ptrA = ptrA.getNext()) {
+			if (!ptrA.getData().equals(ptrB.getData())) {
+				return false;
+			}
+			ptrB = ptrB.getNext();
+		}
+		return true; // When reached, every element matched successfuly
+	}
+
 	// Quick Test
 	public static void main(String[] args) {
 			DoublyLinkedList<Integer> list = new DoublyLinkedList<>();
