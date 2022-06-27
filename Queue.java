@@ -81,6 +81,7 @@ public class Queue <E> {
      */
     public void enqueue(E e) throws IllegalStateException {
         if(size == arr.length) { throw new IllegalStateException("Queue Overflow"); }
+        //To find the next open index, add front to the amount of elements, then modulo by length
         int open = (front + size) % arr.length; 
         arr[open] = e;
         this.size++;
