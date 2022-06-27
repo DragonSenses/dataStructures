@@ -16,7 +16,7 @@ public class Queue <E> {
     
     /**  Instance Variables **/
     private E[] arr;       //Underlying array for element storage
-    private int front = 0;  //Index of the front element, front = (front+1) % SIZE
+    private int front = 0;  //Index of the front element, front = (front+1) % arr.length
     private int size = 0;   //Current number of elements
 
     /** Constructors **/ 
@@ -53,12 +53,39 @@ public class Queue <E> {
      * @return the first element
      * @throws NoSuchElementException if queue is empty
      */
-    public E first(){
-        if(isEmpty()) { return new NoSuchElementException("Queue Underflow"); }
+    public E first() throws NoSuchElementException { 
+        if(isEmpty()) { throw new NoSuchElementException("Queue Underflow"); }
         return arr[front];
     }
 
     /** Update Methods **/
+    /**
+     * Returns and Removes the first element of the queue
+     * @return The first element
+     * @throws NoSuchElementException if the queue is empty
+     */
+    public E dequeue() throws NoSuchElementException {
+        if(isEmpty()) { throw new NoSuchElementException("Queue Underflow"); }
+        E data = arr[front];
+        arr[front] = null; //Dereference for garbage collection
+        //Move up the front index to the next element in line, % keeps it within arr
+        front = (front + 1) % arr.length; 
+        size--;
+        return data;
+    }
+
+    /**
+     * Inserts an element at the tail end of the queue
+     * @param e The element to insert
+     * @throws IllegalStateException - When the queue is full
+     */
+    public void enqueue(E e) throws IllegalStateException {
+        if(size == arr.length) { throw new IllegalStateException("Queue Overflow"); }
+        int open = (front + size) % arr.length; 
+        arr[open] = e;
+        this.size++;
+    }
+
     /** Helper Methods **/
 
 }
