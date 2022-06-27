@@ -49,7 +49,7 @@ public class Stack<E>{
      * @throws NoSuchElementException if stack is empty
      */
     public E peek(){
-        if(isEmpty()){ throw new NoSuchElementException("Stack is empty"); }
+        if(isEmpty()){ throw new NoSuchElementException("Stack Underflow"); }
         return arr[size-1];
     }
 
@@ -77,7 +77,7 @@ public class Stack<E>{
      * @throws NoSuchElementException if Stack is empty
      */
     public E pop(){
-        if(isEmpty()){ throw new NoSuchElementException("Stack is empty"); }
+        if(isEmpty()){ throw new NoSuchElementException("Stack Underflow"); }
         E element = arr[size-1]; //Hold the data temporarily
         //Delete the element from the array, then decrement size
         arr[size-1] = null; //Dereference to help garbage collection
