@@ -48,7 +48,7 @@ public class Stack<E>{
      * @return The element most recently inserted to the Stack
      * @throws NoSuchElementException if stack is empty
      */
-    public E peek(){
+    public E peek() throws NoSuchElementException {
         if(isEmpty()){ throw new NoSuchElementException("Stack Underflow"); }
         return arr[size-1];
     }
@@ -76,7 +76,7 @@ public class Stack<E>{
      * @return The element most recently inserted to the stack
      * @throws NoSuchElementException if Stack is empty
      */
-    public E pop(){
+    public E pop() throws NoSuchElementException {
         if(isEmpty()){ throw new NoSuchElementException("Stack Underflow"); }
         E element = arr[size-1]; //Hold the data temporarily
         //Delete the element from the array, then decrement size
