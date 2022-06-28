@@ -1,4 +1,5 @@
 import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 
 import static org.junit.Assert.*;
@@ -13,13 +14,17 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 public class SinglyLinkedListTest<E> {
     
-    SinglyLinkedList<Integer> singly;
+    SinglyLinkedList<Integer> singly = null;
 
     /** Helper Methods **/
+    @BeforeAll
+    public void init(){
+        System.out.println("Starting SinglyLinkedTest");
+    }
 
     @BeforeEach
-    public void makeEmptyList(){
-        singly = new SinglyLinkedList<Integer>();
+    public void setup(){
+        this.singly = new SinglyLinkedList<Integer>();
     }
 
     /**
