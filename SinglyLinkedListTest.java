@@ -1,8 +1,11 @@
-import org.junit.Test;
+import static org.junit.Assert.*;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-
-import static org.junit.Assert.*;
+// import org.junit.jupiter.api.AfterAll;
+// import org.junit.jupiter.api.AfterEach;
+// import static org.junit.jupiter.api.Assertions.fail;
+// import static org.junit.jupiter.api.Assumptions.assumeTrue;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -14,17 +17,18 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 public class SinglyLinkedListTest<E> {
     
-    SinglyLinkedList<Integer> singly = null;
+    SinglyLinkedList<Integer> singly = new SinglyLinkedList<Integer>();
 
     /** Helper Methods **/
+    //This runs before all the tests, therefore must be static, previously @BeforeClass 
     @BeforeAll
-    public void init(){
+    public static void init(){
         System.out.println("Starting SinglyLinkedTest");
     }
 
     @BeforeEach
     public void setup(){
-        this.singly = new SinglyLinkedList<Integer>();
+        
     }
 
     /**
