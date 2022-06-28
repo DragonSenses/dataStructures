@@ -1,11 +1,11 @@
-import static org.junit.Assert.*;
+//import static org.junit.Assert.*;  // Needed for AssertTrue
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 // import org.junit.jupiter.api.AfterAll;
 // import org.junit.jupiter.api.AfterEach;
 // import static org.junit.jupiter.api.Assertions.fail;
-// import static org.junit.jupiter.api.Assumptions.assumeTrue;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -48,13 +48,13 @@ public class SinglyLinkedListTest<E> {
     /** Tests **/
 
     @Test
-    public void testNewList(){ //Tests default constructor
-        assertTrue(singly.isEmpty()); // Expect an empty list
+    public void emptyList(){ //Tests default constructor
+        assumeTrue(singly.isEmpty()); // Expect an empty list
         assertEquals(0,singly.size()); // Expect the size to be 0
     }
 
     @Test
-    public void testAddFirst(){
+    public void addFirstOne(){
         singly.addFirst(1);
         assertAll("singly",
             () -> assertEquals(false,singly.isEmpty()),
@@ -62,5 +62,54 @@ public class SinglyLinkedListTest<E> {
             () -> assertEquals(1,singly.first()),
             () -> assertEquals(1,singly.last())
         );
+    }
+
+    @Test
+    public void addLastOne(){
+        singly.addLast(1);
+        assertAll("singly",
+            () -> assertEquals(false,singly.isEmpty()),
+            () -> assertEquals(1,singly.size()),
+            () -> assertEquals(1,singly.first()),
+            () -> assertEquals(1,singly.last())
+        );
+    }
+
+    @Test
+    public void removeFirstOneElement(){
+        singly.addFirst(1);
+        assertAll("singly",
+            () -> assertEquals(false,singly.isEmpty()),
+            () -> assertEquals(1,singly.size()),
+            () -> assertEquals(1,singly.first()),
+            () -> assertEquals(1,singly.last())
+        );
+        //After removal we expect empty, 0 size, and null first/last
+        singly.removeFirst();
+        assertAll("singly",
+        () -> assertEquals(true,singly.isEmpty()),
+        () -> assertEquals(0,singly.size()),
+        () -> assertEquals(null,singly.first()),
+        () -> assertEquals(null,singly.last())
+    );
+    }
+
+    @Test
+    public void removeLastOneElement(){
+        singly.addFirst(1);
+        assertAll("singly",
+            () -> assertEquals(false,singly.isEmpty()),
+            () -> assertEquals(1,singly.size()),
+            () -> assertEquals(1,singly.first()),
+            () -> assertEquals(1,singly.last())
+        );
+        //After removal we expect empty, 0 size, and null first/last
+        singly.removeLast();
+        assertAll("singly",
+        () -> assertEquals(true,singly.isEmpty()),
+        () -> assertEquals(0,singly.size()),
+        () -> assertEquals(null,singly.first()),
+        () -> assertEquals(null,singly.last())
+    );
     }
 }
