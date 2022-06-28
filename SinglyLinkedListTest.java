@@ -47,9 +47,9 @@ public class SinglyLinkedListTest<E> {
     @Test
     void testAddFirst(){
         singly.addFirst(1);
-        assertAll(singly,
-            () -> assertEquals(false,singly.isEmpty())
-
+        assertAll("singly",
+            () -> assertEquals(false,singly.isEmpty()),
+            () -> assertEquals(1,singly.size())
         );
     }
 }
