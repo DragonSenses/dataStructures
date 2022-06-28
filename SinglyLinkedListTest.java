@@ -17,18 +17,18 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 public class SinglyLinkedListTest<E> {
     
-    SinglyLinkedList<Integer> singly = new SinglyLinkedList<Integer>();
+    SinglyLinkedList<Integer> singly;
 
     /** Helper Methods **/
     //This runs before all the tests, therefore must be static, previously @BeforeClass 
     @BeforeAll
-    public static void init(){
+    public static void setup(){
         System.out.println("Starting SinglyLinkedTest");
     }
 
     @BeforeEach
-    public void setup(){
-        
+    public void init(){
+        this.singly = new SinglyLinkedList<Integer>();
     }
 
     /**
