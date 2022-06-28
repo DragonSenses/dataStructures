@@ -6,9 +6,9 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * Things to note:
  * Package Visbility: Having no modifier in Java defaults to package visibility, regardless of
- * perantage, classes in the same package as class have access to the member.
+ * perantage, classes in the same package as class have access to the member. Will make test
+ * methods public to prevent InvalidTestClassError.
  * @author kendr
  */
 public class SinglyLinkedListTest<E> {
@@ -18,7 +18,7 @@ public class SinglyLinkedListTest<E> {
     /** Helper Methods **/
 
     @BeforeEach
-    void makeEmptyList(){
+    public void makeEmptyList(){
         singly = new SinglyLinkedList<Integer>();
     }
 
@@ -39,17 +39,19 @@ public class SinglyLinkedListTest<E> {
     /** Tests **/
 
     @Test
-    void testNewList(){ //Tests default constructor
+    public void testNewList(){ //Tests default constructor
         assertTrue(singly.isEmpty()); // Expect an empty list
         assertEquals(0,singly.size()); // Expect the size to be 0
     }
 
     @Test
-    void testAddFirst(){
+    public void testAddFirst(){
         singly.addFirst(1);
         assertAll("singly",
             () -> assertEquals(false,singly.isEmpty()),
-            () -> assertEquals(1,singly.size())
+            () -> assertEquals(1,singly.size()),
+            () -> assertEquals(1,singly.first()),
+            () -> assertEquals(1,singly.last())
         );
     }
 }
