@@ -200,13 +200,13 @@ public class CircularlyLinkedList<E> {
 		// other list has
 		// a matching type. Type erasure, maps richer types at one level to less rich
 		// types at lower level
-		CircularlyLinkedList other = (CircularlyLinkedList) o; // Typecast and use nonparameterized type
+		CircularlyLinkedList<?> other = (CircularlyLinkedList<?>) o; // Typecast and use wildcard type
 		// 3. Size Check
 		if (this.size != other.size) {
 			return false;
 		}
-		Node ptrA = this.tail.getNext(); // Traverses through the primary list
-		Node ptrB = other.tail.getNext(); // Traverse through the secondary list
+		Node<?> ptrA = this.tail.getNext(); // Traverses through the primary list
+		Node<?> ptrB = other.tail.getNext(); // Traverse through the secondary list
 		
 		//Traversal through both lists with size, or number of nodes, as a condition
 		for (int i = 0; i < this.size; i++) {
