@@ -188,11 +188,12 @@ public class SinglyLinkedList <E> {
         if(this.getClass() != o.getClass()) { return false; }
         //Although declared formal type parameter <E> cannot detect at runtime whether other list has
         //a matching type. Type erasure, maps richer types at one level to less rich types at lower level
-        SinglyLinkedList other = (SinglyLinkedList) o; // Typecast and use nonparameterized type
+        // Typecast and use nonparameterized type; EDIT: Usage of wildcard ? is Unknown Type in Generics
+        SinglyLinkedList<?> other = (SinglyLinkedList<?>) o; 
         //3. Size Check
         if(this.size != other.size) { return false; }
-        Node ptrA = this.first;  // Traverses through the primary list
-        Node ptrB = other.first; // Traverse through the secondary list
+        Node<?> ptrA = this.first;  // Traverses through the primary list
+        Node<?> ptrB = other.first; // Traverse through the secondary list
         while(ptrA != null){ //For every node within each list, check if element is equal
             if(!ptrA.getData().equals(ptrB.getData())) { return false; }
             ptrA = ptrA.getNext(); 
