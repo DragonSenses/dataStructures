@@ -16,14 +16,14 @@ public class CircularlyLinkedListTest {
 
     @BeforeAll
     public static void setup(){
-        System.out.println("Starting SinglyLinkedTest");
+        System.out.println("Starting CircularlyLinkedTest");
     }
 
     @BeforeEach
     public void init(){
         this.list = new CircularlyLinkedList<Integer>();
     }
-    
+
     @Test
     public void emptyList(){ //Tests default constructor
         assumeTrue(list.isEmpty()); // Expect an empty list
