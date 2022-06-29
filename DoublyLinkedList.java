@@ -226,8 +226,8 @@ public class DoublyLinkedList <E> { // Generics allows for variety of data types
 		if (this.size != other.size) {
 			return false;
 		}
-		Node<?> ptrA = this.head; // Traverses through the primary list
-		Node<?> ptrB = other.head; // Traverse through the secondary list
+		Node<?> ptrA = this.head.getNext(); // Traverses through the primary list
+		Node<?> ptrB = other.head.getNext(); // Traverse through the secondary list
 		
 		//Traversal through both lists
 		for (;ptrA != null; ptrA = ptrA.getNext()) {
