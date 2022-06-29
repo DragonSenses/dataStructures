@@ -112,4 +112,36 @@ public class SinglyLinkedListTest<E> {
         () -> assertEquals(null,singly.last())
     );
     }
+
+    @Test
+    public void equalsNull(){
+        assertEquals(false,singly.equals(null));
+    }
+
+    @Test
+    public void equalsItself(){
+        assertEquals(true, singly.equals(singly));
+    }
+
+    @Test
+    public void equalsItselfOneElement(){
+        singly.addFirst(2);
+        assertEquals(true, singly.equals(singly));
+    }
+
+
+    @Test
+    public void equalsOneElement(){
+        SinglyLinkedList<Integer> list2 = new SinglyLinkedList<Integer>();
+        singly.addFirst(1);
+        list2.addLast(1);
+        assertEquals(true, singly.equals(list2));
+    }
+
+    @Test
+    public void notEquals(){
+        SinglyLinkedList<Integer> list2 = new SinglyLinkedList<Integer>();
+        list2.addLast(2);
+        assertEquals(false, singly.equals(list2));
+    }
 }
