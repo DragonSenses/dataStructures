@@ -221,13 +221,13 @@ public class DoublyLinkedList <E> { // Generics allows for variety of data types
 		}
 		// Although declared formal type parameter <E> cannot detect at runtime whether
 		// other list has a matching type. See Type erasure.
-		DoublyLinkedList other = (DoublyLinkedList) o; // Typecast and use nonparameterized type
+		DoublyLinkedList<?> other = (DoublyLinkedList<?>) o; // Typecast and use unknown type 
 		// 3. Size Check
 		if (this.size != other.size) {
 			return false;
 		}
-		Node ptrA = this.head; // Traverses through the primary list
-		Node ptrB = other.head; // Traverse through the secondary list
+		Node<?> ptrA = this.head; // Traverses through the primary list
+		Node<?> ptrB = other.head; // Traverse through the secondary list
 		
 		//Traversal through both lists
 		for (;ptrA != null; ptrA = ptrA.getNext()) {
