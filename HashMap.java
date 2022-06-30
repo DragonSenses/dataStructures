@@ -10,6 +10,36 @@ import java.util.Random;
  * @param <V>	The value you store, associated with a key
  */
 public class HashMap<K, V> {
+	/**
+	 * HashMapEntry class represents the Hash Map Entries of Key-Value pairs.
+	 * @param <K>		Keys
+	 * @param <V>		Values
+	 */
+	private static class HashMapEntry<K, V> {
+		
+		K key;
+		V value;
+		
+		//Constructor
+		private HashMapEntry(K key, V value) {
+			this.key = key;
+			this.value = value;
+		}
+
+		
+		public K getKey() {
+			return key;
+		}
+
+		public V getValue() {
+			return value;
+		}
+		
+		public void setValue(V value) {
+			this.value = value;
+		}
+	}
+	//** HashMap Instance Variables  **/
 	public static final double DEFAULT_LOAD_FACTOR = 0.75; 
 	public static final int DEFAULT_INITIAL_CAPACITY = 16;
 	public static final String ILLEGAL_ARG_CAPACITY = "Initial Capacity must be non-negative";
@@ -412,34 +442,24 @@ public class HashMap<K, V> {
 		this.entries = newHashMap.entries;
 		
 	}
-	
-	/**
-	 * HashMapEntry class represents the Hash Map Entries of Key-Value pairs.
-	 * @param <K>		Keys
-	 * @param <V>		Values
-	 */
-	private static class HashMapEntry<K, V> {
-		
-		K key;
-		V value;
-		
-		//Constructor
-		private HashMapEntry(K key, V value) {
-			this.key = key;
-			this.value = value;
-		}
 
+	public static void main(String[] args){
+		HashMap<String, String> map4 = new HashMap<>(4, HashMap.DEFAULT_LOAD_FACTOR);
 		
-		public K getKey() {
-			return key;
-		}
-
-		public V getValue() {
-			return value;
+		//add different entries 16 times
+		for(int i=0; i<16; i++) {
+			map4.put(String.valueOf(i),String.valueOf(i)); //1st entry: <0,0>
 		}
 		
-		public void setValue(V value) {
-			this.value = value;
+		for(int i=0; i<12; i++) {
+			map4.remove(String.valueOf(i));
+		}
+		
+		List<String> actualKeys = map4.keys();
+		
+		//We expect 4 keys, 16-12 = 4
+		for(String s:actualKeys){
+			System.out.println(s);
 		}
 	}
 } //end of HashMap class
