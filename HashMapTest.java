@@ -85,104 +85,7 @@ public class HashMapTest {
 		assertEquals(1, actualKeys.size());
 	}
 	
-	@Test 
-	public void mapSize4add16remove12() {
-		HashMap<String, String> map4 = mapWithCap;
-		
-		//add different entries 16 times
-		fillMap(map4,16);
-		
-		for(int i=0; i<12; i++) {
-			map4.remove(String.valueOf(i));
-		}
-		
-		List<String> actualKeys = map4.keys();
-		
-		//We expect 4 keys, 16-12 = 4
-		assertEquals(4, actualKeys.size());
-	}
-	
-	@Test 
-	public void mapSize4add16remove14() {
-		HashMap<String, String> map4 = mapWithCap;
-		
-		//add different entries 16 times
-		fillMap(map4,16);
-		
-		for(int i=0; i<14; i++) {
-			map4.remove(String.valueOf(i));
-		}
-		
-		List<String> actualKeys = map4.keys();
-		
-		//We expect 4 keys, 16-14 = 2
-		assertEquals(2, actualKeys.size());
-		
-		//re-add 14 elements
-		for(int i=0; i<14; i++) {
-			map4.put(String.valueOf(i),String.valueOf(i));
-		}
-		
-		//remake list
-		actualKeys = map4.keys();
-		//Expect 16 elements
-		assertEquals(16,actualKeys.size());
-	}
-	
-	@Test
-	public void containsKey4Times() {
-		HashMap<String, String> map16 = testMap; //16 size, loadFactor 0.75
-		
-		//add different entries 16 times
-		fillMap(map16,16);
-		
-		//For every 4th iteration, see if it contains the Key
-		for(int i=0; i<16; i++) {
-			if(i%4 == 0) {
-				assertEquals(true,map16.containsKey(String.valueOf(i)));
-			}
-		}
-		
-		List<String> actualKeys = map16.keys();
-		//We expect a size of 16, with 
-		assertEquals(16, actualKeys.size());
-	}
-	
-	@Test
-	public void remove4contain4get4() {
-		HashMap<String, String> map16 = testMap; //16 size, loadFactor 0.75
-		
-		//add different entries 16 times
-		fillMap(map16,16);
-		
-		//For every 4th iteration, see if it contains the Key
-		for(int i=0; i<16; i++) { //iterate from i : 0 - 15 --> 16 times
-			if(i%4 == 0) { // 0, 4, 8, 12 are the values
-				map16.remove(String.valueOf(i)); 
-			}
-		}
-		
-		List<String> actualKeys = map16.keys();
-		//We expect a size of 12 since we removed 4
-		assertEquals(12, actualKeys.size());
-		
-		//For every 4th iteration, we should see 0,4,8,12 are missing
-		for(int i=0; i<16; i++) {
-			if(i%4 == 0) {
-				assertEquals(false,map16.containsKey(String.valueOf(i)));
-			}
-		}
-		
-		//We expect get() method to return null for 0,4,8,12
-		assertEquals(null,map16.get("0"));
-		assertEquals(null,map16.get("4"));
-		assertEquals(null,map16.get("8"));
-		assertEquals(null,map16.get("12"));
-		
-		//To ensure get() is working, we expect true for getting value "15"
-		assertEquals("15",map16.get("15"));
-	}
-	
+
 	@Test
 	public void setAllTo16() {
 		HashMap<String, String> map16 = testMap; //16 size, loadFactor 0.75
@@ -200,32 +103,6 @@ public class HashMapTest {
 		for(int i=0; i<16; i++) {
 				assertEquals("16",map16.get(String.valueOf(i)));
 		}
-	}
-	
-	@Test
-	public void set16put16() {
-		HashMap<String, String> map16 = testMap; //16 size, loadFactor 0.75
-		
-		String sameValue = "16";
-		//add different entries 16 times
-		fillMap(map16,16);
-		
-		//set the all 16 keys to all have the same value
-		for(int i=0; i<16; i++) { 
-			map16.set(String.valueOf(i), sameValue);
-		}
-		
-		//add 16 more values, all with values between [16,32)
-		for(int i=16; i<32; i++) {
-			map16.put(String.valueOf(i),String.valueOf(i)); 
-		}
-		
-		//We expect values 0 < N <= 16 to be 16, and N > 16 to get value of "N"
-		assertEquals("16",map16.get("14"));
-		assertEquals("16",map16.get("15"));
-		assertEquals("16",map16.get("16"));
-		assertEquals("17",map16.get("17"));
-		assertEquals("18",map16.get("18"));
 	}
 	
 	@Test
@@ -255,30 +132,4 @@ public class HashMapTest {
 			replaced = false;
 		}
 	}
-		
-	@Test
-	public void replace4() {
-		HashMap<String, String> map16 = testMap; //16 size, loadFactor 0.75
-		String replacedValue = "32";
-		
-		//add different entries 16 times
-		fillMap(map16,16);
-
-		//For every 4th iteration, replace the value
-		for(int i=0; i<16; i++) { //iterate from i : 0 - 15 --> 16 times
-			if(i%4 == 0) { // 0, 4, 8, 12 are the values
-				map16.replace(String.valueOf(i),replacedValue); 
-			}
-		}
-
-		//We expect get() method to return replacedValue for 0,4,8,12
-		assertEquals(replacedValue,map16.get("0"));
-		assertEquals(replacedValue,map16.get("4"));
-		assertEquals(replacedValue,map16.get("8"));
-		assertEquals(replacedValue,map16.get("12"));
-
-		//To ensure get() is working, we expect true for getting value "15"
-		assertEquals("15",map16.get("15"));
-	}
-		
 }//EOF
