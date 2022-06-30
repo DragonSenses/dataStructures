@@ -228,9 +228,11 @@ public class DoublyLinkedList <E> { // Generics allows for variety of data types
 		}
 		Node<?> ptrA = this.head.getNext(); // Traverses through the primary list
 		Node<?> ptrB = other.head.getNext(); // Traverse through the secondary list
-		// System.out.println(ptrA.getData());
-		// System.out.println(ptrB.getData());
 
+		//Remember that we must check when our ptr (runner) becomes the sentinel tail node and stop,
+		//otherwise when we call tail.getData() it will end up with NullPointerException. Therefore,
+		//Our conditional will be checking if its next link reference is null rather than the node 
+		//itself. Ex. ptr.next != null , and not ptr != null
 		//Traversal through both lists
 		for (;ptrA.getNext() != null; ptrA = ptrA.getNext()) {
 			if (!ptrA.getData().equals(ptrB.getData())) {
