@@ -228,9 +228,11 @@ public class DoublyLinkedList <E> { // Generics allows for variety of data types
 		}
 		Node<?> ptrA = this.head.getNext(); // Traverses through the primary list
 		Node<?> ptrB = other.head.getNext(); // Traverse through the secondary list
-		
+		// System.out.println(ptrA.getData());
+		// System.out.println(ptrB.getData());
+
 		//Traversal through both lists
-		for (;ptrA != null; ptrA = ptrA.getNext()) {
+		for (;ptrA.getNext() != null; ptrA = ptrA.getNext()) {
 			if (!ptrA.getData().equals(ptrB.getData())) {
 				return false;
 			}
@@ -257,6 +259,13 @@ public class DoublyLinkedList <E> { // Generics allows for variety of data types
 			System.out.println("Removed: " + list.removeLast());
 			System.out.println(list.toString()); //Expect List 2-5
 			System.out.println("Size is: " + list.size());
+
+			DoublyLinkedList<Integer> list2 = new DoublyLinkedList<>();
+			list2.addFirst(4);
+			list2.addFirst(3);
+			list2.addFirst(2);
+
+			System.out.println(list.equals(list2));
 	}
 
 }
