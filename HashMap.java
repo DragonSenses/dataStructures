@@ -38,6 +38,11 @@ public class HashMap<K, V> {
 		public void setValue(V value) {
 			this.value = value;
 		}
+
+		@Override
+		public String toString(){
+			return "<" + String.valueOf(key) + " , " + String.valueOf(value) + ">";
+		}
 	}
 	//** HashMap Instance Variables  **/
 	public static final double DEFAULT_LOAD_FACTOR = 0.75; 
@@ -443,6 +448,17 @@ public class HashMap<K, V> {
 		
 	}
 
+
+	@Override
+	public String toString(){
+		StringBuilder map = new StringBuilder();
+		for(HashMapEntry<K,V> E: entries){
+			map.append(E.toString());
+			map.append("\n");
+		}
+		return map.toString();
+	}
+
 	public static void main(String[] args){
 		HashMap<String, String> map4 = new HashMap<>(4, HashMap.DEFAULT_LOAD_FACTOR);
 		
@@ -455,11 +471,14 @@ public class HashMap<K, V> {
 			map4.remove(String.valueOf(i));
 		}
 		
-		List<String> actualKeys = map4.keys();
+		//List<String> actualKeys = map4.keys();
 		
 		//We expect 4 keys, 16-12 = 4
-		for(String s:actualKeys){
-			System.out.println(s);
-		}
+		// for(String s:actualKeys){
+		// 	System.out.println(s);
+		// }
+		
+		System.out.println(map4.toString());
+
 	}
 } //end of HashMap class
