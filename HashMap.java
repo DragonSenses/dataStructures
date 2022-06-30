@@ -35,9 +35,9 @@ public class HashMap<K, V> {
 	}
 	
 	/**
-	 * MyHashMap Constructor.
-	 * @param initialCapacity the initial capacity of this MyHashMap
-	 * @param loadFactor the load factor for rehashing this MyHashMap
+	 * HashMap Constructor.
+	 * @param initialCapacity the initial capacity of this HashMap
+	 * @param loadFactor the load factor for rehashing this HashMap
 	 * @throws IllegalArgumentException if initialCapacity is negative or loadFactor not
 	 * positive
 	 */
@@ -72,10 +72,10 @@ public class HashMap<K, V> {
 
 	
 	/**
-	 * Adds the specified key, value pair to this DefaultMap
+	 * Adds the specified key, value pair to this HashMap
 	 * Note: duplicate keys are not allowed
 	 * 
-	 * @return true if the key value pair was added to this DefaultMap
+	 * @return true if the key value pair was added to this HashMap
 	 * @throws IllegalArgument exception if the key is null
 	 */
 	public boolean put(K key, V value) throws IllegalArgumentException {
@@ -295,7 +295,7 @@ public class HashMap<K, V> {
 	}
 
 	/**
-	 * Adds the key, value pair to this DefaultMap if it is not present,
+	 * Adds the key, value pair to this HashMap if it is not present,
 	 * otherwise, replaces the value with the given value
 	 * @throws IllegalArgument exception if the key is null
 	 */
@@ -326,7 +326,7 @@ public class HashMap<K, V> {
 	}
 	
 	/**
-	 * @return The number of (key, value) pairs in this DefaultMap
+	 * @return The number of (key, value) pairs in this HashMap
 	 */
 	public int size() {
 		return this.size;
@@ -340,7 +340,7 @@ public class HashMap<K, V> {
 	}
 	
 	/**
-	 * @return true if the specified key is in this DefaultMap
+	 * @return true if the specified key is in this HashMap
 	 * @throws IllegalArgument exception if the key is null
 	 */
 	public boolean containsKey(K key) throws IllegalArgumentException {
@@ -354,7 +354,7 @@ public class HashMap<K, V> {
 	}
 	
 	/**
-	 * @return an array containing the keys of this DefaultMap. If this DefaultMap is 
+	 * @return an array containing the keys of this HashMap. If this HashMap is 
 	 * empty, returns array of length zero. 
 	 */
 	public List<K> keys() {
@@ -395,7 +395,7 @@ public class HashMap<K, V> {
 	 * @param newCapacity		A more relevant size of bucket array
 	 */
 	private void scale(int newCapacity) {
-		//Create a New MyHashMap
+		//Create a New HashMap
 		HashMap<K,V> newHashMap = new HashMap<K,V>(newCapacity,loadFactor);
 		K key;
 		V value;
@@ -406,7 +406,7 @@ public class HashMap<K, V> {
 				newHashMap.put(key,value); 		//use put to re-hash entries
 			}
 		}
-		//set instance variables to that of the new MyHashMap
+		//set instance variables to that of the new HashMap
 		this.capacity = newCapacity;
 		this.size = newHashMap.size;
 		this.entries = newHashMap.entries;
