@@ -3,7 +3,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 /**
- * My HashMap implementation.
+ * My HashMap implementation. WARNING: THIS IS A WORK IN PROGRESS. This current implementation still
+ * does not pass the required tests. Example tests: remove(), set(), and toString(). 
  * @author kendr
  *
  * @param <K>	Represents the Keys to be used to store our entries to an index
