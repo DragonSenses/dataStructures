@@ -18,6 +18,34 @@ public class BSTTest {
 	@Before
 	public void initialize() {
 	}
+
+	/**
+	 * There were two tests: filterWithArrayTest() and filterPrefixLen1Freq10Test(),
+	 * that required exact Output so in order to reuse code, put the exact formatting
+	 * of the output here.
+	 * @return	The expected output formatted
+	 */
+	public static String exactOutput(){
+		StringBuilder expect = new StringBuilder();	
+		expect.append("\ntree -> {\n");
+		expect.append("\t");
+		expect.append("\"");
+		expect.append("Awesome");
+		expect.append("\"");
+		expect.append(": 12\n");
+		expect.append("\t");
+		expect.append("\"");
+		expect.append("happy");
+		expect.append("\"");
+		expect.append(": 11\n");
+		expect.append("\t");
+		expect.append("\"");
+		expect.append("AM");
+		expect.append("\"");
+		expect.append(": 10\n");
+		expect.append("}");
+		return expect.toString();
+	}
 	
 	@Test
 	public void putOneGetOne() {
@@ -710,6 +738,8 @@ public class BSTTest {
 		FrequencyFilter f = new FrequencyFilter();	
 		String expected = "\ntree -> {\n"
 				+ "\tAwesome: 12\n" + "\thappy: 11\n" + "\tAM: 10\n}";
+
+		expected = exactOutput();
 		
 		String trainingText = "I I I I I I I I I I AM AM AM AM AM AM AM AM AM"
 				+ " AM happy happy happy happy happy happy happy happy happy"
@@ -742,31 +772,10 @@ public class BSTTest {
 	@Test
 	public void filterWithArrayTest(){
 		FrequencyFilter f = new FrequencyFilter();
-		StringBuilder expect = new StringBuilder();	
-		expect.append("\ntree -> {\n");
-		expect.append("\t");
-		expect.append("\"");
-		expect.append("Awesome");
-		expect.append("\"");
-		//expect.append("\n");
-		expect.append(": 12\n");
-		expect.append("\t");
-		expect.append("\"");
-		expect.append("happy");
-		expect.append("\"");
-		//expect.append("\n");
-		expect.append(": 11\n");
-		expect.append("\t");
-		expect.append("\"");
-		expect.append("AM");
-		expect.append("\"");
-		//expect.append("\n");
-		expect.append(": 10\n");
-		expect.append("}");
 		String expected = "\ntree -> {\n"
 				+ "\tAwesome: 12\n" + "\thappy: 11\n" + "\tAM: 10\n}";
 
-		expected = expect.toString();
+		expected = exactOutput();
 		
 		String trainingText = "I I I I I I I I I I AM AM AM AM AM AM AM AM AM"
 				+ " AM happy happy happy happy happy happy happy happy happy"
