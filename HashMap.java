@@ -10,6 +10,7 @@ import java.util.Random;
  * @param <V>	The value you store, associated with a key
  */
 public class HashMap<K, V> {
+	public static final boolean TESTING = true;
 	/**
 	 * HashMapEntry class represents the Hash Map Entries of Key-Value pairs.
 	 * @param <K>		Keys
@@ -213,6 +214,11 @@ public class HashMap<K, V> {
 	 * @return		True if keys match (duplicate), false otherwise
 	 */
 	private boolean keysMatch(int i, K key) {
+		if (TESTING){
+			System.out.println("Checking if keys match @ index" + i);
+			System.out.print("Key @ Index is: " + entries[i].getKey().toString());
+			System.out.println(" compared to parameter key: " + key);
+		}
 		return entries[i].getKey().equals(key); //access array and compare
 	}
 	
@@ -317,6 +323,12 @@ public class HashMap<K, V> {
 		if(isEmpty()) { return false; } //Empty Map -> no Keys to remove
 		
 		int i = findIndex(key,hash(key)); 
+		if (TESTING){
+			System.out.println("Index found within Remove(): " + i);
+			System.out.print("Key @ Index is: " + entries[i].getKey().toString());
+			System.out.println(" compared to parameter key: " + key);
+		}
+
 		if (i < 0) { return false; } //Negative Index implies no Entry for Key
 		entries[i] = TOMBSTONE; //Lay the Entry to rest
 		this.size--; 			//decrement size and remove from keys
@@ -339,7 +351,11 @@ public class HashMap<K, V> {
 		if(isEmpty()) { return; } //Empty Map -> no Keys to set
 		
 		int i = findIndex(key,hash(key)); //Search entries for index of Key
-		
+		if (TESTING){
+			System.out.println("Index found within set(): " + i);
+			System.out.print("Key @ Index is: " + entries[i].getKey().toString());
+			System.out.println(" compared to parameter key: " + key);
+		}
 		if(i >= 0) { //non-negative index implies an entry was found 
 			entries[i].setValue(value); //Replace value 
 		} else if (i < 0) { //negative index means no matching entry for key
@@ -382,6 +398,11 @@ public class HashMap<K, V> {
 		if(key == null) { throw new IllegalArgumentException(ILLEGAL_ARG_NULL_KEY); }
 		if(isEmpty()) { return false; } //Empty Map -> no Keys
 		int i = findIndex(key,hash(key));
+		if (TESTING){
+			System.out.println("Index found within containsKey(): " + i);
+			System.out.print("Key @ Index is: " + entries[i].getKey().toString());
+			System.out.println(" compared to parameter key: " + key);
+		}
 		if(i > 0 && keysMatch(i,key)) { 
 			return true;
 		}
@@ -459,17 +480,26 @@ public class HashMap<K, V> {
 		return map.toString();
 	}
 
+	public void print(){
+		System.out.println(this.toString());
+	}
+
 	public static void main(String[] args){
-		HashMap<String, String> map4 = new HashMap<>(4, HashMap.DEFAULT_LOAD_FACTOR);
+		HashMap<String, String> m = new HashMap<>(4, HashMap.DEFAULT_LOAD_FACTOR);
+		//m.print();
+		m.put("2", "2");
+		m.print();
 		
-		//add different entries 16 times
-		for(int i=0; i<16; i++) {
-			map4.put(String.valueOf(i),String.valueOf(i)); //1st entry: <0,0>
-		}
+		// HashMap<String, String> map4 = new HashMap<>(4, HashMap.DEFAULT_LOAD_FACTOR);
 		
-		for(int i=0; i<12; i++) {
-			map4.remove(String.valueOf(i));
-		}
+		// //add different entries 16 times
+		// for(int i=0; i<16; i++) {
+		// 	map4.put(String.valueOf(i),String.valueOf(i)); //1st entry: <0,0>
+		// }
+		
+		// for(int i=0; i<12; i++) {
+		// 	map4.remove(String.valueOf(i));
+		// }
 		
 		//List<String> actualKeys = map4.keys();
 		
@@ -478,7 +508,7 @@ public class HashMap<K, V> {
 		// 	System.out.println(s);
 		// }
 		
-		System.out.println(map4.toString());
+		// System.out.println(map4.toString());
 
 	}
 } //end of HashMap class
