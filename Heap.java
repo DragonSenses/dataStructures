@@ -1,8 +1,8 @@
 import java.util.ArrayList;
 import java.util.Comparator;
 
-/**
- * 
+/** Work in Progress
+ *
  * @author kendr
  */
 public class Heap<K,V> {
@@ -47,10 +47,7 @@ public class Heap<K,V> {
         this.c = c;
     }
 
-    public int size() { return heap.size(); }
-
-    public boolean isEmpty() { return heap.isEmpty(); }
-
+    /** Protected Helper Methods **/
     protected int parent(int i) { return (i-1) / 2; }     // truncating division
     protected int left(int i) { return 2*i + 1; }
     protected int right(int i) { return 2*i + 2; }
@@ -83,7 +80,46 @@ public class Heap<K,V> {
      * @param key   Key value to check for
      * @return  true if key is valid
      */
-    private boolean checkKey(K key) throws IllegalArgumentException {
+    protected boolean checkKey(K key) throws IllegalArgumentException {
         return(c.compare(key,key) == 0); // Can key be compared to itself?
+    }
+
+
+    protected void upheap(int k) {
+
+    }
+
+    protected void downheap(int k) {
+
+    }
+    
+    protected void heapify(){
+
+    }
+
+    
+
+    /** Access Methods **/
+
+    public int size() { return heap.size(); }
+
+    public boolean isEmpty() { return heap.isEmpty(); }
+
+    /**
+     * Returns, but does not remove, an entry with the minimal key
+     * @return  Entry with the smallest key, null if list is empty
+     */
+    public Entry<K,V> min() {
+        if (heap.isEmpty()) { return null; }
+        return heap.get(0);
+    }
+
+    /** Update Methods **/
+    public Entry<K,V> insert(K key, V value)  {
+        return null;
+    }
+
+    public Entry<K,V> removeMin() {
+        return null;
     }
 }
