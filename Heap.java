@@ -56,7 +56,18 @@ public class Heap<K,V> {
     protected int right(int i) { return 2*i + 2; }
     protected boolean hasLeft(int i) { return left(i) < heap.size(); }
     protected boolean hasRight(int i) { return right(i) < heap.size(); }
-  
+    
+    /**
+     * Swaps the elements with the given indexes in the arraylist
+     * @param i - index of first element
+     * @param j - index of second element
+     */
+    protected void swap(int i, int j) {
+        Entry<K,V> temp = heap.get(i);
+        heap.set(i, heap.get(j));
+        heap.set(j, temp);
+    }
+
     /**
      * Compares two entries according to key
      * @param a First entry to compare
