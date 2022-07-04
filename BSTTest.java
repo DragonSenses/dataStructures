@@ -1,22 +1,28 @@
-import static org.junit.Assert.*;
-
 import java.util.ArrayList;
-// import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-// import java.util.Random;
 
-import org.junit.*;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.rules.ExpectedException;
 
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.AfterEach;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 public class BSTTest {
-	
-	@Rule //Allows us to see that certain Exceptions are Thrown
-	public final ExpectedException ex = ExpectedException.none();
+	BST<String,String> bst;
+
+	// Old Junit4 exception handling, where ex.expect(IllegalArgumentException.class);
+	// @Rule //Allows us to see that certain Exceptions are Thrown
+	// public final ExpectedException ex = ExpectedException.none();
+
+	//New way to handle exceptions is JUnit5's Assertions.assertThrows() 
 	
 	/* Unit Tests */
-	@Before
+	@BeforeEach
 	public void initialize() {
+		bst = new BST<String,String>();
 	}
 
 	/**
@@ -49,7 +55,7 @@ public class BSTTest {
 	
 	@Test
 	public void putOneGetOne() {
-		BST bst = new BST();
+		
 		String expectedKey = "A";
 		String expectedValue = "1";
 		
@@ -61,7 +67,6 @@ public class BSTTest {
 	
 	@Test
 	public void putTwoGetTwo() {
-		BST bst = new BST();
 		String expect1 = "1";
 		String expect2 = "2";
 		
@@ -77,7 +82,6 @@ public class BSTTest {
 	
 	@Test
 	public void putThreeGetThree() {
-		BST bst = new BST();
 		String expect1 = "1";
 		String expect2 = "2";
 		String expect3 = "3";
@@ -101,7 +105,7 @@ public class BSTTest {
 	 * @param bst	BST to populate
 	 * @param l 	List of keys to populate with
 	 */
-	public static void populate(BST bst, List l, int n) {
+	public static void populate(BST<String,String> bst, List<String> l, int n) {
 		char c = 'a';
 		for(int i = 0; i < n; i++) {
 			c = (char) ( (i%26) + 'a');
@@ -115,7 +119,7 @@ public class BSTTest {
 	 * @param bst	BST to populate
 	 * @param l 	List of keys to populate with
 	 */
-	public static void populateSet(BST bst, List l, int n) {
+	public static void populateSet(BST<String,String> bst, List<String> l, int n) {
 		char c = 'a';
 		for(int i = 0; i < n; i++) {
 			c = (char) ( (i%26) + 'a');
@@ -153,7 +157,6 @@ public class BSTTest {
 	
 	@Test
 	public void putTenGet10() {
-		BST bst = new BST();
 		int n = 10; // length
 		List<String> l = makeKeys(n);
 		List<String> values = makeValues(n);
@@ -172,11 +175,9 @@ public class BSTTest {
 	
 	@Test
 	public void oneKeysTest() {
-		BST bst = new BST();
 		int n = 1; // length
 		List<String> l = makeKeys(n);
-		List<String> values = makeValues(n);
-		String expected, actual;
+
 		
 		populate(bst,l,n); 
 
@@ -192,11 +193,9 @@ public class BSTTest {
 	
 	@Test
 	public void twentySixKeysTest() {
-		BST bst = new BST();
 		int n = 26; // length
 		List<String> l = makeKeys(n);
-		List<String> values = makeValues(n);
-		String expected, actual;
+
 		
 		populate(bst,l,n); 
 
@@ -212,7 +211,6 @@ public class BSTTest {
 	
 	@Test
 	public void testSizeZero() {
-		BST bst = new BST();
 		int n = 0; // length
 		List<String> l = makeKeys(n);
 		List<String> values = makeValues(n);
@@ -231,7 +229,6 @@ public class BSTTest {
 	
 	@Test
 	public void sizeCheck26() {
-		BST bst = new BST();
 		int n = 26; // length
 		List<String> l = makeKeys(n);
 		List<String> values = makeValues(n);
@@ -251,7 +248,6 @@ public class BSTTest {
 	
 	@Test
 	public void testSizeThree() {
-		BST bst = new BST();
 		bst.put("X","1");
 		bst.put("Y","2");
 		bst.put("Z","3");
@@ -267,7 +263,6 @@ public class BSTTest {
 	
 	@Test
 	public void putThree2Duplicates() {
-		BST bst = new BST();
 		bst.put("X","1");
 		bst.put("Y","2");
 		bst.put("Z","3");
@@ -288,7 +283,6 @@ public class BSTTest {
 	
 	@Test
 	public void set2DuplicateTest() {
-		BST bst = new BST();
 		bst.put("X","1");
 		bst.put("Y","2");
 		bst.put("Z","3");
@@ -311,7 +305,6 @@ public class BSTTest {
 	
 	@Test
 	public void setOnlyTest() {
-		BST bst = new BST();
 		int n = 26; // length
 		List<String> l = makeKeys(n);
 		List<String> values = makeValues(n);
@@ -331,12 +324,11 @@ public class BSTTest {
 	
 	@Test
 	public void setEveryEven() {
-		BST<String, String> bst = new BST();
 		int N = 100; //Size
 		String expected, actual;
 		
-		ArrayList<String> keys = new ArrayList(N);
-		ArrayList<String> values = new ArrayList(N);
+		ArrayList<String> keys = new ArrayList<String>(N);
+		ArrayList<String> values = new ArrayList<String>(N);
 		
 		//Add Keys and Values, put(i, i*10), set(i, i*2);
 		for(int i = 0; i < N; i++) {
@@ -366,12 +358,11 @@ public class BSTTest {
 	
 	@Test
 	public void containsKeyTest() {
-		BST<String, String> bst = new BST();
 		int N = 50; //Size
 		String expected, actual;
 		
-		ArrayList<String> keys = new ArrayList(N);
-		ArrayList<String> values = new ArrayList(N);
+		ArrayList<String> keys = new ArrayList<String>(N);
+		ArrayList<String> values = new ArrayList<String>(N);
 		
 		
 		//Populate the BST with same logic as above test, *10 if odd, *2 if even
@@ -405,12 +396,11 @@ public class BSTTest {
 		
 	@Test
 	public void keysListContainsElementsTest() {
-		BST<String, String> bst = new BST();
 		int N = 50; //Size
 		String expected, actual;
 
-		List<String> keys = new ArrayList(N);
-		List<String> values = new ArrayList(N);
+		List<String> keys = new ArrayList<String>(N);
+		List<String> values = new ArrayList<String>(N);
 		
 		
 
@@ -447,14 +437,13 @@ public class BSTTest {
 	
 	@Test
 	public void keysListRightOrderTest() {
-		BST<String, String> bst = new BST();
 		int N = 50; //Size
 		String expected, actual;
 
-		List<String> keys = new ArrayList(N);
-		List<String> values = new ArrayList(N);
+		List<String> keys = new ArrayList<String>(N);
+		List<String> values = new ArrayList<String>(N);
 		
-		List<String> newKeys = new ArrayList(N);
+		List<String> newKeys = new ArrayList<String>(N);
 
 		//Populate the keys and values
 		for(int i = 0; i < N; i++) {
@@ -489,12 +478,11 @@ public class BSTTest {
 
 	@Test
 	public void replaceNTest() {
-		BST<String, String> bst = new BST();
 		int N = 100; //Size
 		String expected, actual;
 		
-		ArrayList<String> keys = new ArrayList(N);
-		ArrayList<String> values = new ArrayList(N);
+		ArrayList<String> keys = new ArrayList<String>(N);
+		ArrayList<String> values = new ArrayList<String>(N);
 		
 		//Add Keys and Values, put(i, i*10), set(i, i*2);
 		for(int i = 0; i < N; i++) {
@@ -521,12 +509,12 @@ public class BSTTest {
 	
 	@Test
 	public void replaceBooleanTest() {
-		BST<String, String> bst = new BST();
+		
 		int N = 32; //Size
 		String expected, actual;
 		
-		ArrayList<String> keys = new ArrayList(N);
-		ArrayList<String> values = new ArrayList(N);
+		ArrayList<String> keys = new ArrayList<String>(N);
+		ArrayList<String> values = new ArrayList<String>(N);
 		
 		//Add Keys and Values, put(i, i*10), set(i, i*2);
 		for(int i = 0; i < N; i++) {
@@ -559,18 +547,16 @@ public class BSTTest {
 	
 	@Test
 	public void putNullKey() {
-		BST bst = new BST();
 		bst.put("X","1");
 		bst.put("Y","2");
 		bst.put("Z","3");
-		ex.expect(IllegalArgumentException.class);
-		bst.put(null, "null");
+		IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
+			bst.put(null, "null"));
 		
 	}
 	
 	@Test
 	public void setNullKey() {
-		BST bst = new BST();
 		bst.put("X","1");
 		bst.put("Y","2");
 		bst.put("Z","3");
@@ -580,7 +566,6 @@ public class BSTTest {
 	
 	@Test
 	public void replaceNullKey() {
-		BST bst = new BST();
 		bst.put("X","1");
 		bst.put("Y","2");
 		bst.put("Z","3");
@@ -590,7 +575,6 @@ public class BSTTest {
 	
 	@Test
 	public void getNullKey() {
-		BST bst = new BST();
 		bst.put("X","1");
 		bst.put("Y","2");
 		bst.put("Z","3");
@@ -600,7 +584,6 @@ public class BSTTest {
 	
 	@Test
 	public void removeNullKey() {
-		BST bst = new BST();
 		bst.put("X","1");
 		bst.put("Y","2");
 		bst.put("Z","3");
@@ -610,20 +593,17 @@ public class BSTTest {
 	
 	@Test
 	public void sizeIsZero() {
-		BST bst = new BST();
 		assertEquals(0, bst.size());
 	}
 	
 	@Test
 	public void emptyIsTrue() {
-		BST bst = new BST();
 		assertEquals(true, bst.isEmpty());
 	}
 	
 	
 	@Test
 	public void sizeAfterRemoveOneTest(){
-		BST bst = new BST();
 		bst.put("N","N");
 		bst.put("T","T");
 		bst.put("A","A");
@@ -642,7 +622,6 @@ public class BSTTest {
 	
 	@Test
 	public void sizeAfterRemoveLeftMost(){
-		BST bst = new BST();
 		bst.put("T","T");
 		bst.put("N","N");
 		bst.put("A","A");
@@ -661,7 +640,6 @@ public class BSTTest {
 	
 	@Test
 	public void sizeAfterRemoveMiddle(){
-		BST bst = new BST();
 		bst.put("T","T");
 		bst.put("N","N");
 		bst.put("A","A");
@@ -675,7 +653,6 @@ public class BSTTest {
 	
 	@Test
 	public void sizeAfterRemoveKeyNotExist(){
-		BST bst = new BST();
 		bst.put("T","T");
 		bst.put("N","N");
 		bst.put("A","A");
@@ -690,7 +667,6 @@ public class BSTTest {
 	
 	@Test
 	public void sizeAfterRemoveRoot(){
-		BST bst = new BST();
 		bst.put("T","T");
 		bst.put("N","N");
 		bst.put("A","A");
@@ -796,8 +772,8 @@ public class BSTTest {
 	@Test
 	public void filterWithEmptyArray(){
 		FrequencyFilter f = new FrequencyFilter();	
-		String expected = "\ntree -> {\n"
-				+ "\tAwesome: 12\n" + "\thappy: 11\n" + "\tAM: 10\n}";
+		// String expected = "\ntree -> {\n"
+		// 		+ "\tAwesome: 12\n" + "\thappy: 11\n" + "\tAM: 10\n}";
 		
 		String trainingText = "I I I I I I I I I I AM AM AM AM AM AM AM AM AM"
 				+ " AM happy happy happy happy happy happy happy happy happy"
@@ -812,5 +788,14 @@ public class BSTTest {
 		
 		//Expect that the following line will throw a certain exception
 		List<String> actual = f.filter(arr);
+	}
+
+	// Delete nodes within bst after each test to help java garbage collection
+	@AfterEach
+	public void tearDown(){
+		List<String> keys = bst.keys();
+		for(String k: keys){
+			bst.remove(k);
+		}
 	}
 }
