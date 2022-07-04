@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Stack;
+// import java.util.Stack;
 
 /** WORK IN PROGRESS. Not yet implemented fully. May even start over, but use what I learned from 
  * attempting it here. Uploaded for documentation purposes. 
@@ -91,7 +91,7 @@ public class RedBlackTree<K extends Comparable<? super K>, V> {
 	private Node<K,V> add(Node<K,V> n, K key, V value) {
 		//All new Nodes are red because we want Red to indicate where there is
 		//imbalance within the tree
-		if(n == null) { return new Node(key,value,RED,1); }
+		if(n == null) { return new Node<K,V>(key,value,RED,1); }
 		
 		int go = key.compareTo((K) n.getKey()); //Compare the Key Values
 		
@@ -105,7 +105,7 @@ public class RedBlackTree<K extends Comparable<? super K>, V> {
 		}
 		
 		//Remedy anything that breaks the tree's balance properties
-		Node newRoot = this.remedy(n); //Maintain balance properties, new root
+		Node<K,V> newRoot = this.remedy(n); //Maintain balance properties, new root
 		if(newRoot != null) { n = newRoot; } //Internal node shouldn't be null
 		
 		//Update sizes
@@ -204,7 +204,7 @@ public class RedBlackTree<K extends Comparable<? super K>, V> {
 	 * @param key	The key to search for
 	 * @return		The 
 	 */
-	private Node<K,V> cutAndTie(Node n, K key){
+	private Node<K,V> cutAndTie(Node<K,V> n, K key){
 		// if (key.compareTo(n.getKey()) < 0) { //key less than node's key
 			
 		// }
@@ -294,7 +294,7 @@ public class RedBlackTree<K extends Comparable<? super K>, V> {
 	 * @param n		The parent Node to check
 	 * @param list	The ArrayList of Keys to add to
 	 */
-	private void addInOrder(Node n, ArrayList<K> list) {
+	private void addInOrder(Node<K,V> n, ArrayList<K> list) {
 		if (n == null) { return; } //Base Case
 		
 		//If Parent Node has left Child, traverse left subtree of N
@@ -325,11 +325,11 @@ public class RedBlackTree<K extends Comparable<? super K>, V> {
 	 * @param parent	The current Node to rotate with respect to
 	 * @return			Returns the right child as the new parent
 	 */
-	private Node turnLeft(Node parent) {
+	private Node<K,V> turnLeft(Node<K,V> parent) {
 		//parent should not be null and right child is Red
 		if(!parent.isValidRedRight(parent)) { return parent; } //De Morgan's Law
 		
-		Node rChild = parent.right; //Hold a reference to the (red) Right Child
+		Node<K,V> rChild = parent.right; //Hold a reference to the (red) Right Child
 		
 		//reassign parent's right as the redChild's left. 
 		parent.right = rChild.left; 
@@ -359,11 +359,11 @@ public class RedBlackTree<K extends Comparable<? super K>, V> {
 	 * @param parent		The current Node to rotate with respect to
 	 * @return				Returns the left child as the new parent
 	 */
-	private Node turnRight(Node parent) {
+	private Node<K,V> turnRight(Node<K,V> parent) {
 		//parent should not be null and left child is Red
 		if(!parent.isValidRedLeft(parent)) { return parent; }
 		
-		Node lChild = parent.left; //Hold a reference to the (red) Left Child
+		Node<K,V> lChild = parent.left; //Hold a reference to the (red) Left Child
 
 		//reassign parent's Left as the leftChild's right. 
 		parent.left = lChild.right; 
@@ -397,7 +397,7 @@ public class RedBlackTree<K extends Comparable<? super K>, V> {
 	 * 
 	 * @param parent 	The node to swap colors of, along with its children
 	 */
-	private void swapColors(Node parent) {
+	private void swapColors(Node<K,V> parent) {
 		//Parent and Children are all not null, and opposite colors
 		if(parent.nonNullFamily(parent) && parent.oppositeColor(parent)) {
 		parent.color = RED; 
@@ -433,7 +433,7 @@ public class RedBlackTree<K extends Comparable<? super K>, V> {
 		//instance variables
 		private K key;				//Key
 		private V value;			//Value of key
-		private Node left, right;	//References left and right of Node
+		private Node<K,V> left, right;	//References left and right of Node
 		private boolean color;		//Red or Black color
 		//All null nodes, root, and leaves are Black
 		private int nodes; 			//Number of Nodes in Subtree
@@ -486,22 +486,22 @@ public class RedBlackTree<K extends Comparable<? super K>, V> {
 		}
 		
 		//Check if parent is not null and right child is Red
-		private boolean isValidRedRight(Node n) {
+		private boolean isValidRedRight(Node<K,V> n) {
 			return n != null && n.isRed(n.right);
 		}
 		
 		//Check if parent is not null and left child is Red
-		private boolean isValidRedLeft(Node n) {
+		private boolean isValidRedLeft(Node<K,V> n) {
 			return n != null && n.isRed(n.left);
 		}
 		
 		//Determines if parent and its children are not null, false otherwise
-		private boolean nonNullFamily(Node n) {
+		private boolean nonNullFamily(Node<K,V> n) {
 			return n != null && n.left != null && n.right != null;
 		}
 		
 		//Determine if parent has the opposite color of both its children
-		private boolean oppositeColor(Node n) {
+		private boolean oppositeColor(Node<K,V> n) {
 			return (n.isBlack(n) && n.isRed(n.left) && n.isRed(n.right)) 
 					|| (n.isRed(n) && n.isBlack(n.left) && n.isBlack(n.right));
 		}
