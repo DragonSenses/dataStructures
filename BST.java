@@ -79,7 +79,7 @@ public class BST<K extends Comparable<? super K>, V> {
 	 * Recompute's the Node's size
 	 * @param n		The node we wish to update
 	 */
-	private void updateSize(Node n) {
+	private void updateSize(Node<K,V> n) {
 		//It assigns Node.size to equivalent to 1 (itself) + left + right
 		n.size = 1 + size(n.left) + size(n.right); 
 	}//If both children are null, or size = 0, then n size = 1, remains the same
@@ -138,7 +138,7 @@ public class BST<K extends Comparable<? super K>, V> {
 	 * 
 	 * @param n		The found Node to delete
 	 */
-	private Node<K, V> searchAndDestroy(Node n, K key) {
+	private Node<K, V> searchAndDestroy(Node<K,V> n, K key) {
 		if (n == null) { return null; }
 		
 		int go = key.compareTo((K) n.key);
@@ -160,7 +160,7 @@ public class BST<K extends Comparable<? super K>, V> {
         	//Case that Node has two children
 			//We want to find the closest ancestor to the node to delete,
 			//So the the leftmost child of the Node's right would be successor
-        	Node toRemove = n; //Temporarily refer to current Node
+        	Node<K,V> toRemove = n; //Temporarily refer to current Node
         	
         	//n is assigned the new successor
         	//Transfer in-order successor's data to the current Node position
@@ -177,8 +177,8 @@ public class BST<K extends Comparable<? super K>, V> {
 	 * @param n		The Node to traverse
 	 * @return		The Leftmost Node within the particular subtree
 	 */
-	private Node findMin(Node n) {
-		Node curr = n;
+	private Node<K,V> findMin(Node<K,V> n) {
+		Node<K,V> curr = n;
 		// loop to the leftmost leaf/child
 		while (curr.left != null) {
 			curr = curr.left;
@@ -236,7 +236,7 @@ public class BST<K extends Comparable<? super K>, V> {
 	 */
 	public V get(K key) throws IllegalArgumentException {
 		if (key == null) { throw new IllegalArgumentException(ILLEGAL_ARG); }
-		Node found = search(root,key);
+		Node<K,V> found = search(root,key);
 		if (found == null) { return null; } //If search failed
 		return (V) found.value;
 	}
@@ -278,7 +278,7 @@ public class BST<K extends Comparable<? super K>, V> {
 	 * @param n
 	 * @return
 	 */
-	private int size(Node n) { 
+	private int size(Node<K,V> n) { 
 		return (n == null) ? 0 : n.size; 
 	}
 
@@ -318,7 +318,7 @@ public class BST<K extends Comparable<? super K>, V> {
 	 * @param n		The parent Node to check
 	 * @param list	The ArrayList of Keys to add to
 	 */
-	private void addInOrder(Node n, ArrayList<K> list) {
+	private void addInOrder(Node<K,V> n, ArrayList<K> list) {
 		if (n == null) { return; } //Base Case
 		
 		//If Parent Node has left Child, traverse left subtree of N
@@ -343,7 +343,7 @@ public class BST<K extends Comparable<? super K>, V> {
 	}
 	
 	//Post-order traversal
-	private void printPostOrder(Node n) {
+	private void printPostOrder(Node<K,V> n) {
 		if (n == null) return;
 		printPostOrder(n.left);
 		printPostOrder(n.right);
@@ -351,7 +351,7 @@ public class BST<K extends Comparable<? super K>, V> {
 	}
 	
 	//In-Order traversal
-	private void printInOrder(Node n) {
+	private void printInOrder(Node<K,V> n) {
 		if (n == null) return;
 		printInOrder(n.left);
 		System.out.print("\"" + n.getKey() + "\"" + ": " );
@@ -360,7 +360,7 @@ public class BST<K extends Comparable<? super K>, V> {
 	}
 	
 	//Pre-Order traversal
-	private void printPreOrder(Node n) {
+	private void printPreOrder(Node<K,V> n) {
 		if (n == null) return;
 		System.out.println(n.getValue()+ " ");
 		printInOrder(n.left);
@@ -377,7 +377,7 @@ public class BST<K extends Comparable<? super K>, V> {
 		//instance variables
 		private K key;				
 		private V value;			
-		private Node left, right;	//References left and right children
+		private Node<K,V> left, right;	//References left and right children
 
 		private int size; 			//Keep track of the number nodes below
 		
