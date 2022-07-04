@@ -52,7 +52,8 @@ public class Heap<K,V> {
     //Member Fields of Heap 
     protected ArrayList<Entry<K,V>> heap = new ArrayList<>();
     private Comparator<K> c; //Comparator allows us to compare the keys in varying orders
-    
+    private static final String ILLEGAL_ARG = "Incompatible Key";
+
     /** Constructors **/
     public Heap() {
         super();
@@ -97,7 +98,11 @@ public class Heap<K,V> {
      * @throws IllegalArgumentException
      */
     protected boolean checkKey(K key) throws IllegalArgumentException {
-        return(c.compare(key,key) == 0); // Can key be compared to itself?
+        try{
+            return(c.compare(key,key) == 0); // Can key be compared to itself?
+        } catch(ClassCastException e) {
+            throw new IllegalArgumentException(ILLEGAL_ARG);
+        }
     }
 
     /**
@@ -142,12 +147,16 @@ public class Heap<K,V> {
             
         }
     }
-    
-    
-    /** Access Methods **/
 
+    /** Access Methods **/
+    /** 
+     * @return The number of entries in the heap 
+     */
     public int size() { return heap.size(); }
 
+    /** 
+     * @return true if there are no entries in the heap, false otherwise 
+     */
     public boolean isEmpty() { return heap.isEmpty(); }
 
     /**
@@ -160,11 +169,31 @@ public class Heap<K,V> {
     }
 
     /** Update Methods **/
-    public Entry<K,V> insert(K key, V value)  {
-        return null;
+    /**
+     * Inserts a Key-Value pair entry to thhe heap and return it
+     * @param key   Key of the entry
+     * @param value Value of the entry
+     * @return The entry added to the heap when insertion was successful
+     * @throws IllegalArgumentException If the key is incompatible
+     */
+    public Entry<K,V> insert(K key, V value) throws IllegalArgumentException {
+        checkKey(key);      // Check for valid key (could throw Exception)
+        Entry<K,V> entry = new Entry<>(key, value);
+        heap.add(entry);                       // append to the end of the list
+        upheap(heap.size() - 1);               // upheap newly added entry
+        return entry;
     }
 
+    /**
+     * Removes and reutrns the entry with the minimal key (root) 
+     * @return The entry with the minimal key, null if heap was empty
+     */
     public Entry<K,V> removeMin() {
-        return null;
+        if (heap.isEmpty()) { return null; } // Nothing to remove
+        Entry<K,V> removed = heap.get(0);   // Remove the entry with minimal key (index 0)
+        swap(0, heap.size() - 1);     // Move the last entry of the array list (index n-1) to index 0
+        heap.remove(heap.size() - 1);   // Remove the old minimal key, now at index n-1, from the list
+        downheap(0);                 // Restore the heap property by using downheap to reposition
+        return removed;
     }
-}
+}// end of Heap class

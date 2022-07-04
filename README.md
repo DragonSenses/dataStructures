@@ -8,6 +8,7 @@ Data Structures that are Tested and Implemented
     - CircularlyLinkedList
 - Stack
 - Queue
+- Binary Heap
 
 Data Structures that are a Work In Progress (Not fully tested or implemented):
 
