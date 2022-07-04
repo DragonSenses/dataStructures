@@ -14,6 +14,9 @@ Data Structures that are a Work In Progress (Not fully tested or implemented):
 
 - HashMap.java          (Not fully tested)
 - RedBlackTree.java     (Not fully implemented)
+- List.java             (Not implemented)
+- ArrayList.java        (Not implemented)
+- ArrayIterator.java    (Not implemented)
 
 Files that are working but need maintainence:
 
