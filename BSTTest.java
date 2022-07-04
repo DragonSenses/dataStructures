@@ -1,10 +1,7 @@
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.rules.ExpectedException;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.AfterEach;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -12,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class BSTTest {
 	BST<String,String> bst;
-
+	private static final String ILLEGAL_ARG = "Argument is Null";
 	// Old Junit4 exception handling, where ex.expect(IllegalArgumentException.class);
 	// @Rule //Allows us to see that certain Exceptions are Thrown
 	// public final ExpectedException ex = ExpectedException.none();
@@ -551,8 +548,8 @@ public class BSTTest {
 		bst.put("Y","2");
 		bst.put("Z","3");
 		IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
-			bst.put(null, "null"));
-		
+			()-> bst.put(null, "null"));
+		assertEquals(ILLEGAL_ARG,e.getMessage());
 	}
 	
 	@Test
@@ -560,8 +557,9 @@ public class BSTTest {
 		bst.put("X","1");
 		bst.put("Y","2");
 		bst.put("Z","3");
-		ex.expect(IllegalArgumentException.class);
-		bst.set(null, "null");
+		IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
+			()-> bst.set(null, "null"));
+		assertEquals(ILLEGAL_ARG,e.getMessage());	
 	}
 	
 	@Test
@@ -569,8 +567,9 @@ public class BSTTest {
 		bst.put("X","1");
 		bst.put("Y","2");
 		bst.put("Z","3");
-		ex.expect(IllegalArgumentException.class);
-		bst.replace(null, "null");
+		IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
+			()-> bst.replace(null, "null"));
+		assertEquals(ILLEGAL_ARG,e.getMessage());
 	}
 	
 	@Test
@@ -578,8 +577,9 @@ public class BSTTest {
 		bst.put("X","1");
 		bst.put("Y","2");
 		bst.put("Z","3");
-		ex.expect(IllegalArgumentException.class);
-		bst.get(null);
+		IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
+			()-> bst.get(null));
+		assertEquals(ILLEGAL_ARG,e.getMessage());
 	}
 	
 	@Test
@@ -587,8 +587,9 @@ public class BSTTest {
 		bst.put("X","1");
 		bst.put("Y","2");
 		bst.put("Z","3");
-		ex.expect(IllegalArgumentException.class);
-		bst.remove(null);
+		IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
+			()-> bst.remove(null));
+		assertEquals(ILLEGAL_ARG,e.getMessage());
 	}
 	
 	@Test
@@ -695,18 +696,22 @@ public class BSTTest {
 	public void buildTreesNegMaxTest(){
 		FrequencyFilter f = new FrequencyFilter();		
 		String trainingText = "I like apples. I do not like pears.";
-		ex.expect(IllegalArgumentException.class);
 		//We expect that this illegal parameter will throw an error
-		f.buildFrequencyTrees(trainingText, 0, -4);
+		IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
+			()-> f.buildFrequencyTrees(trainingText, 0, -4));
+		assertEquals(ILLEGAL_ARG,e.getMessage());
 	}
 	
 	@Test
 	public void buildTreesLowMaxTest(){
 		FrequencyFilter f = new FrequencyFilter();		
 		String trainingText = "I like apples. I do not like pears.";
-		ex.expect(IllegalArgumentException.class);
 		//We expect that this illegal parameter will throw an error
-		f.buildFrequencyTrees(trainingText, 20, 2);
+		IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
+			()-> f.buildFrequencyTrees(trainingText, 20, 2));
+		assertEquals(ILLEGAL_ARG,e.getMessage());
+		
+		
 	}
 	
 	@Test
@@ -784,10 +789,9 @@ public class BSTTest {
 		f.buildFrequencyTrees(trainingText, 1, 1);
 		int[] arr = {}; //Empty Array of Size 0
 		
-		ex.expect(IllegalArgumentException.class);
-		
-		//Expect that the following line will throw a certain exception
-		List<String> actual = f.filter(arr);
+		IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
+		()-> f.filter(arr)); //Expect that the following line will throw a certain exception
+			assertEquals(ILLEGAL_ARG,e.getMessage());
 	}
 
 	// Delete nodes within bst after each test to help java garbage collection
