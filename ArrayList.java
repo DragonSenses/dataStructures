@@ -12,8 +12,9 @@ import java.util.Iterator;
 public class ArrayList<E> implements List<E> {
     /** Instance Variables **/
     public static final int DEFAULT_CAPACITY = 10; //Default initial array capacity
+    public static final String ILLEGAL_INDEX = "Illegal Index @ ";
     private E[] data;   // Generic object array used to store list elements
-    private int size; // Current number of elements
+    private int size;   // Current number of elements
     
     /** Constructors **/
     public ArrayList() { //Default constructor creates ArrayList with default initial capacity
@@ -27,16 +28,34 @@ public class ArrayList<E> implements List<E> {
         this.data = (E[]) new Object[capacity];
     }
 
-    /** Private Helper Methods **/
+    /************************ Private Helper Methods ********************************/
+    /**
+     * Resize the underlying internal array to a given capacity
+     * @param capacity - The capacity to resize the ArrayList to
+     */
+    @SuppressWarnings("unchecked")
     private void resize(int capacity){
-
+        E[] newArray = (E[]) new Object[capacity];
+        for(int i=0; i < size; i++){
+            newArray[i] = data[i];
+        }
+        this.data = newArray;
     }
 
+    /**
+     * Checks whether the given index is within the range [0, n-1]
+     * @param i - the given index to check validity for
+     * @param n - the range to check the index against, usually the size
+     * @throws IndexOutOfBoundsException if the given index is negative or greater than
+     *                                   either n or n-1 (size or size-1)
+     */
     private void checkValidIndex(int i, int n) throws IndexOutOfBoundsException {
-
+        if (i < 0 || i >= n) {
+            throw new IndexOutOfBoundsException(ILLEGAL_INDEX + i);
+        }
     }
-
-    /** Access Methods **/
+    
+    /********************************** Access Methods ********************************/
     /**
      * Returns the number of elements in the list.
      * 
@@ -64,7 +83,15 @@ public class ArrayList<E> implements List<E> {
      *         does not exist within the list
      */
     public int indexOf(E e) {
+        int i = 0;
+        while(i < size){
+            if(data[i].equals(e)){
+                return i;
+            }
+            i++;
+        }
 
+        return -1; // Element not found
     }
 
     /**
@@ -76,9 +103,11 @@ public class ArrayList<E> implements List<E> {
      *                                   size()-1
      */
     public E get(int i) throws IndexOutOfBoundsException {
-
+        checkValidIndex(i, size); // If index is outside of size
+        return data[i];
     }
 
+    /******************************** Update Methods ********************************/
     /**
      * Inserts the given element at the specified index of the list, shifting all
      * subsequent elements in the list one position further to make space (that is
@@ -91,7 +120,16 @@ public class ArrayList<E> implements List<E> {
      *                                   size()
      */
     public void add(int i, E e) throws IndexOutOfBoundsException {
-
+        checkValidIndex(i, size+1); 
+        if (size == data.length){   //Resize if underlying array is full
+            resize (2*data.length); //Double the current capacity
+        }
+        // Shift any prexisting elements at or beyond point of insertion to the right
+        for(int k = size-1; k >= i; k--){
+            data[k+1] = data[k];
+        }
+        data[i] = e; // Made space for insertion
+        size++;
     }
 
     /**
@@ -105,7 +143,10 @@ public class ArrayList<E> implements List<E> {
      *                                   size()-1
      */
     public E set(int i, E e) throws IndexOutOfBoundsException {
-
+        checkValidIndex(i,size);
+        E displaced = data[i];
+        data[i] = e;
+        return displaced;
     }
 
     /**
@@ -119,9 +160,18 @@ public class ArrayList<E> implements List<E> {
      *                                   size()
      */
     public E remove(int i) throws IndexOutOfBoundsException {
-
+        checkValidIndex(i, size);
+        E toRemove = data[i];
+        // Shift the subsequent elements at the removed index by 1 to fill the gap
+        for(int k= i; k < size-1; k++){
+            data[k] = data[k+1];
+        }
+        data[size-1] = null; // Make eligible for garbage collection
+        size--;
+        return toRemove;
     }
 
+    /**********************************  Methods ********************************/
     /**
      * Returns an iterator of the elements stored in the list.
      * 
