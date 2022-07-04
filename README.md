@@ -1,8 +1,9 @@
 # dataStructures
-A collection of data structures that I've created to document, maintain, and improve upon.
+A collection of data structures that I've made to document, maintain, and improve upon.
 
 Data Structures that are Tested and Implemented
 - ArrayList
+    - ArrayIterator
 - Linked Lists
     - SingularlyLinkedList
     - DoublyLinkedList
