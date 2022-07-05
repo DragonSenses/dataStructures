@@ -86,8 +86,9 @@ public class HashMap<K, V> {
 		} else {
 			this.capacity = initialCapacity;
 		}
-		
-		if(this.loadFactor > 0) { //positive (0, infinity)
+
+		//Load factor must be a positive value between (0,1]
+		if(loadFactor < 0 || loadFactor > 1) { 
 			this.loadFactor = DEFAULT_LOAD_FACTOR;
 			throw new IllegalArgumentException(ILLEGAL_ARG_LOAD_FACTOR);
 		} else {
@@ -473,14 +474,7 @@ public class HashMap<K, V> {
 
 	@Override
 	public String toString(){
-		// StringBuilder map = new StringBuilder();
 		List<K> keys = this.keys();
-
-		// for(HashMapEntry<K,V> E: entries){
-		// 	map.append(E.toString());
-		// 	map.append("\n");
-		// }
-		// return map.toString();
 
 		StringBuilder str = new StringBuilder("[");
         for (int k = 0; k < keys.size(); k++) {
