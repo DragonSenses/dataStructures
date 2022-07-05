@@ -2,7 +2,7 @@ import org.junit.jupiter.api.Test;
 // import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 // import org.junit.jupiter.api.AfterAll;
-// import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.AfterEach;
 // import static org.junit.jupiter.api.Assertions.fail;
 // import static org.junit.jupiter.api.Assumptions.assumeTrue;
 // import static org.junit.jupiter.api.Assertions.assertAll;
@@ -23,6 +23,8 @@ public class HashMapTest {
 	
 	private HashMap<String, String> testMap; // use this for basic tests
 	private HashMap<String, String> mapWithCap; // use for testing proper rehashing
+    protected HashMap<String, String> negSizedMap;
+	protected HashMap<String, String> zeroSizedMap;
 	public static final String TEST_KEY = "Test Key";
 	public static final String TEST_VAL = "Test Value";
 	public static final String ILLEGAL_ARG_CAPACITY = "Initial Capacity must be non-negative";
@@ -35,9 +37,43 @@ public class HashMapTest {
 		mapWithCap = new HashMap<>(4, HashMap.DEFAULT_LOAD_FACTOR);
 	}
 
+	@AfterEach
+	public void tearDown(){
+		List<String> keys = testMap.keys();
+		for(String k: keys){
+			testMap.remove(k);
+		}
+	}
+
+	/**
+	 * Helper method that fills in the map with entries with the same key and
+	 * value within range of [0 - (n-1)]
+	 * @param map		Map to populate
+	 * @param n			Number of entries
+	 */
+	public static void fillMap(HashMap<String, String> map, int n) {
+		for(int i=0; i<n; i++) {
+			map.put(String.valueOf(i),String.valueOf(i)); //1st entry: <0,0>
+		}
+	}
+
+	/** Helper method that returns a String representation of a HashMap<String,String> */
+	public static String print(HashMap<String,String> map){
+		List<String> keys = map.keys();
+
+		StringBuilder str = new StringBuilder("[");
+        for (int k = 0; k < keys.size(); k++) {
+            if (k > 0) { str.append(", "); }
+            str.append(map.get(keys.get(k)));
+        }
+        str.append("]");
+		return str.toString();
+	}
+
+
 	@Test
 	public void zeroSizeConstructor(){
-		private HashMap<String, String> zeroSizedMap;
+		
 		IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
 			()-> zeroSizedMap = new HashMap<String,String>(0,0.75));
 		assertEquals(ILLEGAL_ARG_CAPACITY,e.getMessage());
@@ -45,7 +81,6 @@ public class HashMapTest {
 
 	@Test
 	public void negativeSizeConstructor(){
-		private HashMap<String, String> negSizedMap;
 		IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
 			()-> negSizedMap = new HashMap<String,String>(-16,0.75));
 		assertEquals(ILLEGAL_ARG_CAPACITY,e.getMessage());
@@ -53,9 +88,17 @@ public class HashMapTest {
 
 	@Test
 	public void negativeloadFactor(){
-		private HashMap<String, String> negSizedMap;
+		
 		IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
 			()-> negSizedMap = new HashMap<String,String>(16,-24.00));
+		assertEquals(ILLEGAL_ARG_LOAD_FACTOR,e.getMessage());
+	}
+
+	@Test
+	public void largeloadFactor(){
+		
+		IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
+			()-> negSizedMap = new HashMap<String,String>(16,2.0));
 		assertEquals(ILLEGAL_ARG_LOAD_FACTOR,e.getMessage());
 	}
 
@@ -82,17 +125,6 @@ public class HashMapTest {
 		assertEquals(expectedKeys, resultKeys);
 	}
 	
-	/**
-	 * Helper method that fills in the map with entries with the same key and
-	 * value within range of [0 - (n-1)]
-	 * @param map		Map to populate
-	 * @param n			Number of entries
-	 */
-	public static void fillMap(HashMap<String, String> map, int n) {
-		for(int i=0; i<n; i++) {
-			map.put(String.valueOf(i),String.valueOf(i)); //1st entry: <0,0>
-		}
-	}
 
 	@Test 
 	public void mapSize4add5() {
@@ -169,5 +201,15 @@ public class HashMapTest {
 			assertEquals(false, replaced);
 			replaced = false;
 		}
+	}
+
+	@Test
+	public void toStringCheck(){
+		testMap.put("A","A");
+		testMap.put("B","B");
+		testMap.put("C","C");
+		testMap.put("D","D");
+		String expected = print(testMap);
+		assertEquals(expected,testMap.toString());
 	}
 }//EOF
