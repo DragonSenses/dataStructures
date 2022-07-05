@@ -1,10 +1,19 @@
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.Test;
+// import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+// import org.junit.jupiter.api.AfterAll;
+// import org.junit.jupiter.api.AfterEach;
+// import static org.junit.jupiter.api.Assertions.fail;
+// import static org.junit.jupiter.api.Assumptions.assumeTrue;
+// import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.junit.*;
+
 /**
  * HashMap Tester class.
  * @author kendr
@@ -16,16 +25,21 @@ public class HashMapTest {
 	private HashMap<String, String> mapWithCap; // use for testing proper rehashing
 	public static final String TEST_KEY = "Test Key";
 	public static final String TEST_VAL = "Test Value";
+	public static final String ILLEGAL_ARG_CAPACITY = "Initial Capacity must be non-negative";
+	public static final String ILLEGAL_ARG_LOAD_FACTOR = "Load Factor must be positive";
+	public static final String ILLEGAL_ARG_NULL_KEY = "Keys must be non-null";
 	
-	@Before
+	@BeforeEach
 	public void setUp() {
 		testMap = new HashMap<>();
 		mapWithCap = new HashMap<>(4, HashMap.DEFAULT_LOAD_FACTOR);
 	}
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void testPut_nullKey() {
-		testMap.put(null, TEST_VAL);
+		IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
+			()-> testMap.put(null, TEST_VAL));
+		assertEquals(ILLEGAL_ARG_NULL_KEY,e.getMessage());
 	}
 
 	@Test
