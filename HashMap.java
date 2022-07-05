@@ -19,8 +19,8 @@ public class HashMap<K, V> {
 	 */
 	private static class HashMapEntry<K, V> {
 		
-		K key;
-		V value;
+		protected K key;
+		private V value;
 		
 		//Constructor
 		private HashMapEntry(K key, V value) {
@@ -473,12 +473,22 @@ public class HashMap<K, V> {
 
 	@Override
 	public String toString(){
-		StringBuilder map = new StringBuilder();
-		for(HashMapEntry<K,V> E: entries){
-			map.append(E.toString());
-			map.append("\n");
-		}
-		return map.toString();
+		// StringBuilder map = new StringBuilder();
+		List<K> keys = this.keys();
+
+		// for(HashMapEntry<K,V> E: entries){
+		// 	map.append(E.toString());
+		// 	map.append("\n");
+		// }
+		// return map.toString();
+
+		StringBuilder str = new StringBuilder("[");
+        for (int k = 0; k < keys.size(); k++) {
+            if (k > 0) { str.append(", "); }
+            str.append(this.get(keys.get(k)));
+        }
+        str.append("]");
+        return str.toString();
 	}
 
 	public void print(){
@@ -490,7 +500,8 @@ public class HashMap<K, V> {
 		//m.print();
 		m.put("2", "2");
 		m.print();
-		
+		m.remove("2");
+		m.print();
 		// HashMap<String, String> map4 = new HashMap<>(4, HashMap.DEFAULT_LOAD_FACTOR);
 		
 		// //add different entries 16 times
