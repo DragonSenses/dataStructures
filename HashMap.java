@@ -116,7 +116,7 @@ public class HashMap<K, V> {
 	 * @throws IllegalArgument exception if the key is null
 	 */
 	public boolean put(K key, V value) throws IllegalArgumentException {
-		if (key == null) { throw new IllegalArgumentException("ILLEGAL_ARG_NULL_KEY"); }
+		if (key == null) { throw new IllegalArgumentException(ILLEGAL_ARG_NULL_KEY); }
 		//Floating-point division on two integers, explicit/implicit cast
 		if((double)size/capacity > loadFactor) { this.scale(capacity*2); }  
 		
@@ -144,7 +144,7 @@ public class HashMap<K, V> {
 	 * @return			True if entry was added
 	 */
 	private boolean addEntry(K key, V value, int i) {
-		if (key == null) { throw new IllegalArgumentException("ILLEGAL_ARG_NULL_KEY"); }
+		if (key == null) { throw new IllegalArgumentException(ILLEGAL_ARG_NULL_KEY); }
 		
 		this.entries[-(i+1)] = new HashMapEntry<K,V>(key,value);
 		this.size++;
@@ -217,7 +217,7 @@ public class HashMap<K, V> {
 	private boolean keysMatch(int i, K key) {
 		if (TESTING){
 			System.out.println("Checking if keys match @ index" + i);
-			System.out.print("Key @ Index is: " + entries[i].getKey().toString());
+			if(i >0) { System.out.print("Key @ Index is: " + entries[i].getKey().toString()); }
 			System.out.println(" compared to parameter key: " + key);
 		}
 		return entries[i].getKey().equals(key); //access array and compare
@@ -326,7 +326,7 @@ public class HashMap<K, V> {
 		int i = findIndex(key,hash(key)); 
 		if (TESTING){
 			System.out.println("Index found within Remove(): " + i);
-			System.out.print("Key @ Index is: " + entries[i].getKey().toString());
+			if(i >0) { System.out.print("Key @ Index is: " + entries[i].getKey().toString()); }
 			System.out.println(" compared to parameter key: " + key);
 		}
 
@@ -354,7 +354,7 @@ public class HashMap<K, V> {
 		int i = findIndex(key,hash(key)); //Search entries for index of Key
 		if (TESTING){
 			System.out.println("Index found within set(): " + i);
-			System.out.print("Key @ Index is: " + entries[i].getKey().toString());
+			if(i >0) { System.out.print("Key @ Index is: " + entries[i].getKey().toString()); }
 			System.out.println(" compared to parameter key: " + key);
 		}
 		if(i >= 0) { //non-negative index implies an entry was found 
@@ -401,7 +401,7 @@ public class HashMap<K, V> {
 		int i = findIndex(key,hash(key));
 		if (TESTING){
 			System.out.println("Index found within containsKey(): " + i);
-			System.out.print("Key @ Index is: " + entries[i].getKey().toString());
+			if(i >0) { System.out.print("Key @ Index is: " + entries[i].getKey().toString()); }
 			System.out.println(" compared to parameter key: " + key);
 		}
 		if(i > 0 && keysMatch(i,key)) { 
