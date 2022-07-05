@@ -36,6 +36,30 @@ public class HashMapTest {
 	}
 
 	@Test
+	public void zeroSizeConstructor(){
+		private HashMap<String, String> zeroSizedMap;
+		IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
+			()-> zeroSizedMap = new HashMap<String,String>(0,0.75));
+		assertEquals(ILLEGAL_ARG_CAPACITY,e.getMessage());
+	}
+
+	@Test
+	public void negativeSizeConstructor(){
+		private HashMap<String, String> negSizedMap;
+		IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
+			()-> negSizedMap = new HashMap<String,String>(-16,0.75));
+		assertEquals(ILLEGAL_ARG_CAPACITY,e.getMessage());
+	}
+
+	@Test
+	public void negativeloadFactor(){
+		private HashMap<String, String> negSizedMap;
+		IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
+			()-> negSizedMap = new HashMap<String,String>(16,-24.00));
+		assertEquals(ILLEGAL_ARG_LOAD_FACTOR,e.getMessage());
+	}
+
+	@Test
 	public void testPut_nullKey() {
 		IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
 			()-> testMap.put(null, TEST_VAL));
