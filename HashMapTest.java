@@ -329,9 +329,9 @@ public class HashMapTest {
 		testMap.put("B","66");
 		testMap.put("C","67");
 
-		testMap.remove("A");
-		testMap.remove("B");
-		testMap.remove("C");
+		assertEquals(true,testMap.remove("A"));
+		assertEquals(true,testMap.remove("B"));
+		assertEquals(true,testMap.remove("C"));
 
 		actualKeys = testMap.keys();
 		Collections.sort(actualKeys);
