@@ -227,6 +227,46 @@ public class HashMapTest {
 	}
 
 	@Test
+	public void getNull() {
+		fillMap(testMap,4);
+		IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
+			()-> testMap.get(null));
+		assertEquals(ILLEGAL_ARG_NULL_KEY,e.getMessage());
+	}
+
+	@Test
+	public void getEmptyMap(){
+		assertEquals(null,testMap.get("1"));
+	}
+
+	@Test
+	public void get4Keys(){
+		fillMap(testMap,4);
+		assertAll("testMap",
+			() -> assertEquals(4,testMap.size()),
+			() -> assertEquals("0", testMap.get("0")),
+			() -> assertEquals("1", testMap.get("1")),
+			() -> assertEquals("2", testMap.get("2")),
+			() -> assertEquals("3", testMap.get("3"))
+		);
+	}
+
+	// Based on our HashMap implementation, when get() called on entry that does
+	// not exist, we return a null value
+	@Test
+	public void getKeyNotInMap(){
+		fillMap(testMap,4);
+		assertAll("testMap",
+			() -> assertEquals(4,testMap.size()),
+			() -> assertEquals("0", testMap.get("0")),
+			() -> assertEquals("1", testMap.get("1")),
+			() -> assertEquals("2", testMap.get("2")),
+			() -> assertEquals("3", testMap.get("3")),
+			() -> assertEquals(null, testMap.get("4"))
+		);
+	}
+
+	@Test
 	public void removeOneKey(){
 		List<String> expectedKeys = new ArrayList<>(5);
 		for(int i = 0; i < 5; i++) {
@@ -272,12 +312,40 @@ public class HashMapTest {
 	}
 
 	@Test
-	public void getNull() {
-		fillMap(testMap,4);
-		IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
-			()-> testMap.get(null));
-		assertEquals(ILLEGAL_ARG_NULL_KEY,e.getMessage());
+	public void setEmptyMap(){
+		testMap.set("1","2");
+		resultKeys = testMap.keys();
+		List<String> expected = new ArrayList<String>(0);
+		assertAll("testMap",
+			() -> assertEquals(0, testMap.size()),
+			() -> assertEquals(expected, resultKeys),
+			() -> assertEquals(null, testMap.get("1"))
+		);
 	}
+
+	@Test
+	public void set4Entries(){
+		fillMap(testMap,4);
+		List<String> expectedKeys = new ArrayList<>(4);
+		for(int i = 0; i < 4; i++){
+			testMap.set(String.valueOf(i), String.valueOf(i+60));
+			expectedKeys.add(String.valueOf(i));
+		}
+		List<String> resultKeys = testMap.keys();
+		// we need to sort because hash map doesn't guarantee ordering
+		Collections.sort(resultKeys);
+
+		assertAll("testMap",
+			() -> assertEquals(4,testMap.size()),
+			() -> assertEquals(expectedKeys, resultKeys),
+			() -> assertEquals("60", testMap.get("0")),
+			() -> assertEquals("61", testMap.get("1")),
+			() -> assertEquals("62", testMap.get("2")),
+			() -> assertEquals("63", testMap.get("3"))
+		);
+	}
+
+	
 
 	@Test
 	public void containsKeyNull(){
@@ -285,6 +353,18 @@ public class HashMapTest {
 		IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
 			()-> testMap.containsKey(null));
 		assertEquals(ILLEGAL_ARG_NULL_KEY,e.getMessage());
+	}
+
+	@Test
+	public void containsKeys4(){
+		fillMap(testMap,4);
+		assertAll("testMap",
+			() -> assertEquals(4,testMap.size()),
+			() -> assertEquals(true, testMap.containsKey("0")),
+			() -> assertEquals(true, testMap.containsKey("1")),
+			() -> assertEquals(true, testMap.containsKey("2")),
+			() -> assertEquals(true, testMap.containsKey("3"))
+		);
 	}
 
 }//EOF
