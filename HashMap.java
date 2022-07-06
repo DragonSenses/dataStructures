@@ -326,9 +326,13 @@ public class HashMap<K, V> {
 		
 		int i = findIndex(key,hash(key)); 
 		if (TESTING){
-			System.out.println("Index found within Remove(): " + i);
+			System.out.print("Index found within Remove(): " + i);
 			if(i >0) { System.out.print("Key @ Index is: " + entries[i].getKey().toString()); }
 			System.out.println(" compared to parameter key: " + key);
+			if( i < 0 && i != -1) {
+				System.out.println(entries[-i]);
+				this.toString();
+			}
 		}
 
 		if (i < 0) { return false; } //Negative Index implies no Entry for Key
