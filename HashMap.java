@@ -358,26 +358,8 @@ public class HashMap<K, V> {
 		if(validIndex(-(i-1))) System.out.println("Index @ " + -(i-1) + "| " +entries[-(i-1)]);
 	}
 
-	/**
-	 * Remove the entry corresponding to the given key
-	 * 
-	 * @return true if an entry for the given key was removed
-	 * @throws IllegalArgument exception if the key is null
-	 */
-	public boolean remove(K key) throws IllegalArgumentException {
-		if(key == null) { throw new IllegalArgumentException(ILLEGAL_ARG_NULL_KEY); }
-		if(isEmpty()) { return false; } //Empty Map -> no Keys to remove
-		
-		int i = findIndex(key,hash(key)); 
-		if (TESTING_REMOVE){
-			System.out.print("Index found within Remove(): " + i);
-			if(i >0) { System.out.print("\nKey @ Index is: " + entries[i].getKey().toString()); }
-			System.out.println(" compared to parameter key: " + key);
-			if( i < 0 ) {
-				printNeighbors(i);
-			}
-		}
-
+	//Stop gap solution for when index returned was negative
+	private boolean removeHack(K key, int i){
 		if(i<0 && validIndex(-(i))){
 			boolean doRemoval = false;
 			if (validEntry(-(i+1))){
@@ -411,6 +393,31 @@ public class HashMap<K, V> {
 				return bruteForceRemove(key, i);
 			}
 		}
+		return false;
+	}
+
+	/**
+	 * Remove the entry corresponding to the given key
+	 * 
+	 * @return true if an entry for the given key was removed
+	 * @throws IllegalArgument exception if the key is null
+	 */
+	public boolean remove(K key) throws IllegalArgumentException {
+		if(key == null) { throw new IllegalArgumentException(ILLEGAL_ARG_NULL_KEY); }
+		if(isEmpty()) { return false; } //Empty Map -> no Keys to remove
+		
+		int i = findIndex(key,hash(key)); 
+		if (TESTING_REMOVE){
+			System.out.print("Index found within Remove(): " + i);
+			if(i >0) { System.out.print("\nKey @ Index is: " + entries[i].getKey().toString()); }
+			System.out.println(" compared to parameter key: " + key);
+			if( i < 0 ) {
+				printNeighbors(i);
+			}
+		}
+
+		//A temporary solution to fixing when remove is called again
+		if(i<0 && validIndex(-(i))) { removeHack(key,i); }	
 
 		//Negative Index implies no Entry for Key
 		if (i < 0 ) { 
