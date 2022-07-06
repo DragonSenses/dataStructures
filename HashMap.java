@@ -357,22 +357,32 @@ public class HashMap<K, V> {
 		}
 
 		if(i<0 && validIndex(-(i))){
-			if (validIndex(-(i+1)) && isOpen()){
-
+			boolean doRemoval = false;
+			if (validEntry(-(i+1))){
+				i = -(i+1);
+				doRemoval = true;
+			} else if(validEntry(-i)) {
+				i = -i;
+				doRemoval = true;
+			} else if(validEntry(-(i-1))){
+				i = -(i-1);
+				doRemoval = true;
 			}
 
-			if (TESTING_REMOVE){
+			if (TESTING_REMOVE && doRemoval){
 				System.out.println("KEYS MATCH");
 				System.out.println("Removing Entry @ Index: " + -(i-1));
 				System.out.println(entries[-(i-1)]);
 			}
-			entries[-(i-1)] = TOMBSTONE; //Lay the Entry to rest
-			this.size--; 			//decrement size and remove from keys
+			if(doRemoval){
+				entries[i] = TOMBSTONE; //Lay the Entry to rest
+				this.size--; 			//decrement size and remove from keys
 		
-			//If current loadFactor (Entries/ArrayLength) is 1/4loadFactor or less
-			if( this.size > 0 && ((double)size/capacity) <= loadFactor/4) { 
-				this.scale(capacity/2); //loadFactor|0.75*1/4 = .1875 = 18.75% full
-			} //Also need 1 entry or more, size > 0 so we don't halve unnecessarily
+				//If current loadFactor (Entries/ArrayLength) is 1/4loadFactor or less
+				if( this.size > 0 && ((double)size/capacity) <= loadFactor/4) { 
+					this.scale(capacity/2); //loadFactor|0.75*1/4 = .1875 = 18.75% full
+				} //Also need 1 entry or more, size > 0 so we don't halve unnecessarily
+			}
 		}
 
 		//Negative Index implies no Entry for Key
