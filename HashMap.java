@@ -14,6 +14,7 @@ public class HashMap<K, V> {
 	//For Debugging Purposes
 	public static final boolean TESTING = false; 
 	public static final boolean TESTING_REMOVE = true;
+	public static final boolean BRUTEFORCE = true;
 	/**
 	 * HashMapEntry class represents the Hash Map Entries of Key-Value pairs.
 	 * @param <K>		Keys
@@ -334,6 +335,29 @@ public class HashMap<K, V> {
 		return false; 
 	}
 
+	private boolean bruteForceRemove(K key, int index) {
+		for (int i=0; i < entries.length; i++){
+			if(validEntry(i)){
+				entries[i].getKey().equals(key);
+				entries[i] = TOMBSTONE; //Lay the Entry to rest
+				this.size--; 			//decrement size and remove from keys
+		
+				//If current loadFactor (Entries/ArrayLength) is 1/4loadFactor or less
+				if( this.size > 0 && ((double)size/capacity) <= loadFactor/4) { 
+					this.scale(capacity/2); //loadFactor|0.75*1/4 = .1875 = 18.75% full
+				} //Also need 1 entry or more, size > 0 so we don't halve unnecessarily
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private void printNeighbors(int i){
+		if(validIndex(-(i+1))) System.out.println("Index @ " + -(i+1) +"| " + entries[-(i+1)]);
+		if(validIndex(-i)) System.out.println("Index @ " + -(i) + "| " +entries[-i]);
+		if(validIndex(-(i-1))) System.out.println("Index @ " + -(i-1) + "| " +entries[-(i-1)]);
+	}
+
 	/**
 	 * Remove the entry corresponding to the given key
 	 * 
@@ -350,9 +374,7 @@ public class HashMap<K, V> {
 			if(i >0) { System.out.print("\nKey @ Index is: " + entries[i].getKey().toString()); }
 			System.out.println(" compared to parameter key: " + key);
 			if( i < 0 ) {
-				System.out.println("Index @ " + -(i+1) + entries[-(i+1)]);
-				System.out.println("Index @ " + -(i) + entries[-i]);
-				System.out.println("Index @ " + -(i-1) + entries[-(i-1)]);
+				printNeighbors(i);
 			}
 		}
 
@@ -384,6 +406,9 @@ public class HashMap<K, V> {
 				} //Also need 1 entry or more, size > 0 so we don't halve unnecessarily
 
 				return true;
+			}
+			if(!doRemoval && BRUTEFORCE) {
+				return bruteForceRemove(key, i);
 			}
 		}
 
