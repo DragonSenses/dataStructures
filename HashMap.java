@@ -11,7 +11,8 @@ import java.util.Random;
  * @param <V>	The value you store, associated with a key
  */
 public class HashMap<K, V> {
-	public static final boolean TESTING = true;
+	public static final boolean TESTING = false; 
+	public static final boolean TESTING_REMOVE = true;
 	/**
 	 * HashMapEntry class represents the Hash Map Entries of Key-Value pairs.
 	 * @param <K>		Keys
@@ -325,17 +326,20 @@ public class HashMap<K, V> {
 		if(isEmpty()) { return false; } //Empty Map -> no Keys to remove
 		
 		int i = findIndex(key,hash(key)); 
-		if (TESTING){
+		if (TESTING_REMOVE){
 			System.out.print("Index found within Remove(): " + i);
-			if(i >0) { System.out.print("Key @ Index is: " + entries[i].getKey().toString()); }
+			if(i >0) { System.out.print("\nKey @ Index is: " + entries[i].getKey().toString()); }
 			System.out.println(" compared to parameter key: " + key);
-			if( i < 0 && i != -1) {
+			if( i < 0 ) {
 				System.out.println(entries[-i]);
-				this.toString();
+				
 			}
 		}
 
-		if (i < 0) { return false; } //Negative Index implies no Entry for Key
+		//Negative Index implies no Entry for Key
+		if (i < 0 ) { 
+			return false;
+		}
 		entries[i] = TOMBSTONE; //Lay the Entry to rest
 		this.size--; 			//decrement size and remove from keys
 		
