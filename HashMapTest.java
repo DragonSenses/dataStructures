@@ -326,11 +326,11 @@ public class HashMapTest {
 	public void removeTwo(){
 		List<String> expectedKeys = new ArrayList<>(0);
 		testMap.put("A", "65");
-		testMap.put("B","66");		assertEquals(true,testMap.remove("B"));
-
-
+		testMap.put("B","66");		
+		
 		assertEquals(true,testMap.remove("A"));
-
+		assertEquals(true,testMap.remove("B"));
+		
 		actualKeys = testMap.keys();
 		Collections.sort(actualKeys);
 		assertAll("testMap",

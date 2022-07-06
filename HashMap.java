@@ -371,8 +371,8 @@ public class HashMap<K, V> {
 
 			if (TESTING_REMOVE && doRemoval){
 				System.out.println("KEYS MATCH");
-				System.out.println("Removing Entry @ Index: " + -(i-1));
-				System.out.println(entries[-(i-1)]);
+				System.out.println("Removing Entry @ Index: " + i);
+				System.out.println(entries[i]);
 			}
 			if(doRemoval){
 				entries[i] = TOMBSTONE; //Lay the Entry to rest
@@ -382,6 +382,8 @@ public class HashMap<K, V> {
 				if( this.size > 0 && ((double)size/capacity) <= loadFactor/4) { 
 					this.scale(capacity/2); //loadFactor|0.75*1/4 = .1875 = 18.75% full
 				} //Also need 1 entry or more, size > 0 so we don't halve unnecessarily
+
+				return true;
 			}
 		}
 
