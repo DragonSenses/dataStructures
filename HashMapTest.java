@@ -5,7 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.AfterEach;
 // import static org.junit.jupiter.api.Assertions.fail;
 // import static org.junit.jupiter.api.Assumptions.assumeTrue;
-// import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -25,6 +25,7 @@ public class HashMapTest {
 	private HashMap<String, String> mapWithCap; // use for testing proper rehashing
     protected HashMap<String, String> negSizedMap;
 	protected HashMap<String, String> zeroSizedMap;
+	List<String> resultKeys; //List of keys of our test map
 	public static final String TEST_KEY = "Test Key";
 	public static final String TEST_VAL = "Test Value";
 	public static final String ILLEGAL_ARG_CAPACITY = "Initial Capacity must be non-negative";
@@ -35,6 +36,7 @@ public class HashMapTest {
 	public void setUp() {
 		testMap = new HashMap<>();
 		mapWithCap = new HashMap<>(4, HashMap.DEFAULT_LOAD_FACTOR);
+		resultKeys = new ArrayList<String>();
 	}
 
 	@AfterEach
@@ -42,6 +44,10 @@ public class HashMapTest {
 		List<String> keys = testMap.keys();
 		for(String k: keys){
 			testMap.remove(k);
+		}
+		keys = mapWithCap.keys();
+		for(String k: keys){
+			mapWithCap.remove(k);
 		}
 	}
 
@@ -103,14 +109,14 @@ public class HashMapTest {
 	}
 
 	@Test
-	public void testPut_nullKey() {
+	public void putNullKey() {
 		IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
 			()-> testMap.put(null, TEST_VAL));
 		assertEquals(ILLEGAL_ARG_NULL_KEY,e.getMessage());
 	}
 
 	@Test
-	public void testKeys_nonEmptyMap() {
+	public void keysNonEmptyMap() {
 		// You don't have to use array list 
 		// This test will work with any object that implements List
 		List<String> expectedKeys = new ArrayList<>(5);
@@ -212,4 +218,31 @@ public class HashMapTest {
 		String expected = print(testMap);
 		assertEquals(expected,testMap.toString());
 	}
+
+	@Test
+	public void removeOneKey(){
+		List<String> expectedKeys = new ArrayList<>(5);
+		for(int i = 0; i < 5; i++) {
+			// key + i is used to differentiate keys since they must be unique
+			testMap.put(TEST_KEY + i, TEST_VAL + i);
+			expectedKeys.add(TEST_KEY + i);
+		}
+		resultKeys = testMap.keys();
+		// we need to sort because hash map doesn't guarantee ordering
+		Collections.sort(resultKeys);
+		assertAll("testMap",
+			() -> assertEquals(expectedKeys, resultKeys),
+			() -> assertEquals(expectedKeys.size(),resultKeys.size()),
+			() -> assertEquals(true,testMap.remove(TEST_KEY + "0"))
+		);
+
+		expectedKeys.remove(TEST_KEY + "0");
+		resultKeys = testMap.keys();
+		Collections.sort(resultKeys);
+		assertEquals(expectedKeys, resultKeys);
+	}
+
+
+
+
 }//EOF
