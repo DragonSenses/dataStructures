@@ -11,6 +11,7 @@ import java.util.Random;
  * @param <V>	The value you store, associated with a key
  */
 public class HashMap<K, V> {
+	//For Debugging Purposes
 	public static final boolean TESTING = false; 
 	public static final boolean TESTING_REMOVE = true;
 	/**
@@ -211,6 +212,24 @@ public class HashMap<K, V> {
 	}
 	
 	/**
+	 * Checks if incoming parameter is a valid index
+	 * @param i		The index to check
+	 * @return		True if index is in the range of [0, n-1)
+	 */
+	private boolean validIndex(int i){
+		return i >= 0 && i < entries.length-1; 
+	}
+
+	/**
+	 * Checks if incoming index parameter has a valid entry
+	 * @param i		The index to check for a valid entry
+	 * @return		True if a valid entry at the index exists, false otherwise
+	 */
+	private boolean validEntry(int i){
+		return validIndex(i) && !(isOpen(i));
+	}
+
+	/**
 	 * Checks if the Key at the Index and the Incoming parameter key are equal
 	 * @param i		Index to check in entries array
 	 * @param key	Key to compare
@@ -337,9 +356,36 @@ public class HashMap<K, V> {
 			}
 		}
 
+		if(i<0 && validIndex(-(i))){
+			if (validIndex(-(i+1)) && isOpen()){
+
+			}
+
+			if (TESTING_REMOVE){
+				System.out.println("KEYS MATCH");
+				System.out.println("Removing Entry @ Index: " + -(i-1));
+				System.out.println(entries[-(i-1)]);
+			}
+			entries[-(i-1)] = TOMBSTONE; //Lay the Entry to rest
+			this.size--; 			//decrement size and remove from keys
+		
+			//If current loadFactor (Entries/ArrayLength) is 1/4loadFactor or less
+			if( this.size > 0 && ((double)size/capacity) <= loadFactor/4) { 
+				this.scale(capacity/2); //loadFactor|0.75*1/4 = .1875 = 18.75% full
+			} //Also need 1 entry or more, size > 0 so we don't halve unnecessarily
+		}
+
 		//Negative Index implies no Entry for Key
 		if (i < 0 ) { 
 			return false;
+		}
+
+		if(TESTING_REMOVE) {
+			System.out.println("=============================");
+			System.out.println("SUCCESSFUL REMOVAL OF " + key);
+			System.out.println(entries[i]);
+			System.out.println("Removing Entry @ Index: " + i);
+			System.out.println("=============================");
 		}
 		entries[i] = TOMBSTONE; //Lay the Entry to rest
 		this.size--; 			//decrement size and remove from keys
