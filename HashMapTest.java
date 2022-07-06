@@ -25,7 +25,7 @@ public class HashMapTest {
 	private HashMap<String, String> mapWithCap; // use for testing proper rehashing
     protected HashMap<String, String> negSizedMap;
 	protected HashMap<String, String> zeroSizedMap;
-	List<String> resultKeys; //List of keys of our test map
+	List<String> actualKeys; //List of keys of our test map
 	public static final String TEST_KEY = "Test Key";
 	public static final String TEST_VAL = "Test Value";
 	public static final String ILLEGAL_ARG_CAPACITY = "Initial Capacity must be non-negative";
@@ -36,7 +36,7 @@ public class HashMapTest {
 	public void setUp() {
 		testMap = new HashMap<>();
 		mapWithCap = new HashMap<>(4, HashMap.DEFAULT_LOAD_FACTOR);
-		resultKeys = new ArrayList<String>();
+		actualKeys = new ArrayList<String>();
 	}
 
 	@AfterEach
@@ -125,10 +125,10 @@ public class HashMapTest {
 			testMap.put(TEST_KEY + i, TEST_VAL + i);
 			expectedKeys.add(TEST_KEY + i);
 		}
-		List<String> resultKeys = testMap.keys();
+		actualKeys = testMap.keys();
 		// we need to sort because hash map doesn't guarantee ordering
-		Collections.sort(resultKeys);
-		assertEquals(expectedKeys, resultKeys);
+		Collections.sort(actualKeys);
+		assertEquals(expectedKeys, actualKeys);
 	}
 
 	@Test
@@ -274,19 +274,19 @@ public class HashMapTest {
 			testMap.put(TEST_KEY + i, TEST_VAL + i);
 			expectedKeys.add(TEST_KEY + i);
 		}
-		resultKeys = testMap.keys();
+		actualKeys = testMap.keys();
 		// we need to sort because hash map doesn't guarantee ordering
-		Collections.sort(resultKeys);
+		Collections.sort(actualKeys);
 		assertAll("testMap",
-			() -> assertEquals(expectedKeys, resultKeys),
-			() -> assertEquals(expectedKeys.size(),resultKeys.size()),
+			() -> assertEquals(expectedKeys, actualKeys),
+			() -> assertEquals(expectedKeys.size(),actualKeys.size()),
 			() -> assertEquals(true,testMap.remove(TEST_KEY + "0"))
 		);
 
 		expectedKeys.remove(TEST_KEY + "0");
-		resultKeys = testMap.keys();
-		Collections.sort(resultKeys);
-		assertEquals(expectedKeys, resultKeys);
+		actualKeys = testMap.keys();
+		Collections.sort(actualKeys);
+		assertEquals(expectedKeys, actualKeys);
 	}
 
 	@Test
@@ -304,6 +304,81 @@ public class HashMapTest {
 	}
 
 	@Test
+	public void removeOne(){
+		List<String> expectedKeys = new ArrayList<>(0);
+		// fillMap(testMap,8);
+		// for(int i=0; i<8; i++){
+		// 	assertEquals(true,testMap.remove(String.valueOf(i)));
+		// }
+		testMap.put("A", "65");
+		testMap.remove("A");
+		actualKeys = testMap.keys();
+		Collections.sort(actualKeys);
+		assertAll("testMap",
+			() -> assertEquals(0,testMap.size()),
+			() -> assertEquals(expectedKeys, actualKeys),
+			() -> assertEquals(expectedKeys.size(),actualKeys.size()),
+			() -> assertEquals(true,testMap.isEmpty())
+		);
+	}
+
+	@Test		//Found a bug, after the first removal, the 2nd remove call doesn't work
+	public void removeThree(){
+		List<String> expectedKeys = new ArrayList<>(0);
+		testMap.put("A", "65");
+		testMap.put("B","66");
+		testMap.put("C","67");
+
+		testMap.remove("A");
+		testMap.remove("B");
+		testMap.remove("C");
+
+		actualKeys = testMap.keys();
+		Collections.sort(actualKeys);
+		assertAll("testMap",
+			() -> assertEquals(0,testMap.size()),
+			() -> assertEquals(expectedKeys, actualKeys),
+			() -> assertEquals(expectedKeys.size(),actualKeys.size()),
+			() -> assertEquals(true,testMap.isEmpty())
+		);
+	}
+
+	@Test
+	public void replaceNone(){
+		assertEquals(false,testMap.replace(TEST_KEY,TEST_VAL));
+	}
+
+	@Test
+	public void replaceNull() {
+		fillMap(testMap,4);
+		IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
+			()-> testMap.replace(null, TEST_VAL));
+		assertEquals(ILLEGAL_ARG_NULL_KEY,e.getMessage());
+	}
+
+	@Test
+	public void replace4Entries(){
+		fillMap(testMap,4);
+		List<String> expectedKeys = new ArrayList<>(4);
+		for(int i = 0; i < 4; i++){
+			testMap.replace(String.valueOf(i), String.valueOf(i+60));
+			expectedKeys.add(String.valueOf(i));
+		}
+		actualKeys  = testMap.keys();
+		// we need to sort because hash map doesn't guarantee ordering
+		Collections.sort(actualKeys);
+
+		assertAll("testMap",
+			() -> assertEquals(4,testMap.size()),
+			() -> assertEquals(expectedKeys, actualKeys),
+			() -> assertEquals("60", testMap.get("0")),
+			() -> assertEquals("61", testMap.get("1")),
+			() -> assertEquals("62", testMap.get("2")),
+			() -> assertEquals("63", testMap.get("3"))
+		);
+	}
+
+	@Test
 	public void setNull() {
 		fillMap(testMap,4);
 		IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
@@ -314,11 +389,11 @@ public class HashMapTest {
 	@Test
 	public void setEmptyMap(){
 		testMap.set("1","2");
-		resultKeys = testMap.keys();
+		actualKeys = testMap.keys();
 		List<String> expected = new ArrayList<String>(0);
 		assertAll("testMap",
 			() -> assertEquals(0, testMap.size()),
-			() -> assertEquals(expected, resultKeys),
+			() -> assertEquals(expected, actualKeys),
 			() -> assertEquals(null, testMap.get("1"))
 		);
 	}
@@ -331,17 +406,47 @@ public class HashMapTest {
 			testMap.set(String.valueOf(i), String.valueOf(i+60));
 			expectedKeys.add(String.valueOf(i));
 		}
-		List<String> resultKeys = testMap.keys();
+		actualKeys = testMap.keys();
 		// we need to sort because hash map doesn't guarantee ordering
-		Collections.sort(resultKeys);
+		Collections.sort(actualKeys);
 
 		assertAll("testMap",
 			() -> assertEquals(4,testMap.size()),
-			() -> assertEquals(expectedKeys, resultKeys),
+			() -> assertEquals(expectedKeys, actualKeys),
 			() -> assertEquals("60", testMap.get("0")),
 			() -> assertEquals("61", testMap.get("1")),
 			() -> assertEquals("62", testMap.get("2")),
 			() -> assertEquals("63", testMap.get("3"))
+		);
+	}
+
+	@Test	//Test if set adds 4 new entries to the HashMap
+	public void setFourMoreEntries(){
+		fillMap(testMap,4); // returns with HashMap of size 4
+		List<String> expectedKeys = new ArrayList<>(4);
+		for(int i = 0; i < 4; i++){
+			testMap.set(String.valueOf(i+4), String.valueOf(i+60));
+			expectedKeys.add(String.valueOf(i));
+		}
+		for(int i=4; i < 8; i++){	// Add 4 more keys to expected list
+			expectedKeys.add(String.valueOf(i));
+		}
+
+		actualKeys = testMap.keys();
+		// we need to sort because hash map doesn't guarantee ordering
+		Collections.sort(actualKeys);
+
+		assertAll("testMap",
+			() -> assertEquals(8,testMap.size()),
+			() -> assertEquals(expectedKeys, actualKeys),
+			() -> assertEquals("0", testMap.get("0")),
+			() -> assertEquals("1", testMap.get("1")),
+			() -> assertEquals("2", testMap.get("2")),
+			() -> assertEquals("3", testMap.get("3")),
+			() -> assertEquals("60", testMap.get("4")),
+			() -> assertEquals("61", testMap.get("5")),
+			() -> assertEquals("62", testMap.get("6")),
+			() -> assertEquals("63", testMap.get("7"))
 		);
 	}
 
