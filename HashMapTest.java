@@ -130,6 +130,13 @@ public class HashMapTest {
 		Collections.sort(resultKeys);
 		assertEquals(expectedKeys, resultKeys);
 	}
+
+	@Test
+	public void keysEmptyMap(){
+		List<String> expected = new ArrayList<String>(0);
+		List<String> actual = testMap.keys();
+		assertEquals(expected,actual);
+	}
 	
 
 	@Test 
@@ -242,7 +249,42 @@ public class HashMapTest {
 		assertEquals(expectedKeys, resultKeys);
 	}
 
+	@Test
+	public void removeNone(){
+		fillMap(testMap,8);
+		assertEquals(false,testMap.remove(TEST_KEY));
+	}
 
+	@Test
+	public void removeNull() {
+		fillMap(testMap,4);
+		IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
+			()-> testMap.remove(null));
+		assertEquals(ILLEGAL_ARG_NULL_KEY,e.getMessage());
+	}
 
+	@Test
+	public void setNull() {
+		fillMap(testMap,4);
+		IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
+			()-> testMap.set(null,"2"));
+		assertEquals(ILLEGAL_ARG_NULL_KEY,e.getMessage());
+	}
+
+	@Test
+	public void getNull() {
+		fillMap(testMap,4);
+		IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
+			()-> testMap.get(null));
+		assertEquals(ILLEGAL_ARG_NULL_KEY,e.getMessage());
+	}
+
+	@Test
+	public void containsKeyNull(){
+		fillMap(testMap,4);
+		IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
+			()-> testMap.containsKey(null));
+		assertEquals(ILLEGAL_ARG_NULL_KEY,e.getMessage());
+	}
 
 }//EOF
