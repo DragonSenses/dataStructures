@@ -331,8 +331,9 @@ public class HashMap<K, V> {
 			if(i >0) { System.out.print("\nKey @ Index is: " + entries[i].getKey().toString()); }
 			System.out.println(" compared to parameter key: " + key);
 			if( i < 0 ) {
-				System.out.println(entries[-i]);
-				
+				System.out.println("Index @ " + -(i+1) + entries[-(i+1)]);
+				System.out.println("Index @ " + -(i) + entries[-i]);
+				System.out.println("Index @ " + -(i-1) + entries[-(i-1)]);
 			}
 		}
 
