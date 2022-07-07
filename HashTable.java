@@ -146,6 +146,25 @@ public class HashTable<Key, Value> {
 		return (int) ((hashCode * scale + shift) % p); // Positive
 	}
 
+	/**
+	 * Rehashes all of the keys 
+	 * @param i	The starting index to begin rehash
+	 */
+	private void rehash(int i){
+		Key k; 
+		Value v;
+		for(; keys[i] != null; i = (i+1) % capacity){
+			k = keys[i];
+			v = values[i];
+			// Remove the Key,Value pair 
+			keys[i] = null;
+			values[i] = null;
+			//Reduce the size and re-put and rehash the pair into HashTable
+			size--;
+			put(k,v);
+		}
+	}
+
 	 // resizes the hash table to the given capacity by re-hashing all of the keys
 	 private void resize(int capacity) {
         HashTable<Key, Value> table = new HashTable<Key, Value>(capacity);
@@ -159,6 +178,8 @@ public class HashTable<Key, Value> {
         values = table.values;
         capacity = table.capacity;
     }
+
+
 
 	/** Access Methods **/
 
@@ -246,18 +267,46 @@ public class HashTable<Key, Value> {
 	/**
 	 * Remove the entry corresponding to the given key
 	 * 
-	 * @return true if an entry for the given key was removed
 	 * @throws IllegalArgument exception if the key is null
 	 */
-	public boolean remove(Key key) throws IllegalArgumentException {
+	public void remove(Key key) throws IllegalArgumentException {
+		if(!containsKey(key)) { return; } // Check if null key, empty map, or no key exists
 
+		// Get the hashed index of the key
+		int i = hash(key);
+		while(!key.equals(keys[i])){
+			i = (i+1) % capacity;
+		}
+
+		//Remove the key, value pair by setting them both to null
+		keys[i] = null;
+		values[i] = null;
+
+		rehash((i+1)%capacity);
+
+		size--;
 
 		//If current loadFactor (Entries/ArrayLength) is 1/4loadFactor or less
 		if( this.size > 0 && ((double)size/capacity) <= loadFactor/4) { 
 			this.resize(capacity/2); //loadFactor|0.75*1/4 = .1875 = 18.75% full
-		} //Also need 1 entry or more, size > 0 so we don't halve unnecessarily
-		
-		return true; 
+		} 
 	}
 
+	/**
+	 * @return A List containing the keys of this HashTable. If this HashTable is 
+	 * empty, returns ArrayList of length zero. 
+	 */
+	public List<Key> keys() {
+		if (isEmpty()) { return new ArrayList<Key>(0); }
+		
+		List<Key> ring = new ArrayList<Key>();
+		
+		for (int k = 0; k < this.capacity; k++) {
+			if (keys[k] != null) { //if Key,Value pair isn't Null
+				ring.add(k,keys[k]);
+			}
+		}
+		
+		return ring;
+	}
 }
