@@ -103,12 +103,12 @@ public class ChainHashMap<K, V> {
 	/**
 	 * Reszies the underlying bucket array to fit the amount of entries
 	 * 
-	 * @param capacity The factor to scale the bucketArray, either by 2 or 1/2
+	 * @param capacity The new capacity to scale the bucketArray by
 	 */
 	private void resize(int capacity) {
 		ArrayList<Entry<K, V>> temp = bucketArray;
 		bucketArray = new ArrayList<>();
-		numBuckets = numBuckets * capacity;
+		numBuckets = capacity;
 		size = 0; // Reset the size, to rehash all values back into HashMap
 		for (int i = 0; i < numBuckets; i++) { // Create empty chains
 			bucketArray.add(null);
@@ -192,7 +192,7 @@ public class ChainHashMap<K, V> {
 		// If load factor goes beyond threshold, then
 		// double hash table size if ((double)size/capacity > loadFactor)
 		if ((double) size / numBuckets >= loadFactor) {
-			resize(2);
+			resize(2*numBuckets);
 		}
 	}
 
@@ -233,7 +233,12 @@ public class ChainHashMap<K, V> {
 			bucketArray.set(bucketIndex, curr.next);
 		}
 
-		return curr.value;
+		//If current loadFactor (Entries/ArrayLength) is 1/4loadFactor or less
+		if( this.size > 0 && ((double)size/numBuckets) <= loadFactor/4) { 
+			this.resize(numBuckets/2); //loadFactor|0.75*1/4 = .1875 = 18.75% full
+		}
+
+		return curr.getValue();
 	}
 
 	/**
