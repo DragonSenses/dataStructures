@@ -1,7 +1,7 @@
 # dataStructures
 A collection of data structures that I've made to document, maintain, and improve upon.
 
-Data Structures that are Tested and Implemented
+Data Structures that are Implemented, and Tested
 - ArrayList
     - ArrayIterator
 - Linked Lists
@@ -10,13 +10,14 @@ Data Structures that are Tested and Implemented
     - CircularlyLinkedList
 - Stack
 - Queue
-- Heap (Binary Heap)
+- Heap, Binary Heap (BST.java)
 - HashTable
     - Linear Probing (HashTable.java)
+- HashMap
+    - Separate Chaining (ChainHashMap.java)       
 
 Data Structures that are a Work In Progress (Not fully tested or implemented):
 
-- ChainHashMap.java     (Not fully implemented) (Separate Chaining)
 - HashMap.java          (Not fully tested)
 - RedBlackTree.java     (Not fully implemented)
 
