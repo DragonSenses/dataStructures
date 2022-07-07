@@ -21,9 +21,25 @@ public class ChainHashMap<K, V> {
 	// These instance variables will help in preventing a poor hash
 	private long p, scale, shift; // Treats hash function like a math equation
 
+	// Error Messages
+	public static final String ILLEGAL_ARG_CAPACITY = "Initial Capacity must be non-negative";
+	public static final String ILLEGAL_ARG_LOAD_FACTOR = "Load Factor must be positive";
+	public static final String ILLEGAL_ARG_NULL_KEY = "Keys must be non-null";
+
 	/** Constructors **/
 	public ChainHashMap() {
 		this(DEFAULT_INITIAL_CAPACITY);
+	}
+
+	public ChainHashMap(int capacity, double loadFactor) {
+		this(capacity);
+		// Load factor must be a positive value between (0,1]
+		if (loadFactor < 0 || loadFactor > 1) {
+			this.loadFactor = DEFAULT_LOAD_FACTOR;
+			throw new IllegalArgumentException(ILLEGAL_ARG_LOAD_FACTOR);
+		} else {
+			this.loadFactor = loadFactor;
+		}
 	}
 
 	/**
@@ -32,6 +48,13 @@ public class ChainHashMap<K, V> {
 	 * @param capacity The number of buckets that hashMap contains
 	 */
 	public ChainHashMap(int capacity) {
+		if (capacity <= 0) { // non-negative [0, infinity)
+			this.numBuckets = DEFAULT_INITIAL_CAPACITY;
+			throw new IllegalArgumentException(ILLEGAL_ARG_CAPACITY);
+		} else {
+			this.numBuckets = capacity;
+		}
+
 		this.numBuckets = capacity;
 		bucketArray = new ArrayList<>();
 		size = 0;
@@ -123,6 +146,7 @@ public class ChainHashMap<K, V> {
 		}
 	}
 
+	/** Access Methods **/
 	/** @return Number of entries within the HashMap */
 	public int size() {
 		return size;
@@ -138,8 +162,11 @@ public class ChainHashMap<K, V> {
 	 * 
 	 * @param key to use to locate the entry value
 	 * @return The value associated with the key, null otherwise
+	 * @throws IllegalArgumentException if key is null
 	 */
-	public V get(K key) {
+	public V get(K key) throws IllegalArgumentException {
+		if (key == null)
+			throw new IllegalArgumentException(ILLEGAL_ARG_NULL_KEY);
 		// Find head of chain for given key
 		int bucketIndex = hash(key);
 		int hashCode = hashValue(key);
@@ -149,7 +176,7 @@ public class ChainHashMap<K, V> {
 		// Search chain for the given key
 		for (; head != null; head = head.next) {
 			// Both key and given hashCode must match within the chain
-			if (head.key.equals(key) && head.hashCode == hashCode) {
+			if (head.getKey().equals(key) && head.getHashCode() == hashCode) {
 				return head.value;
 			}
 		}
@@ -158,13 +185,17 @@ public class ChainHashMap<K, V> {
 		return null;
 	}
 
+	/** Update Methods **/
 	/**
 	 * Adds a Entry or Key, Value pair to the HashMap
 	 * 
 	 * @param key   The key to add
 	 * @param value The value associated with the key
+	 * @throws IllegalArgumentException if key is null
 	 */
-	public void put(K key, V value) {
+	public void put(K key, V value) throws IllegalArgumentException {
+		if (key == null)
+			throw new IllegalArgumentException(ILLEGAL_ARG_NULL_KEY);
 		// Find head of chain for given key
 		int bucketIndex = hash(key);
 		int hashCode = hashValue(key);
@@ -192,19 +223,22 @@ public class ChainHashMap<K, V> {
 		// If load factor goes beyond threshold, then
 		// double hash table size if ((double)size/capacity > loadFactor)
 		if ((double) size / numBuckets >= loadFactor) {
-			resize(2*numBuckets);
+			resize(2 * numBuckets);
 		}
 	}
 
 	/**
 	 * Removes the entry given the corressponding key
-	 * @param key	The key to locate entry with
-	 * @return		The value associated to the key, null otherwise
+	 * 
+	 * @param key The key to locate entry with
+	 * @return The value associated to the key, null otherwise
+	 * @throws IllegalArgumentException if key is null
 	 */
-	public V remove(K key) {
-
-		int bucketIndex = hash(key);	// Apply hash function to find index for given key
-		int hashCode = hashValue(key);  // Store its associated hashCode
+	public V remove(K key) throws IllegalArgumentException {
+		if (key == null)
+			throw new IllegalArgumentException(ILLEGAL_ARG_NULL_KEY);
+		int bucketIndex = hash(key); // Apply hash function to find index for given key
+		int hashCode = hashValue(key); // Store its associated hashCode
 		// Get head of chain
 		Entry<K, V> curr = bucketArray.get(bucketIndex);
 		Entry<K, V> prev = null;
@@ -212,7 +246,9 @@ public class ChainHashMap<K, V> {
 		// Iterate through chain for the given key
 		while (curr != null) {
 			// Key Search success
-			if (curr.getKey().equals(key) && hashCode == curr.getHashCode()) { break; }
+			if (curr.getKey().equals(key) && hashCode == curr.getHashCode()) {
+				break;
+			}
 
 			// Else keep moving in chain
 			prev = curr;
@@ -220,7 +256,9 @@ public class ChainHashMap<K, V> {
 		}
 
 		// If key was not there
-		if (curr == null) { return null; }
+		if (curr == null) {
+			return null;
+		}
 
 		// Successful removal, decrement size
 		size--;
@@ -228,14 +266,13 @@ public class ChainHashMap<K, V> {
 		// Remove key
 		if (prev != null) {
 			prev.next = curr.next;
-		}
-		else {
+		} else {
 			bucketArray.set(bucketIndex, curr.next);
 		}
 
-		//If current loadFactor (Entries/ArrayLength) is 1/4loadFactor or less
-		if( this.size > 0 && ((double)size/numBuckets) <= loadFactor/4) { 
-			this.resize(numBuckets/2); //loadFactor|0.75*1/4 = .1875 = 18.75% full
+		// If current loadFactor (Entries/ArrayLength) is 1/4loadFactor or less
+		if (this.size > 0 && ((double) size / numBuckets) <= loadFactor / 4) {
+			this.resize(numBuckets / 2); // loadFactor|0.75*1/4 = .1875 = 18.75% full
 		}
 
 		return curr.getValue();
