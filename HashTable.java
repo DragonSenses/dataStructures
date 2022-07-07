@@ -4,13 +4,18 @@ import java.util.Random;
 /**
  * Linear Probing Hash Table.
  * 
+ * Note: No duplicate keys. Null values will delete the keys.
  * @author kendr
  */
 public class HashTable<Key, Value> {
 	/** Instance Variables **/
 	public static final int DEFAULT_INITIAL_CAPACITY = 8;
+	public static final double DEFAULT_LOAD_FACTOR = 0.75; 
+
+	private double loadFactor; // = Entries/Buckets, Size/Capacity, N/C,Fullness
 	private int capacity; // The underlying array capacity for the Hash Table
 	private int size;     // Number of key-value pairs in the Hash Table.
+
 	// Using an underlying generic array to store Key, Value pairs
 	private Key[] keys;
 	private Value[] values;
@@ -21,6 +26,7 @@ public class HashTable<Key, Value> {
 	//Error Messages
 	public static final String ILLEGAL_ARG_CAPACITY = "Initial Capacity must be non-negative";
 	public static final String ILLEGAL_ARG_NULL_KEY = "Keys must be non-null";
+	public static final String ILLEGAL_ARG_LOAD_FACTOR = "Load Factor must be positive";
 
 	/** Constructors **/
 	public HashTable() {
@@ -30,9 +36,8 @@ public class HashTable<Key, Value> {
 	/**
 	 * HashTable Constructor.
 	 * 
-	 * @param initialCapacity the initial capacity of this HashMap
-	 * @throws IllegalArgumentException if initialCapacity is negative or loadFactor
-	 *                                  not positive
+	 * @param initialCapacity the initial capacity of this Hashtable
+	 * @throws IllegalArgumentException if initialCapacity is negative
 	 */
 	@SuppressWarnings("unchecked")
 	public HashTable(int initialCapacity) throws IllegalArgumentException {
@@ -45,6 +50,7 @@ public class HashTable<Key, Value> {
 		keys = (Key[]) new Object[capacity];
 		values = (Value[]) new Object[capacity];
 		this.size = 0;
+		this.loadFactor = DEFAULT_LOAD_FACTOR;
 
 		// Set the prime, shift, scale to make a hashFunction later
 		// Prime numbers to choose from: 29; 73; 5039; 314,159; 27644437 ;
@@ -52,6 +58,42 @@ public class HashTable<Key, Value> {
 		Random r = new Random(); // y = scale*f(x) + shift
 		this.shift = r.nextInt((int) p); // a vertical shift
 		this.scale = r.nextInt((int) p - 1) + 1; // a vertical scale, stretch
+	}
+
+	/**
+	 * HashTable Constructor that allows one to set a loadFactor.
+	 * @param initialCapacity the initial capacity of this HashTable
+	 * @param loadFactor the load factor for rehashing this HashTable
+	 * @throws IllegalArgumentException if initialCapacity is negative or loadFactor is 
+	 * 									non positive
+	 */
+	@SuppressWarnings("unchecked")
+	public HashTable(int initialCapacity, double loadFactor) throws IllegalArgumentException {
+		if(initialCapacity <= 0) { //non-negative [0, infinity)
+			this.capacity = DEFAULT_INITIAL_CAPACITY;
+			throw new IllegalArgumentException(ILLEGAL_ARG_CAPACITY);
+		} else {
+			this.capacity = initialCapacity;
+		}
+
+		//Load factor must be a positive value between (0,1]
+		if(loadFactor < 0 || loadFactor > 1) { 
+			this.loadFactor = DEFAULT_LOAD_FACTOR;
+			throw new IllegalArgumentException(ILLEGAL_ARG_LOAD_FACTOR);
+		} else {
+			this.loadFactor = loadFactor;
+		}
+		
+		keys = (Key[]) new Object[capacity];
+		values = (Value[]) new Object[capacity];
+		this.size = 0;
+		
+		//Set the prime, shift, scale to make a hashFunction later
+		//Prime numbers to choose from: 29; 73;  5039; 314,159; 27644437 ; 
+		this.p = 131071; //2^17 -1 = 131071 ; 1001001
+		Random r = new Random();				//y = scale*f(x) + shift
+		this.shift = r.nextInt((int)p); 		//a vertical shift
+		this.scale = r.nextInt((int)p-1)+1; 	//a vertical scale, stretch
 	}
 
 	/**
@@ -104,6 +146,20 @@ public class HashTable<Key, Value> {
 		return (int) ((hashCode * scale + shift) % p); // Positive
 	}
 
+	 // resizes the hash table to the given capacity by re-hashing all of the keys
+	 private void resize(int capacity) {
+        HashTable<Key, Value> table = new HashTable<Key, Value>(capacity);
+        for (int k = 0; k < capacity; k++) {
+            if (keys[k] != null) {
+                table.put(keys[k], values[k]);
+            }
+        }
+		// Relink the instance variables to the new table
+        keys = table.keys;
+        values = table.values;
+        capacity = table.capacity;
+    }
+
 	/** Access Methods **/
 
 	/**
@@ -149,6 +205,59 @@ public class HashTable<Key, Value> {
 		if(key == null) { throw new IllegalArgumentException(ILLEGAL_ARG_NULL_KEY); }
 		if(isEmpty()) { return false; } //Empty Map -> no Keys
 		return get(key) != null;
+	}
+
+	/**
+	 * Adds the specified key, value pair to this HashTable. Overwrites the old value
+	 * with a new value if the HashTable already contains the key. Deletes the key and
+	 * value from the table if the value is null.
+	 * 
+	 * Note: duplicate keys are not allowed
+	 * @param key the key to check for
+	 * @param value the value associated with key
+	 * @throws IllegalArgument exception if the key is null
+	 */
+	public void put(Key key, Value value) throws IllegalArgumentException {
+		if (key == null) { throw new IllegalArgumentException(ILLEGAL_ARG_NULL_KEY); }
+
+		if(value == null) { 
+			remove(key);
+			return;
+		}
+
+		//Floating-point division on two integers, explicit/implicit cast
+		if((double)size/capacity > loadFactor) { this.resize(capacity*2); }  
+		
+		//Search the array circularly for the next available index
+		//If an open spot is found, put the key,value pair; Otherwise if a key matches
+		//Set its value
+		int index;
+		for(index = hash(key); keys[index] != null; index = (index+1) % capacity){
+			if (keys[index].equals(key)) {	// Does a matching key exist?
+                values[index] = value;		// Set its value and return from the function
+                return;	
+            }
+		}
+		keys[index] = key;
+        values[index] = value;
+        size++;
+	}
+
+	/**
+	 * Remove the entry corresponding to the given key
+	 * 
+	 * @return true if an entry for the given key was removed
+	 * @throws IllegalArgument exception if the key is null
+	 */
+	public boolean remove(Key key) throws IllegalArgumentException {
+
+
+		//If current loadFactor (Entries/ArrayLength) is 1/4loadFactor or less
+		if( this.size > 0 && ((double)size/capacity) <= loadFactor/4) { 
+			this.resize(capacity/2); //loadFactor|0.75*1/4 = .1875 = 18.75% full
+		} //Also need 1 entry or more, size > 0 so we don't halve unnecessarily
+		
+		return true; 
 	}
 
 }
