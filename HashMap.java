@@ -152,6 +152,7 @@ public class HashMap<K, V> {
 		
 		this.entries[-(i+1)] = new HashMapEntry<K,V>(key,value);
 		this.size++;
+		if(TESTING_REMOVE) { print(); }
 		return true;
 	}
 	
@@ -274,25 +275,17 @@ public class HashMap<K, V> {
 	 */
 	private int findIndex(K key, int hash) {
 		int open = -1;		 //No index is open
-		int i = hash; 		 //temp index to use while going through entries
+		int i = hash; 		 //index that scans through entries
 		
-		if(isOpen(i)) { //Is the first hash Index NULL(empty) or TOMBSTONE
-			if(open == -1) { open = i; }  //Set the First Hash Index as Open
-			if(entries[i] == null) { return -(open+1); } //null --> Its Empty
-		} else if (keysMatch(i,key)) { //Occupied index, check if keys match
-			return i; //return the index of the entry, end search
-		}
-		i = (i+1) % capacity; //Increment by 1, circularly across array
-		
-		//Continue the search until we are back @ Square 1: Hash Index
-		for(;i != hash; i = (i+1) % capacity) { 
-			if(isOpen(i)) {
-				if(open == -1) { open = i; } //mark the first open index
-				if(entries[i] == null) { break; } //Null-> Empty -> End Search 
-			} else if (keysMatch(i,key)) { //An Entry is there --> check keys
+		do {
+			if(isOpen(i)){ //Is the hash Index NULL(empty) or TOMBSTONE
+				if(open == -1) { open = i; }  	  // The first open slot
+				if(entries[i] == null) { break; } // Empty Entry, Search Fails
+			} else if(keysMatch(i,key)){ //An Entry is there --> check keys
 				return i; //keys match! Return positive number i:between [0,N-1]
 			}
-		} //At this point we got no matches, keep looking
+			i = (i+1) % capacity; // Keep Searching through entries cyclically
+		} while( i != hash); 	  // End Search if we return to the starting index
 
 		/* If we arrive at this point, then: Search has FAILED because of
 		 * 1) break; So we found an empty open address, the key did not exist
@@ -353,6 +346,7 @@ public class HashMap<K, V> {
 	}
 
 	private void printNeighbors(int i){
+		// System.out.println(this.toString());
 		if(validIndex(-(i+1))) System.out.println("Index @ " + -(i+1) +"| " + entries[-(i+1)]);
 		if(validIndex(-i)) System.out.println("Index @ " + -(i) + "| " +entries[-i]);
 		if(validIndex(-(i-1))) System.out.println("Index @ " + -(i-1) + "| " +entries[-(i-1)]);
@@ -430,6 +424,7 @@ public class HashMap<K, V> {
 			System.out.println(entries[i]);
 			System.out.println("Removing Entry @ Index: " + i);
 			System.out.println("=============================");
+			print();
 		}
 		entries[i] = TOMBSTONE; //Lay the Entry to rest
 		this.size--; 			//decrement size and remove from keys
@@ -570,11 +565,21 @@ public class HashMap<K, V> {
 		
 	}
 
+	private String toStringIndex(){
+		List<K> keys = this.keys();
+		StringBuilder str = new StringBuilder("[");
+        for (int k = 0; k < keys.size(); k++) {
+            if (k > 0) { str.append(", "); }
+            str.append(k);
+        }
+        str.append("]");
+        return str.toString();
+	}
 
 	@Override
 	public String toString(){
 		List<K> keys = this.keys();
-
+		
 		StringBuilder str = new StringBuilder("[");
         for (int k = 0; k < keys.size(); k++) {
             if (k > 0) { str.append(", "); }
@@ -585,6 +590,7 @@ public class HashMap<K, V> {
 	}
 
 	public void print(){
+		System.out.println(toStringIndex());
 		System.out.println(this.toString());
 	}
 
