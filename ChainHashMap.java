@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 /**
  * Separate Chaining HashMap implementation. 
  * @author kendr
