@@ -1,3 +1,4 @@
+import java.util.Objects;
 import java.util.Random;
 
 /**
@@ -9,7 +10,10 @@ public class HashTable<Key, Value> {
 	/** Instance Variables **/
 	public static final int DEFAULT_INITIAL_CAPACITY = 8;
 	private int capacity; // The underlying array capacity for the Hash Table
-	private int size; // Number of key-value pairs in the Hash Table
+	private int size;     // Number of key-value pairs in the Hash Table.
+	// Using an underlying generic array to store Key, Value pairs
+	private Key[] keys;
+	private Value[] values;
 
 	// These instance variables will help in preventing a poor hash
 	private long p, scale, shift; // Treats hash function like a math equation
@@ -26,8 +30,7 @@ public class HashTable<Key, Value> {
 	 * 
 	 * @param initialCapacity the initial capacity of this HashMap
 	 * @throws IllegalArgumentException if initialCapacity is negative or loadFactor
-	 *                                  not
-	 *                                  positive
+	 *                                  not positive
 	 */
 	@SuppressWarnings("unchecked")
 	public HashTable(int initialCapacity) throws IllegalArgumentException {
@@ -37,7 +40,8 @@ public class HashTable<Key, Value> {
 		} else {
 			this.capacity = initialCapacity;
 		}
-
+		keys = (Key[]) new Object[capacity];
+		values = (Value[]) new Object[capacity];
 		this.size = 0;
 
 		// Set the prime, shift, scale to make a hashFunction later
@@ -65,9 +69,9 @@ public class HashTable<Key, Value> {
 	 * @param key Key to hash
 	 * @return Returns index based off of hash value of key
 	 */
-	private int hash(K key) {
+	private int hash(Key key) {
 		int hashCode = this.hashValue(key); // positive hash % n = positive index
-		return hashCode % entries.length; // Map the hash code to Entries Array
+		return hashCode % keys.length; // Map the hash code to Entries Array
 	}
 
 	/**
@@ -93,8 +97,10 @@ public class HashTable<Key, Value> {
 	 * @param key The key to apply the hash function
 	 * @return A hashCode we can then compress into a proper index
 	 */
-	private int hashValue(K key) { // Use Java's Objects hashCode on the key
+	private int hashValue(Key key) { // Use Java's Objects hashCode on the key
 		int hashCode = Math.abs(Objects.hashCode(key));
 		return (int) ((hashCode * scale + shift) % p); // Positive
 	}
+
+
 }
