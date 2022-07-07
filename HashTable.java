@@ -18,7 +18,9 @@ public class HashTable<Key, Value> {
 	// These instance variables will help in preventing a poor hash
 	private long p, scale, shift; // Treats hash function like a math equation
 
+	//Error Messages
 	public static final String ILLEGAL_ARG_CAPACITY = "Initial Capacity must be non-negative";
+	public static final String ILLEGAL_ARG_NULL_KEY = "Keys must be non-null";
 
 	/** Constructors **/
 	public HashTable() {
@@ -53,7 +55,7 @@ public class HashTable<Key, Value> {
 	}
 
 	/**
-	 * Provides the index on the entries array, given by the hash function.
+	 * Provides the index on the underlying array, given by the hash function.
 	 * 
 	 * Assume that key object's hash code will not change. Preferably immutable
 	 * objects such as Strings, primitive wrappers, LocalDate/Time, etc.
@@ -71,7 +73,7 @@ public class HashTable<Key, Value> {
 	 */
 	private int hash(Key key) {
 		int hashCode = this.hashValue(key); // positive hash % n = positive index
-		return hashCode % keys.length; // Map the hash code to Entries Array
+		return hashCode % keys.length; // Map the hash code to Keys[] Array
 	}
 
 	/**
@@ -102,5 +104,51 @@ public class HashTable<Key, Value> {
 		return (int) ((hashCode * scale + shift) % p); // Positive
 	}
 
+	/** Access Methods **/
+
+	/**
+     * Returns the number of key-value pairs in this hash table.
+     *
+     * @return the number of key-value pairs in this hash table
+     */
+    public int size() {
+        return size;
+    }
+
+    /**
+     * Returns true if this hash table is empty.
+     *
+     * @return True if this symbol table is empty;
+     *         false otherwise
+     */
+    public boolean isEmpty() {
+        return size() == 0;
+    }
+
+	/**
+     * Returns the value associated with the specified key.
+     * @param key the key used to get the value
+     * @return the Value associated with the key, null otherwise
+     * @throws IllegalArgumentException if key is null
+     */
+    public Value get(Key key) {
+        if (key == null) throw new IllegalArgumentException(ILLEGAL_ARG_NULL_KEY);
+        for (int i = hash(key); keys[i] != null; i = (i + 1) % capacity) {
+            if (keys[i].equals(key)) {
+                return values[i];
+			}
+		}
+        return null;
+    }
+
+	/**
+	 * @return true if the specified key is in this HashMap; false otherwise
+	 * @throws IllegalArgument exception if the key is null
+	 */
+	public boolean containsKey(Key key) throws IllegalArgumentException {
+		if(key == null) { throw new IllegalArgumentException(ILLEGAL_ARG_NULL_KEY); }
+		if(isEmpty()) { return false; } //Empty Map -> no Keys
+		return get(key) != null;
+	}
 
 }
