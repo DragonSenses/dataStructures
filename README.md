@@ -12,10 +12,11 @@ Data Structures that are Tested and Implemented
 - Queue
 - Heap (Binary Heap)
 - HashTable
-    - Linear Probing
+    - Linear Probing (HashTable.java)
 
 Data Structures that are a Work In Progress (Not fully tested or implemented):
 
+- ChainHashMap.java     (Not fully implemented) (Separate Chaining)
 - HashMap.java          (Not fully tested)
 - RedBlackTree.java     (Not fully implemented)
 
