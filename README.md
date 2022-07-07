@@ -10,7 +10,9 @@ Data Structures that are Tested and Implemented
     - CircularlyLinkedList
 - Stack
 - Queue
-- Binary Heap
+- Heap (Binary Heap)
+- HashTable
+    - Linear Probing
 
 Data Structures that are a Work In Progress (Not fully tested or implemented):
 
