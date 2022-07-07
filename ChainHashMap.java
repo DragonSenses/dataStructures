@@ -28,7 +28,8 @@ public class ChainHashMap<K, V> {
 
 	/**
 	 * Constructor that allows flexible capacity
-	 * @param capacity	The number of buckets that hashMap contains
+	 * 
+	 * @param capacity The number of buckets that hashMap contains
 	 */
 	public ChainHashMap(int capacity) {
 		this.numBuckets = capacity;
@@ -101,14 +102,15 @@ public class ChainHashMap<K, V> {
 
 	/**
 	 * Reszies the underlying bucket array to fit the amount of entries
-	 * @param capacity	The factor to scale the bucketArray, either by 2 or 1/2
+	 * 
+	 * @param capacity The factor to scale the bucketArray, either by 2 or 1/2
 	 */
 	private void resize(int capacity) {
 		ArrayList<Entry<K, V>> temp = bucketArray;
 		bucketArray = new ArrayList<>();
 		numBuckets = numBuckets * capacity;
-		size = 0; //Reset the size, to rehash all values back into HashMap
-		for (int i = 0; i < numBuckets; i++) { //Create empty chains
+		size = 0; // Reset the size, to rehash all values back into HashMap
+		for (int i = 0; i < numBuckets; i++) { // Create empty chains
 			bucketArray.add(null);
 		}
 
@@ -189,9 +191,49 @@ public class ChainHashMap<K, V> {
 
 		// If load factor goes beyond threshold, then
 		// double hash table size if ((double)size/capacity > loadFactor)
-		if ((double)size / numBuckets >= loadFactor) {
+		if ((double) size / numBuckets >= loadFactor) {
 			resize(2);
 		}
+	}
+
+	/**
+	 * Removes the entry given the corressponding key
+	 * @param key	The key to locate entry with
+	 * @return		The value associated to the key, null otherwise
+	 */
+	public V remove(K key) {
+
+		int bucketIndex = hash(key);	// Apply hash function to find index for given key
+		int hashCode = hashValue(key);  // Store its associated hashCode
+		// Get head of chain
+		Entry<K, V> curr = bucketArray.get(bucketIndex);
+		Entry<K, V> prev = null;
+
+		// Iterate through chain for the given key
+		while (curr != null) {
+			// Key Search success
+			if (curr.getKey().equals(key) && hashCode == curr.getHashCode()) { break; }
+
+			// Else keep moving in chain
+			prev = curr;
+			curr = curr.next;
+		}
+
+		// If key was not there
+		if (curr == null) { return null; }
+
+		// Successful removal, decrement size
+		size--;
+
+		// Remove key
+		if (prev != null) {
+			prev.next = curr.next;
+		}
+		else {
+			bucketArray.set(bucketIndex, curr.next);
+		}
+
+		return curr.value;
 	}
 
 	/**
