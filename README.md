@@ -17,6 +17,12 @@ Implemented but needs testing:
     - Linear Probing (HashTable.java)
 - HashMap
     - Separate Chaining (ChainHashMap.java)       
+- Stack
+- Queue
+
+Interfaces 
+- List
+- Map
 
 Data Structures that are a Work In Progress (Not fully tested or implemented):
 
