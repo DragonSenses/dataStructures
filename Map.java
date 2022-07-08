@@ -2,14 +2,10 @@ import java.util.Map.Entry;
 
 /**
  * A Map is an abstract data type designed to efficiently store and retrieve
- * values
- * based upon a uniquely identifying search key for each. Specifically, a map
- * stores
- * key-value pairs <K,V> (which we call entries), where K is the key and V is
- * its
- * corressponding value. Keys are required to be unique, so that the association
- * of
- * keys to values defines a mapping.
+ * values based upon a uniquely identifying search key for each. Specifically,
+ * a map stores key-value pairs <K,V> (which we call entries), where K is the
+ * key and V is its corressponding value. Keys are required to be unique, so 
+ * that the association of keys to values defines a mapping.
  * 
  * Maps are also known as associative arrays, because the Entry's key serves
  * like an index into the map, in that it assists the map in efficiently location
@@ -17,7 +13,7 @@ import java.util.Map.Entry;
  * be numeric (example: index of an array), and does not directly designate a
  * position within the structure.
  * 
- * Examples of Maps:
+ * Application of Maps:
  * - Web, whose entries are web pages. <Key = URL, Value = Page Content>
  * - Domain-Name System (DNS) maps a host name such as https://myanimelist.net
  *   to an Internet-Protocol (IP) address <Key = hostname, Value = IP Address>
