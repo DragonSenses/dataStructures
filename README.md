@@ -11,6 +11,8 @@ Data Structures that are Implemented, and Tested
 - Stack
 - Queue
 - Heap, Binary Heap (BST.java)
+
+Implemented but needs testing:
 - HashTable
     - Linear Probing (HashTable.java)
 - HashMap
