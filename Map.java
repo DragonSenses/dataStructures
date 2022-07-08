@@ -12,21 +12,17 @@ import java.util.Map.Entry;
  * keys to values defines a mapping.
  * 
  * Maps are also known as associative arrays, because the Entry's key serves
- * like an
- * index into the map, in that it assists the map in efficiently location the
- * associated entry. Unlike a standard array, a key of a map does not need to be
- * numeric (example: index of an array), and does not directly designate a
- * position
- * within the structure.
+ * like an index into the map, in that it assists the map in efficiently location
+ * the associated entry. Unlike a standard array, a key of a map does not need to
+ * be numeric (example: index of an array), and does not directly designate a
+ * position within the structure.
  * 
  * Examples of Maps:
  * - Web, whose entries are web pages. <Key = URL, Value = Page Content>
  * - Domain-Name System (DNS) maps a host name such as https://myanimelist.net
- * to
- * an Internet-Protocol (IP) address <Key = hostname, Value = IP Address>
- * - A customer base may be stored as a map, with <Key = Customer Account
- * Number,
- * Value = Customer Information>
+ *   to an Internet-Protocol (IP) address <Key = hostname, Value = IP Address>
+ * - A customer base may be stored as a map, with 
+ *          <Key = Customer Account Number, Value = Customer Information>
  * - Computer graphics may map a color name to RGB values <"Violet", 155,38,182>
  * 
  *                           NOTE: Treatment of Null
