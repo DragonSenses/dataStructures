@@ -55,8 +55,54 @@ public class SortedTableMap <K,V> {
         this.comp = comp;
     }
 
+    /** Access Methods **/
+    /**
+     * Returns the number of entries in the map
+     * @return  the number of entries in the map
+     */
+    public int size(){
+        return table.size();
+    }
 
-}
+    /**
+     * Tests whether the map is empty
+     * @return true if the map is empty, false otherwise
+     */
+    public boolean isEmpty(){
+        return size() == 0;
+    }
+
+    /**
+     * A recursive binary search algorithm which returns the index of the entry 
+     * with target key (since keys are unique in a map). Otherwise, it returns 
+     * the smallest index for a given search range within the table, [lo..hi] 
+     * inclusive, storing an entry with a key greater than or equal to given k.
+     * If no such element exists, returns index hi+1 (or index just beyond the
+     * end of the search range). 
+     * @param key the target key to search for
+     * @param lo  the lowest index of the relevant table range
+     * @param hi  the highest index of the relevant table range
+     * @return the index of the target key, otherwise the lowest index i such that 
+     * table[i] has key greater than or equal to given key (if no such entry exists
+     * then index hi+1)
+     */
+    private int findIndex(K key, int lo, int hi){
+
+    }
+
+    /**
+     * Another findIndex with only one parameter, key, which initiates a
+     * search throughout the entire table
+     * @param key The key to search for
+     * @return The index of the key if successful, otherwise index of leftmost
+     * entry within the search range having key greater than or equal to key
+     */
+    private int findIndex(K key) { return findIndex(key,0, table.size()-1); }
+
+
+    /** Update Methods **/
+
+} // end of SortedTableMap Class
 
 /** Comparator Class which compares Entries and Keys*/
 class DefaultComparator<K,V> implements Comparator<K> {
