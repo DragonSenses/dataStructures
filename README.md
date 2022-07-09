@@ -14,7 +14,8 @@ Data Structures that are Implemented
 - HashTable
     - Linear Probing (HashTable.java)
 - HashMap
-    - Separate Chaining (ChainHashMap.java)   
+    - Separate Chaining (ChainHashMap.java)
+- Sorted Map (SortedTableMap.java)   
 
 Interfaces 
 - List
@@ -28,7 +29,6 @@ Implemented but needs testing:
 
 Data Structures that are a Work In Progress (Not fully tested or implemented):
 
-- SortedMap.java
 - HashMap.java          (Not fully tested)
 - RedBlackTree.java     (Not fully implemented)
 
