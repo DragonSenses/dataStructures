@@ -223,8 +223,8 @@ public class SortedTableMap <K,V> {
      * @return entry with least key greater than or equal to given (or null if no such entry)
      * @throws IllegalArgumentException if the key is not compatible with the map
      */
-    public Entry<K,V> cielingEntry(K key){
-
+    public Entry<K,V> cielingEntry(K key) throws IllegalArgumentException {
+        return getEntry(findIndex(key));
     }
 
     /**
@@ -234,8 +234,13 @@ public class SortedTableMap <K,V> {
      * @return entry with greatest key less than or equal to given (or null if no such entry)
      * @throws IllegalArgumentException if the key is not compatible with the map
      */
-    public Entry<K,V> floorEntry(K key){
-
+    public Entry<K,V> floorEntry(K key) throws IllegalArgumentException {
+        int i = findIndex(key);
+        //If index beyond range or is not an exact match
+        if(i == size() || ! key.equals(table.get(i).getKey())){
+            i--; // Look at entry left of the index 
+        } // Otherwise an exact match was found
+        return getEntry(i);
     }
 
     /**
@@ -245,8 +250,8 @@ public class SortedTableMap <K,V> {
      * @return entry with greatest key strictly less than given (or null if no such entry)
      * @throws IllegalArgumentException if the key is not compatible with the map
      */
-    public Entry<K,V> lowerEntry(K key){
-
+    public Entry<K,V> lowerEntry(K key) throws IllegalArgumentException {
+        return getEntry(findIndex(key) -1); // Go strictly before the cielingEntry
     }
 
     /**
@@ -256,8 +261,12 @@ public class SortedTableMap <K,V> {
      * @return entry with least key strictly greater than given (or null if no such entry)
      * @throws IllegalArgumentException if the key is not compatible with the map
      */
-    public Entry<K,V> higherEntry(K key){
-
+    public Entry<K,V> higherEntry(K key) throws IllegalArgumentException {
+        int i = findIndex(key);
+        if(i < size() && key.equals(table.get(i).getKey())){
+            i++; // If we found an exact match, go past it
+        }
+        return getEntry(i);
     }
 
     /**
