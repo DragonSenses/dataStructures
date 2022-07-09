@@ -22,6 +22,7 @@ Interfaces
 - Map
 
 Implemented but needs testing:
+- SortedTableMap
 - HashTable
 - ChainHashMap
 - Stack
