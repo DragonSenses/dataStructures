@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.Map.Entry;
 
 /**
  * A Sorted Map provides a total ordering on its keys. This map is 
@@ -30,7 +32,15 @@
  * to the key and <Flight Number, Number of Seats, Flight Duration, Fare> as
  * values. Where to satisfy users' queries a sorted map would do better than
  * a simple matter of finding an exact match for a requested query.
+ * 
+ * Implementation: Sorted Search Table, where we store the map's entries in
+ * an Array List such that the keys are in increasing order. The table has
+ * a space requirement of O(n). An advantage of using an array-based search
+ * table is one can use Binary Search to determine whether a target key is 
+ * found; in the case of an unsuccessful search, the algorithm can determine
+ * a pair of indices that are just less than or just greater than the missing
+ * target key - an inexact search. 
  */
-public class SortedMap {
-    
+public class SortedTableMap <K,V> {
+    private ArrayList<Entry<K,V>> table = new ArrayList<>(); 
 }
