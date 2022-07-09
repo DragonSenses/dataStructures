@@ -46,13 +46,41 @@ public class SortedTableMap <K,V> {
     private ArrayList<Entry<K,V>> table = new ArrayList<>(); // Underlying Entry array
     private Comparator<K> comp;
 
+    // Error Message
+    public static final String ILLEGAL_KEY = "Incompatible Key"; 
+
     /** Constructors **/
-    public SortedTableMap() { 
+    public SortedTableMap() { // Default SortedTableMap uses Natural Ordering of keys
         super(); 
         comp = new DefaultComparator<K,V>();
     }
+    /**
+     * Constructs a Sorted Table map with its own comparator
+     * @param comp  The comparator to use to order keys by
+     */
     public SortedTableMap(Comparator <K> comp) {
-        comp = new DefaultComparator<K,V>();
+        if (comp == null ) { 
+            comp = new DefaultComparator<K,V>();
+        } else {
+            this.comp = comp;
+        }
+    }
+
+    /**
+     * Private helper method that checks the validity of incoming parameter
+     * key. Keys in this implementaion are not allowed to be null. Keys also
+     * should be of the same type in order to be compared and sorted.
+     * @param key Target key to check
+     * @return True if key is invalid, false if key is valid
+     * @throws IllegalArgumentException When incoming parameter key is invalid
+     */
+    private boolean checkKey(K key) throws IllegalArgumentException {
+        // Try checking if key can be compared to itself
+        try {
+            return (comp.compare(key,key) == 0);
+        } catch (ClassCastException e) {
+            throw new IllegalArgumentException(ILLEGAL_KEY);
+        }
     }
 
     /** Access Methods **/
@@ -92,7 +120,7 @@ public class SortedTableMap <K,V> {
         int index = comp.compare(key,table.get(mid).getKey());
 
         if (index == 0) { return mid; } // Exact Match found, return the index
-        
+
         // if index is less than 0, answer is left of mid; Otherwise answer is right of mid
         return (index < 0) ? findIndex(key, lo, mid-1) : findIndex(key,mid+1, hi);
     }
@@ -106,8 +134,18 @@ public class SortedTableMap <K,V> {
      */
     private int findIndex(K key) { return findIndex(key,0, table.size()-1); }
 
-
     /** Update Methods **/
+    public V get(K key) throws IllegalArgumentException {
+        checkKey(key);
+    }
+
+    public V put(K key, V value) throws IllegalArgumentException {
+        checkKey(key);
+    }
+
+    public V remove(K key) throws IllegalArgumentException {
+        checkKey(key);
+    }
 
 } // end of SortedTableMap Class
 
