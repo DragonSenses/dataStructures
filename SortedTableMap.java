@@ -189,6 +189,112 @@ public class SortedTableMap <K,V> {
     }
 
     /**
+     * Private Utility method that returns the entry at index i, or null if i is out 
+     * of bounds [0, size). 
+     * @param i They index of the Entry to retrieve within the table
+     * @return  The Entry at index i, or null if index is out of bounds
+     */
+    private Entry<K,V> getEntry(int i) {
+        if(i < 0 || i >= table.size()) { return null; }
+        return table.get(i);
+    }
+
+    /** Additional Methods for the Sorted Map ADT */
+    /**
+     * Returns the entry with the smallest key value (or null, if the map is empty)
+     * @return entry with least key (or null if map is empty)
+     */
+    public Entry<K,V> firstEntry(){
+        return getEntry(0);
+    }
+
+    /**
+     * Returns the entry with the largest key value (or null, if the map is empty)
+     * @return entry with greatest key (or null if map is empty)
+     */
+    public Entry<K,V> lastEntry(){
+        return getEntry(table.size()-1);
+    }
+
+    /**
+     * Returns the entry with least key greater than or equal to given key
+     * (or null if no such key exists).
+     * @param key The key to compare with
+     * @return entry with least key greater than or equal to given (or null if no such entry)
+     * @throws IllegalArgumentException if the key is not compatible with the map
+     */
+    public Entry<K,V> cielingEntry(K key){
+
+    }
+
+    /**
+     * Returns the entry with greatest key less than or equal to given key
+     * (or null if no such key exists).
+     * @param key The key to compare with
+     * @return entry with greatest key less than or equal to given (or null if no such entry)
+     * @throws IllegalArgumentException if the key is not compatible with the map
+     */
+    public Entry<K,V> floorEntry(K key){
+
+    }
+
+    /**
+     * Returns the entry with greatest key strictly less than given key
+     * (or null if no such key exists).
+     * @param key The key to compare with
+     * @return entry with greatest key strictly less than given (or null if no such entry)
+     * @throws IllegalArgumentException if the key is not compatible with the map
+     */
+    public Entry<K,V> lowerEntry(K key){
+
+    }
+
+    /**
+     * Returns the entry with least key strictly greater than given key
+     * (or null if no such key exists).
+     * @param key The key to compare with
+     * @return entry with least key strictly greater than given (or null if no such entry)
+     * @throws IllegalArgumentException if the key is not compatible with the map
+     */
+    public Entry<K,V> higherEntry(K key){
+
+    }
+
+    /**
+     * Takes a snapshot iterator from the given index to the key. 
+     * Private utility method for entrySet() and subMap().
+     * @param start The starting index to iterate from
+     * @param stop  The ending key to end iterator on
+     * @return  Iterable collection of map's entries with a given range
+     */
+    private Iterable<Entry<K,V>> snapshot(int start, K stop){
+        ArrayList<Entry<K,V>> snapshot = new ArrayList<>();
+        int i = start;
+        while(i < table.size() && (stop == null 
+        || comp.compare(stop,table.get(i).getKey()) > 0)) {
+            snapshot.add(table.get(i++));
+        }
+        return snapshot;
+    }
+
+    /**
+     * Returns an iterable collection of all Key-Value entries of the map
+     * @return Iterable collection of the maps entries
+     */
+    public Iterable<Entry<K,V>> entrySet() { return snapshot(0,null); }
+
+    /**
+     * Returns an Iterable containing all the keys in the range from [k1, k2) or k1 
+     * inclusive and k2 exclusive
+     * @param k1 The first key bound within the range, inclusive
+     * @param k2 The next key bound within the range, exclusive
+     * @return iterable with keys in desired range
+     */
+    public Iterable<Entry<K,V>> subMap(K k1, K k2){
+        return snapshot(findIndex(k1), k2);
+    }
+
+    /**
 	 * Map Entry class represents the Entries or Key-Value pairs.
 	 * @param <K>		Keys
 	 * @param <V>		Values
