@@ -1,6 +1,6 @@
 import java.util.ArrayList;
-import java.util.Map.Entry;
 import java.util.Comparator;
+
 
 /**
  * A Sorted Map provides a total ordering on its keys. This map is 
@@ -52,7 +52,7 @@ public class SortedTableMap <K,V> {
     /** Constructors **/
     public SortedTableMap() { // Default SortedTableMap uses Natural Ordering of keys
         super(); 
-        comp = new DefaultComparator<K,V>();
+        comp = new DefaultComparator();
     }
     /**
      * Constructs a Sorted Table map with its own comparator
@@ -60,7 +60,7 @@ public class SortedTableMap <K,V> {
      */
     public SortedTableMap(Comparator <K> comp) {
         if (comp == null ) { 
-            comp = new DefaultComparator<K,V>();
+            comp = new DefaultComparator();
         } else {
             this.comp = comp;
         }
@@ -144,6 +144,10 @@ public class SortedTableMap <K,V> {
      */
     public V get(K key) throws IllegalArgumentException {
         checkKey(key);
+        int i = findIndex(key);
+        // Check if index is found outside of search range or no exact match was found
+        if( i == size() || comp.compare(key,table.get(i).getKey()) != 0) { return null; }
+        return table.get(i).getValue(); // Exact Match found, return its value
     }
 
     /**
@@ -158,6 +162,15 @@ public class SortedTableMap <K,V> {
      */
     public V put(K key, V value) throws IllegalArgumentException {
         checkKey(key);
+        int i = findIndex(key);
+        // Check if valid index range and has an exact match
+        if (i < size() && comp.compare(key,table.get(i).getKey()) == 0) {
+            V oldValue = table.get(i).getValue();
+            table.get(i).setValue(value); // Replace its Value
+            return oldValue; 
+        }
+        table.add(i, new Entry<K,V>(key,value)); // Otherwise create a new Entry
+        return null;
     }
 
     /**
@@ -169,32 +182,73 @@ public class SortedTableMap <K,V> {
      */
     public V remove(K key) throws IllegalArgumentException {
         checkKey(key);
+        int i = findIndex(key);
+        // If the index result is beyond the range or no exact match is found, nothing to remove
+        if (i == size() || comp.compare(key, table.get(i).getKey()) != 0 ) { return null; }
+        return table.remove(i).getValue(); // Remove and Return the Entry's value
     }
+
+    /**
+	 * Map Entry class represents the Entries or Key-Value pairs.
+	 * @param <K>		Keys
+	 * @param <V>		Values
+	 */
+	public static class Entry<K, V> {
+		
+		protected K key;
+		private V value;
+		
+		//Constructor
+		private Entry(K key, V value) {
+			this.key = key;
+			this.value = value;
+		}
+
+		
+		public K getKey() {
+			return key;
+		}
+
+		public V getValue() {
+			return value;
+		}
+		
+		public void setValue(V value) {
+			this.value = value;
+		}
+
+		@Override
+		public String toString(){
+			return "<" + String.valueOf(key) + " , " + String.valueOf(value) + ">";
+		}
+	} // end of Entry class
+
+    /** Comparator Class which compares Entries and Keys*/
+    public class DefaultComparator implements Comparator<K> {
+    Comparator<K> comp;
+
+            /** Method for comparing two entries according to key */
+        public int compare(Entry<K,V> a, Entry<K,V> b) {
+            return comp.compare(a.getKey(), b.getKey());
+        }
+
+            /** Method for comparing a key and an entry's key */
+        public int compare(K a, Entry<K,V> b) {
+            return comp.compare(a, b.getKey());
+        }
+
+        /** Method for comparing a key and an entry's key */
+        public int compare(Entry<K,V> a, K b) {
+            return comp.compare(a.getKey(), b);
+        }
+
+        /** Method for comparing two keys */
+        public int compare(K a, K b) {
+            return comp.compare(a, b);
+        }
+        
+    } // end of DefaultComparator class
 
 } // end of SortedTableMap Class
 
-/** Comparator Class which compares Entries and Keys*/
-class DefaultComparator<K,V> implements Comparator<K> {
-    Comparator<K> comp;
 
-       /** Method for comparing two entries according to key */
-       public int compare(Entry<K,V> a, Entry<K,V> b) {
-        return comp.compare(a.getKey(), b.getKey());
-    }
-
-     /** Method for comparing a key and an entry's key */
-    public int compare(K a, Entry<K,V> b) {
-        return comp.compare(a, b.getKey());
-    }
-
-    /** Method for comparing a key and an entry's key */
-    public int compare(Entry<K,V> a, K b) {
-        return comp.compare(a.getKey(), b);
-    }
-
-    /** Method for comparing two keys */
-    public int compare(K a, K b) {
-        return comp.compare(a, b);
-    }
- 
-}
