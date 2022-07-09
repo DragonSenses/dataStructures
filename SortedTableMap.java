@@ -135,14 +135,38 @@ public class SortedTableMap <K,V> {
     private int findIndex(K key) { return findIndex(key,0, table.size()-1); }
 
     /** Update Methods **/
+    /**
+     * Returns the value associated with the specified key, or null if no such
+     * entry exists.
+     * @param key the key whose asscoiated value is to be returned
+     * @return the asscociated value to key parameter, or null if no such entry exists
+     * @throws IllegalArgumentException if key is invalid
+     */
     public V get(K key) throws IllegalArgumentException {
         checkKey(key);
     }
 
+    /**
+     * Adds a new entry to the given map given a unique key and asccociated value. If
+     * an entry with thhe key was already in the map, this replaces the previous value 
+     * with the new value and returns the old value. Otherwise, a new entry is added 
+     * and null is returned
+     * @param key   The key of the entry to add
+     * @param value The asscociated value to the key
+     * @return the previous value asscociated with the key (or null if no such entry)
+     * @throws IllegalArgumentException if key is invalid
+     */
     public V put(K key, V value) throws IllegalArgumentException {
         checkKey(key);
     }
 
+    /**
+     * Removes the entry with the specified key, if present, and returns its associated
+     * value. Otherwise does nothing and returns null
+     * @param key The key whhose entry is to be removed 
+     * @return The previous value of associated key, or null if no such entry exists
+     * @throws IllegalArgumentException if key is invalid
+     */
     public V remove(K key) throws IllegalArgumentException {
         checkKey(key);
     }
