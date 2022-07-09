@@ -52,7 +52,7 @@ public class SortedTableMap <K,V> {
         comp = new DefaultComparator<K,V>();
     }
     public SortedTableMap(Comparator <K> comp) {
-        this.comp = comp;
+        comp = new DefaultComparator<K,V>();
     }
 
     /** Access Methods **/
@@ -87,7 +87,14 @@ public class SortedTableMap <K,V> {
      * then index hi+1)
      */
     private int findIndex(K key, int lo, int hi){
+        if (hi < lo) { return hi +1; } // No Entry qualifies
+        int mid = (lo + hi) >>> 1; // Safe/Efficient way of finding mean of two large integers
+        int index = comp.compare(key,table.get(mid).getKey());
 
+        if (index == 0) { return mid; } // Exact Match found, return the index
+        
+        // if index is less than 0, answer is left of mid; Otherwise answer is right of mid
+        return (index < 0) ? findIndex(key, lo, mid-1) : findIndex(key,mid+1, hi);
     }
 
     /**
@@ -107,8 +114,9 @@ public class SortedTableMap <K,V> {
 /** Comparator Class which compares Entries and Keys*/
 class DefaultComparator<K,V> implements Comparator<K> {
     Comparator<K> comp;
-    /** Method for comparing two entries according to key */
-    public int compare(Entry<K,V> a, Entry<K,V> b) {
+
+       /** Method for comparing two entries according to key */
+       public int compare(Entry<K,V> a, Entry<K,V> b) {
         return comp.compare(a.getKey(), b.getKey());
     }
 
@@ -126,4 +134,5 @@ class DefaultComparator<K,V> implements Comparator<K> {
     public int compare(K a, K b) {
         return comp.compare(a, b);
     }
+ 
 }
