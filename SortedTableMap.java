@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Map.Entry;
+import java.util.Comparator;
 
 /**
  * A Sorted Map provides a total ordering on its keys. This map is 
@@ -42,5 +43,41 @@ import java.util.Map.Entry;
  * target key - an inexact search. 
  */
 public class SortedTableMap <K,V> {
-    private ArrayList<Entry<K,V>> table = new ArrayList<>(); 
+    private ArrayList<Entry<K,V>> table = new ArrayList<>(); // Underlying Entry array
+    private Comparator<K> comp;
+
+    /** Constructors **/
+    public SortedTableMap() { 
+        super(); 
+        comp = new DefaultComparator<K,V>();
+    }
+    public SortedTableMap(Comparator <K> comp) {
+        this.comp = comp;
+    }
+
+
+}
+
+/** Comparator Class which compares Entries and Keys*/
+class DefaultComparator<K,V> implements Comparator<K> {
+    Comparator<K> comp;
+    /** Method for comparing two entries according to key */
+    public int compare(Entry<K,V> a, Entry<K,V> b) {
+        return comp.compare(a.getKey(), b.getKey());
+    }
+
+     /** Method for comparing a key and an entry's key */
+    public int compare(K a, Entry<K,V> b) {
+        return comp.compare(a, b.getKey());
+    }
+
+    /** Method for comparing a key and an entry's key */
+    public int compare(Entry<K,V> a, K b) {
+        return comp.compare(a.getKey(), b);
+    }
+
+    /** Method for comparing two keys */
+    public int compare(K a, K b) {
+        return comp.compare(a, b);
+    }
 }
