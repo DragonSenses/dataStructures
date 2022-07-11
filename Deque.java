@@ -1,0 +1,7 @@
+
+/**
+ * @kendr
+ */
+public class Deque {
+    
+}
