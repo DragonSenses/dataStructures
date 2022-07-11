@@ -29,6 +29,14 @@ import java.util.NoSuchElementException;
  * more similarly to in that it returns a special value rather than throwing 
  * exceptions during these special cases. 
  * 
+ * Importance of returning null or exception distinction: methods that handle bad
+ * situations more  gracefully (without throwing exceptions) are useful in 
+ * applications known as producer-consumer scenarios, in which it is common for 
+ * one component of  software to look for an element that may have been placed in 
+ * a queue by another program, or when it is common to try to insert an item into 
+ * a fixed-sizer buffer that might be full. However, these methods are inappropriate
+ * for applications in which null might server as an actual element of a queue.
+ * 
  * @kendr
  */
 public class Deque <E> {
