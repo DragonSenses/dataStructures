@@ -95,7 +95,7 @@ public class HashTableTest {
 			expectedKeys.add(TEST_KEY + i);
 		}
 		actualKeys = strTable.keys();
-		// we need to sort because hash map doesn't guarantee ordering
+		// we need to sort because hash table doesn't guarantee ordering
 		Collections.sort(actualKeys);
 		assertEquals(expectedKeys, actualKeys);
 	}
