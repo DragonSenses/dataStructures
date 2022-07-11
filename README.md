@@ -10,6 +10,7 @@ Data Structures that are Implemented
     - CircularlyLinkedList
 - Stack
 - Queue
+    - Deque (DoublyLinkedList implementation)
 - Heap, Binary Heap (BST.java)
 - HashTable
     - Linear Probing (HashTable.java)
