@@ -15,7 +15,8 @@
  * methods: size(), isEmpty(), first(), last(), addFirst(), addLast(),
  * removeFirst(), and removeLast(). However, due to the implementation of
  * DoublyLinkedList, these methods will be renamed to match the behavior
- * of java.util.Deque.
+ * of java.util.Deque. Since there is no size limit, then addFirst() and
+ * addLast() will remain the same.
  * 
  * Note: Java Collections Framework has a java.util.Deque interface which
  * has a clear difference when accessing/removing first or last elements
@@ -27,7 +28,6 @@
  * more similarly to in that it returns a special value rather than throwing 
  * exceptions during these special cases. 
  * 
- * To-Do list: Implement get() and removes() to throw exceptions
  * @kendr
  */
 public class Deque <E> {
@@ -37,5 +37,68 @@ public class Deque <E> {
         this.data = new DoublyLinkedList<>();
     }
 
-    
+    /**
+     * Returns the number of elements in the deque.
+     * @return number of elements in deque
+     */
+    public int size(){
+        return data.size();
+    }
+
+    /**
+     * Tests whether the deque is empty.
+     * @return true if the deque is empty, false otherwise
+     */
+    public boolean isEmpty(){
+        return data.isEmpty();
+    }
+
+    /**
+     * Returns (but does not remove) the first element of the deque
+     * @return first element of the deque, or null if empty
+     */
+    public E peekFirst(){
+        return data.first();
+    }
+
+    /**
+     * Returns (but does not remove) the last element of the deque.
+     * @return last element of the dequeue (or null if empty)
+     */
+    public E peekLast(){
+        return data.last();
+    }
+
+    /**
+     * Removes and returns the first element of the deque.
+     * @return the first element removed (or null if empty)
+     */
+    public E pollFirst(){
+        return data.removeFirst();
+    }
+
+    /**
+     * Removes and returns the last element of the deque.
+     * @return the last element removed (or null if empty)
+     */
+    public E pollLast(){
+        return data.removeLast();
+    }
+
+
+    /**
+     * Inserts an element at the front of the deque.
+     * @param e The element to insert
+     */
+    public void addFirst(E e){
+        data.addFirst(e);
+    }
+
+    /**
+     * Inserts an element at the back of the deque.
+     * @param e The element to insert
+     */
+    public void addLast(E e){
+        data.addLast(e);
+    }
 }
