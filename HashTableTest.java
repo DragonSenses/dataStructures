@@ -43,6 +43,30 @@ public class HashTableTest {
         strTable = new HashTable<String,String>();
     }
 
+    /**
+	 * Helper method that fills in the table with entries with the same key and
+	 * value within range of [0 - (n-1)]
+	 * @param table		table to populate
+	 * @param n			Number of entries
+	 */
+	public static void fillTable(HashTable<String, String> table, int n) {
+		for(int i=0; i<n; i++) {
+			table.put(String.valueOf(i),String.valueOf(i)); //1st entry: <0,0>
+		}
+	}
+
+    /**
+	 * Helper method that fills in the table with entries with the same key and
+	 * value within range of [0 - (n-1)]
+	 * @param table		table to populate
+	 * @param n			Number of entries
+	 */
+	public void fillTable(int n) {
+		for(int i=0; i<n; i++) {
+			this.table.put(i,i); //1st entry: <0,0>
+		}
+	}
+
     @Test
 	public void zeroSizeConstructor(){
 		IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
