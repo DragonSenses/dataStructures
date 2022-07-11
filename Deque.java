@@ -1,3 +1,4 @@
+import java.util.NoSuchElementException;
 
 /**
  * A double-ended queue, or deque, is a queue-like data struct that supports 
@@ -32,6 +33,7 @@
  */
 public class Deque <E> {
     DoublyLinkedList<E> data;
+    final static String NO_ELEMENT = "Deque is empty, so no such element exists";
 
     public Deque (){
         this.data = new DoublyLinkedList<>();
@@ -100,5 +102,46 @@ public class Deque <E> {
      */
     public void addLast(E e){
         data.addLast(e);
+    }
+
+
+    /**
+     * Returns (but does not remove) the first element of the deque
+     * @return first element of the deque
+     * @throws NoSuchElementException When deque is empty
+     */
+    public E getFirst() throws NoSuchElementException {
+        if(data.isEmpty()) { throw new NoSuchElementException(NO_ELEMENT); }
+        return peekFirst();
+    }
+
+    /**
+     * Returns (but does not remove) the last element of the deque
+     * @return last element of the deque
+     * @throws NoSuchElementException When deque is empty
+     */
+    public E getLast() throws NoSuchElementException {
+        if(data.isEmpty()) { throw new NoSuchElementException(NO_ELEMENT); }
+        return peekLast();
+    }
+
+    /**
+     * Returns and removes the first element of the deque
+     * @return first element of the deque
+     * @throws NoSuchElementException When deque is empty
+     */
+    public E removeFirst() throws NoSuchElementException {
+        if(data.isEmpty()) { throw new NoSuchElementException(NO_ELEMENT);}
+        return pollFirst();
+    }
+
+     /**
+     * Returns and removes the last element of the deque
+     * @return last element of the deque
+     * @throws NoSuchElementException When deque is empty
+     */
+    public E removeLast() throws NoSuchElementException {
+        if(data.isEmpty()) { throw new NoSuchElementException(NO_ELEMENT);}
+        return pollLast();
     }
 }
