@@ -3,9 +3,9 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
-import static org.junit.jupiter.api.Assumptions.assumeTrue;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
@@ -65,6 +65,38 @@ public class HashTableTest {
 		for(int i=0; i<n; i++) {
 			this.table.put(i,i); //1st entry: <0,0>
 		}
+	}
+
+	/** Tests  **/
+
+	@Test
+	public void oneElement(){
+		table.put(1, 65);
+		strTable.put("1", "65");
+		
+		List<Integer> expectedKeysInt = new ArrayList<>();
+		expectedKeysInt.add(1);
+		List<String> expectedKeysStr = new ArrayList<>();
+		expectedKeysStr.add("1");
+
+		List<Integer> actualKeysInt = table.keys();
+		List<String> actualKeysStr = strTable.keys();
+
+		assertAll("table",
+			() -> assertTrue(!table.isEmpty()),
+			() -> assertEquals(1, table.size()),
+			() -> assertEquals(true, table.containsKey(1)),
+			() -> assertEquals(65, table.get(1)),
+			() -> assertEquals(expectedKeysInt, actualKeysInt)
+		);
+
+		assertAll("strTable",
+			() -> assertTrue(!strTable.isEmpty()),
+			() -> assertEquals(1, strTable.size()),
+			() -> assertEquals(true, strTable.containsKey("1")),
+			() -> assertEquals("65", strTable.get("1")),
+			() -> assertEquals(expectedKeysStr, actualKeysStr)
+		);
 	}
 
 	@Test
@@ -171,6 +203,26 @@ public class HashTableTest {
 		// we need to sort because hash table doesn't guarantee ordering
 		Collections.sort(actualKeys);
 		assertEquals(expectedKeys, actualKeys);
+	}
+
+	@Test
+	public void containsKeyNull(){
+		fillTable(4);
+		IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
+			()-> table.containsKey(null));
+		assertEquals(ILLEGAL_ARG_NULL_KEY,e.getMessage());
+	}
+
+	@Test
+	public void containsKeys4(){
+		fillTable(strTable,4);
+		assertAll("strTable",
+			() -> assertEquals(4,strTable.size()),
+			() -> assertEquals(true, strTable.containsKey("0")),
+			() -> assertEquals(true, strTable.containsKey("1")),
+			() -> assertEquals(true, strTable.containsKey("2")),
+			() -> assertEquals(true, strTable.containsKey("3"))
+		);
 	}
 
 
