@@ -104,6 +104,66 @@ public class HashTableTest {
 		);
 	}
 
+	@Test
+	public void removeOne(){
+		List<Integer> expectedKeys = new ArrayList<>();
+		expectedKeys.add(1);
+		table.put(1, 65);
+		actualListOfKeys = table.keys();
+
+		assertAll("table",
+			() -> assertTrue(!table.isEmpty()),
+			() -> assertEquals(1, table.size()),
+			() -> assertEquals(true, table.containsKey(1)),
+			() -> assertEquals(65, table.get(1)),
+			() -> assertEquals(expectedKeys, actualListOfKeys)
+		);
+
+		table.remove(1);
+		actualListOfKeys = table.keys();
+		expectedKeys.remove(0);
+
+		assertAll("table",
+			() -> assertTrue(table.isEmpty()),
+			() -> assertEquals(false, table.containsKey(1)),
+			() -> assertEquals(null, table.get(1)),
+			() -> assertEquals(expectedKeys, actualListOfKeys)
+		);
+	}
+
+	@Test
+	public void removeTwo(){
+		List<Integer> expectedKeys = new ArrayList<>();
+		expectedKeys.add(0);
+		expectedKeys.add(1);
+
+		fillTable(2);
+		actualListOfKeys = table.keys();
+		assertAll("table",
+			() -> assertTrue(!table.isEmpty()),
+			() -> assertEquals(2, table.size()),
+			() -> assertEquals(true, table.containsKey(0)),
+			() -> assertEquals(true, table.containsKey(1)),
+			() -> assertEquals(0, table.get(0)),
+			() -> assertEquals(1, table.get(1)),
+			() -> assertEquals(expectedKeys, actualListOfKeys)
+		);
+
+		table.remove(0);
+		table.remove(1);
+		expectedKeys.remove(0);
+		expectedKeys.remove(1);
+
+		assertAll("table",
+			() -> assertTrue(table.isEmpty()),
+			() -> assertEquals(false, table.containsKey(0)),
+			() -> assertEquals(false, table.containsKey(1)),
+			() -> assertEquals(null, table.get(0)),
+			() -> assertEquals(null, table.get(1)),
+			() -> assertEquals(expectedKeys, actualListOfKeys)
+		);
+	}
+
 	@RepeatedTest(value = 10, name = "{displayName} {currentRepetition}/{totalRepetitions}" )
     @DisplayName("Repeat!")
 	public void doubleResizeCheck(){
@@ -240,6 +300,13 @@ public class HashTableTest {
 		assertEquals(ILLEGAL_ARG_NULL_KEY,e.getMessage());
 	}
 
+	@Test
+	public void removeNullKey() {
+		IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
+			()-> table.remove(null));
+		assertEquals(ILLEGAL_ARG_NULL_KEY,e.getMessage());
+	}
+
     @Test
 	public void keysEmptyTable(){
 		List<Integer> expected = new ArrayList<Integer>(0);
@@ -262,7 +329,7 @@ public class HashTableTest {
 	}
 
 	@Test
-	public void containsKeyNull(){
+	public void containsNullKey(){
 		fillTable(4);
 		IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
 			()-> table.containsKey(null));
@@ -270,7 +337,7 @@ public class HashTableTest {
 	}
 
 	@Test
-	public void containsKeys4(){
+	public void contains4Keys(){
 		fillTable(strTable,4);
 		assertAll("strTable",
 			() -> assertEquals(4,strTable.size()),
