@@ -67,6 +67,55 @@ public class HashTableTest {
 		}
 	}
 
+	@Test
+	public void get4KeysString(){
+		fillTable(strTable,4);
+		assertAll("strTable",
+			() -> assertEquals(4,strTable.size()),
+			() -> assertEquals("0", strTable.get("0")),
+			() -> assertEquals("1", strTable.get("1")),
+			() -> assertEquals("2", strTable.get("2")),
+			() -> assertEquals("3", strTable.get("3"))
+		);
+	}
+
+	@Test
+	public void get4KeysInteger(){
+		fillTable(4);
+		assertAll("table",
+			() -> assertEquals(4,table.size()),
+			() -> assertEquals(0, table.get(0)),
+			() -> assertEquals(1, table.get(1)),
+			() -> assertEquals(2, table.get(2)),
+			() -> assertEquals(3, table.get(3))
+		);
+	}
+
+	// Based on our HashMap implementation, when get() called on entry that does
+	// not exist, we return a null value
+	@Test
+	public void getKeyNotInTable(){
+		fillTable(4);
+		fillTable(strTable,4);
+		assertAll("table",
+			() -> assertEquals(4,table.size()),
+			() -> assertEquals(0, table.get(0)),
+			() -> assertEquals(1, table.get(1)),
+			() -> assertEquals(2, table.get(2)),
+			() -> assertEquals(3, table.get(3)),
+			() -> assertEquals(null, table.get(4))
+		);
+
+		assertAll("strTable",
+			() -> assertEquals(4,strTable.size()),
+			() -> assertEquals("0", strTable.get("0")),
+			() -> assertEquals("1", strTable.get("1")),
+			() -> assertEquals("2", strTable.get("2")),
+			() -> assertEquals("3", strTable.get("3")),
+			() -> assertEquals(null, strTable.get("4"))
+		);
+	}
+
     @Test
 	public void zeroSizeConstructor(){
 		IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
