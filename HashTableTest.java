@@ -1,6 +1,8 @@
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -19,13 +21,16 @@ public class HashTableTest {
     HashTable<Integer,Integer> emptyTable;
     HashTable<String,String> zeroSizedTable;
     HashTable<String,String> negSizedTable;
-
+	
     List<String> actualKeys;
+	List<Integer> actualListOfKeys;
 
     public static final String TEST_KEY = "Key";
 	public static final String TEST_VAL = "Value";
     public static final Integer KEY = 7;
     public static final Integer VAL = 16;
+
+	public static Integer counter;	// For a repeated test that determines capacity
 
     //Error Messages
 	public static final String ILLEGAL_ARG_CAPACITY = "Initial Capacity must be non-negative";
@@ -34,7 +39,7 @@ public class HashTableTest {
     
     @BeforeAll
     static void initAll() {
-       
+		counter = 4;
     }
 
     @BeforeEach
@@ -97,6 +102,29 @@ public class HashTableTest {
 			() -> assertEquals("65", strTable.get("1")),
 			() -> assertEquals(expectedKeysStr, actualKeysStr)
 		);
+	}
+
+	@RepeatedTest(value = 10, name = "{displayName} {currentRepetition}/{totalRepetitions}" )
+    @DisplayName("Repeat!")
+	public void doubleResizeCheck(){
+		List<Integer> expectedKeys = new ArrayList<>(5);
+		// Create elements up to counter times
+		for(int i = 0; i < counter; i++) {
+			// key + i is used to differentiate keys since they must be unique
+			table.put(i, i);
+			expectedKeys.add(i);
+		}
+		actualListOfKeys = table.keys();
+		// we need to sort because hash table doesn't guarantee ordering
+		Collections.sort(actualListOfKeys);
+
+		assertAll("table",
+			() -> assertTrue(!table.isEmpty()),
+			() -> assertEquals(counter, table.size()),
+			() -> assertEquals(expectedKeys, actualListOfKeys)
+		);
+
+		counter *= 2; // Double the capacity size starting from 4 for the next test
 	}
 
 	@Test
