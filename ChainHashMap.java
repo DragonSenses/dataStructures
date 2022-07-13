@@ -290,11 +290,17 @@ public class ChainHashMap<K, V> {
 			return ring;
 		}
 
+		// Refers to the current Entry in the chain, start with head
+		Entry<K,V> head;	
 		ring = new ArrayList<>(numBuckets);
 
 		// Iterate through each chain
 		for (int i = 0; i < numBuckets; i++) {
-			
+			// Iterate through each node Entry within the chain
+			for(head = bucketArray.get(i); head != null; head = head.next){
+				// Perform an operation for each Entry
+				ring.add(head.getKey());
+			}
 		}
 
 		return ring;
