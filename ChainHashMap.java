@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
@@ -16,7 +17,7 @@ public class ChainHashMap<K, V> {
 	// Let N = Number of Entries, C = Size of Underlying Bucket Array
 	private double loadFactor; // = Entries/Buckets, Size/Capacity, N/C,Fullness
 
-	private ArrayList<Entry<K, V>> bucketArray;;// Underlying bucket array to store chains
+	private ArrayList<Entry<K, V>> bucketArray;// Underlying bucket array to store chains
 
 	// These instance variables will help in preventing a poor hash
 	private long p, scale, shift; // Treats hash function like a math equation
@@ -276,6 +277,27 @@ public class ChainHashMap<K, V> {
 		}
 
 		return curr.getValue();
+	}
+
+	/**
+	 * @return a List containing the keys of this ChainHashMap. If this HashMap is 
+	 * empty, returns array of length zero. 
+	 */
+	public List<K> keys(){
+		List<K> ring;
+		if (isEmpty()) { 
+			ring = new ArrayList<K>(0); 
+			return ring;
+		}
+
+		ring = new ArrayList<>(numBuckets);
+
+		// Iterate through each chain
+		for (int i = 0; i < numBuckets; i++) {
+			
+		}
+
+		return ring;
 	}
 
 	/**
