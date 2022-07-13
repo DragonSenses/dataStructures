@@ -3,8 +3,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
-import static org.junit.jupiter.api.Assertions.fail;
-import static org.junit.jupiter.api.Assumptions.assumeTrue;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -34,7 +32,7 @@ public class ChainHashMapTest {
 	 * @param map		Map to populate
 	 * @param n			Number of entries
 	 */
-	public static void fillMap(HashMap<String, String> map, int n) {
+	public static void fillMap(ChainHashMap<String, String> map, int n) {
 		for(int i=0; i<n; i++) {
 			map.put(String.valueOf(i),String.valueOf(i)); //1st entry: <0,0>
 		}
@@ -109,6 +107,33 @@ public class ChainHashMapTest {
 		List<String> actual = testMap.keys();
 		assertEquals(expected,actual);
 	}
+
+    @Test 
+	public void putFourDuplicates() {
+		//add duplicate entry 4 times
+		for(int i=0; i<4; i++) {
+			testMap.put("A","A");
+		}
+		
+		List<String> actualKeys = testMap.keys();
+		
+		//We expect only 1 key since we don't want duplicates
+		assertEquals(1, actualKeys.size());
+	}
+
+    @Test
+	public void getNull() {
+		fillMap(testMap,4);
+		IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
+			()-> testMap.get(null));
+		assertEquals(ILLEGAL_ARG_NULL_KEY,e.getMessage());
+	}
+
+	@Test
+	public void getEmptyMap(){
+		assertEquals(null,testMap.get("1"));
+	}
+
 
     /** End of Tests **/
 
