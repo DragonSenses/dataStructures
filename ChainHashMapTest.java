@@ -161,6 +161,76 @@ public class ChainHashMapTest {
 		);
 	}
 
+    @Test
+	public void removeOneKey(){
+		List<String> expectedKeys = new ArrayList<>(5);
+		for(int i = 0; i < 5; i++) {
+			// key + i is used to differentiate keys since they must be unique
+			testMap.put(TEST_KEY + i, TEST_VAL + i);
+			expectedKeys.add(TEST_KEY + i);
+		}
+		actualKeys = testMap.keys();
+		// we need to sort because hash map doesn't guarantee ordering
+		Collections.sort(actualKeys);
+		assertAll("testMap",
+			() -> assertEquals(expectedKeys, actualKeys),
+			() -> assertEquals(expectedKeys.size(),actualKeys.size()),
+			() -> assertEquals(true,testMap.remove(TEST_KEY + "0"))
+		);
+
+		expectedKeys.remove(TEST_KEY + "0");
+		actualKeys = testMap.keys();
+		Collections.sort(actualKeys);
+		assertEquals(expectedKeys, actualKeys);
+	}
+
+	@Test
+	public void removeNone(){
+		fillMap(testMap,8);
+		assertEquals(false,testMap.remove(TEST_KEY));
+	}
+
+	@Test
+	public void removeNull() {
+		fillMap(testMap,4);
+		IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
+			()-> testMap.remove(null));
+		assertEquals(ILLEGAL_ARG_NULL_KEY,e.getMessage());
+	}
+
+	@Test
+	public void removeOne(){
+		List<String> expectedKeys = new ArrayList<>(0);
+		testMap.put("A", "65");
+		testMap.remove("A");
+		actualKeys = testMap.keys();
+		Collections.sort(actualKeys);
+		assertAll("testMap",
+			() -> assertEquals(0,testMap.size()),
+			() -> assertEquals(expectedKeys, actualKeys),
+			() -> assertEquals(expectedKeys.size(),actualKeys.size()),
+			() -> assertEquals(true,testMap.isEmpty())
+		);
+	}
+
+    @Test	
+	public void removeTwo(){
+		List<String> expectedKeys = new ArrayList<>(0);
+		testMap.put("A", "65");
+		testMap.put("B","66");		
+		
+		assertEquals(true,testMap.remove("A"));
+		assertEquals(true,testMap.remove("B"));
+		
+		actualKeys = testMap.keys();
+		Collections.sort(actualKeys);
+		assertAll("testMap",
+			() -> assertEquals(0,testMap.size()),
+			() -> assertEquals(expectedKeys, actualKeys),
+			() -> assertEquals(expectedKeys.size(),actualKeys.size()),
+			() -> assertEquals(true,testMap.isEmpty())
+		);
+	}
 
     /** End of Tests **/
 
