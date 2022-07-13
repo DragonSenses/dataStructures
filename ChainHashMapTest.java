@@ -134,6 +134,33 @@ public class ChainHashMapTest {
 		assertEquals(null,testMap.get("1"));
 	}
 
+    @Test
+	public void get4Keys(){
+		fillMap(testMap,4);
+		assertAll("testMap",
+			() -> assertEquals(4,testMap.size()),
+			() -> assertEquals("0", testMap.get("0")),
+			() -> assertEquals("1", testMap.get("1")),
+			() -> assertEquals("2", testMap.get("2")),
+			() -> assertEquals("3", testMap.get("3"))
+		);
+	}
+
+	// Based on our HashMap implementation, when get() called on entry that does
+	// not exist, we return a null value
+	@Test
+	public void getKeyNotInMap(){
+		fillMap(testMap,4);
+		assertAll("testMap",
+			() -> assertEquals(4,testMap.size()),
+			() -> assertEquals("0", testMap.get("0")),
+			() -> assertEquals("1", testMap.get("1")),
+			() -> assertEquals("2", testMap.get("2")),
+			() -> assertEquals("3", testMap.get("3")),
+			() -> assertEquals(null, testMap.get("4"))
+		);
+	}
+
 
     /** End of Tests **/
 
