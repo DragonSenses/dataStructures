@@ -42,6 +42,7 @@ public class ArrayList<E> implements List<E> {
     /** Instance Variables **/
     public static final int DEFAULT_CAPACITY = 10; // Default initial array capacity
     public static final String ILLEGAL_INDEX = "Illegal Index @ ";
+    private static final String ILLEGAL_ARG = "Illegal Argument";
     private E[] data; // Generic object array used to store list elements
     private int size; // Current number of elements
 
@@ -53,6 +54,10 @@ public class ArrayList<E> implements List<E> {
     /** Creates an Array List with a given capacity **/
     @SuppressWarnings("unchecked")
     public ArrayList(int capacity) {
+        if(capacity < 0) { 
+            this.data = (E[]) new Object[DEFAULT_CAPACITY];
+            throw new IllegalArgumentException(ILLEGAL_ARG);
+        }
         // Generic Array -> instantiate Object array, then narrowing type cast to E[]
         this.data = (E[]) new Object[capacity];
     }
@@ -80,8 +85,7 @@ public class ArrayList<E> implements List<E> {
      * @param i - the given index to check validity for
      * @param n - the range to check the index against, usually the size
      * @throws IndexOutOfBoundsException if the given index is negative or greater
-     *                                   than
-     *                                   either n or n-1 (size or size-1)
+     *                                   than either n or n-1 (size or size-1)
      */
     private void checkValidIndex(int i, int n) throws IndexOutOfBoundsException {
         if (i < 0 || i >= n) {
