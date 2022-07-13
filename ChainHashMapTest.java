@@ -232,6 +232,26 @@ public class ChainHashMapTest {
 		);
 	}
 
+    @Test
+	public void containsKeyNull(){
+		fillMap(testMap,4);
+		IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
+			()-> testMap.containsKey(null));
+		assertEquals(ILLEGAL_ARG_NULL_KEY,e.getMessage());
+	}
+
+	@Test
+	public void containsKeys4(){
+		fillMap(testMap,4);
+		assertAll("testMap",
+			() -> assertEquals(4,testMap.size()),
+			() -> assertEquals(true, testMap.containsKey("0")),
+			() -> assertEquals(true, testMap.containsKey("1")),
+			() -> assertEquals(true, testMap.containsKey("2")),
+			() -> assertEquals(true, testMap.containsKey("3"))
+		);
+	}
+
     /** End of Tests **/
 
     @AfterEach
