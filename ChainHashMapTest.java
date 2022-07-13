@@ -14,5 +14,34 @@ import java.util.Collections;
 import java.util.List;
 
 public class ChainHashMapTest {
-    
+     /** Instance Variables **/
+
+    public static final String TEST_KEY = "Test Key";
+	public static final String TEST_VAL = "Test Value";
+    // Error Messages
+	public static final String ILLEGAL_ARG_CAPACITY = "Initial Capacity must be non-negative";
+	public static final String ILLEGAL_ARG_LOAD_FACTOR = "Load Factor must be positive";
+	public static final String ILLEGAL_ARG_NULL_KEY = "Keys must be non-null";
+
+    @BeforeAll
+    static void initAll() {
+    }
+
+    @BeforeEach
+    void init() {
+    }
+
+    @Test
+    void succeedingTest() {
+    }
+
+  
+
+    @AfterEach
+    void tearDown() {
+    }
+
+    @AfterAll
+    static void tearDownAll() {
+    }
 }
