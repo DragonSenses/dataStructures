@@ -186,6 +186,33 @@ public class ChainHashMap<K, V> {
 		return null;
 	}
 
+	/**
+	 * Determines whether the given key exists within the chain
+	 * 
+	 * @param key the key to find within the map
+	 * @return true if key is found within the chain, false otherwise
+	 * @throws IllegalArgumentException if key is null
+	 */
+	public boolean containsKey(K key) throws IllegalArgumentException {
+		if (key == null) { throw new IllegalArgumentException(ILLEGAL_ARG_NULL_KEY); }
+		// Find head of chain for given key
+		int bucketIndex = hash(key);
+		int hashCode = hashValue(key);
+
+		Entry<K, V> head = bucketArray.get(bucketIndex);
+
+		// Search chain for the given key
+		for (; head != null; head = head.next) {
+			// Both key and given hashCode must match within the chain
+			if (head.getKey().equals(key) && head.getHashCode() == hashCode) {
+				return true;
+			}
+		}
+
+		// At this point, the given key was not found within the chain
+		return false;
+	}
+
 	/** Update Methods **/
 	/**
 	 * Adds a Entry or Key, Value pair to the HashMap
