@@ -284,15 +284,11 @@ public class ChainHashMap<K, V> {
 	 * empty, returns array of length zero. 
 	 */
 	public List<K> keys(){
-		List<K> ring;
-		if (isEmpty()) { 
-			ring = new ArrayList<K>(0); 
-			return ring;
-		}
+		if (isEmpty()) { return new ArrayList<K>(0); }
 
 		// Refers to the current Entry in the chain, start with head
 		Entry<K,V> head;	
-		ring = new ArrayList<>(numBuckets);
+		List<K> ring = new ArrayList<>(numBuckets);
 
 		// Iterate through each chain
 		for (int i = 0; i < numBuckets; i++) {
