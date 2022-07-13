@@ -14,7 +14,10 @@ import java.util.Collections;
 import java.util.List;
 
 public class ChainHashMapTest {
-     /** Instance Variables **/
+    /** Instance Variables **/
+    private ChainHashMap<String, String> testMap; // use this for basic tests
+
+    List<String> actualKeys;
 
     public static final String TEST_KEY = "Test Key";
 	public static final String TEST_VAL = "Test Value";
@@ -29,6 +32,7 @@ public class ChainHashMapTest {
 
     @BeforeEach
     void init() {
+        testMap = new ChainHashMap<String,String>();
     }
 
     @Test
@@ -39,6 +43,10 @@ public class ChainHashMapTest {
 
     @AfterEach
     void tearDown() {
+        List<String> keys = testMap.keys();
+		for(String k: keys){
+			testMap.remove(k);
+	    }
     }
 
     @AfterAll
