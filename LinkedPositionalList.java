@@ -159,6 +159,24 @@ public class LinkedPositionalList<E> {
         return node;
     }
 
+    /**
+     * Adds an element to the linked list between the given nodes.
+     * The given predecessor and successor should be neighboring each
+     * other prior to the call.
+     *
+     * @param e        The element to add
+     * @param pred     node just before the location where the new element is inserted
+     * @param succ     node just after the location where the new element is inserted
+     * @return the new element's node
+     */
+    private Position<E> addBetween(E e, Node<E> pred, Node<E> succ) {
+        Node<E> newest = new Node<>(e, pred, succ);  // create and link a new node
+        pred.setNext(newest);
+        succ.setPrev(newest);
+        size++;
+        return newest;
+    }
+
     /** Public Access Methods **/
     /**
      * Returns the number of elements in the list.
@@ -189,4 +207,28 @@ public class LinkedPositionalList<E> {
     public Position<E> last() {
         return position(tail.getPrev());
     }
+
+     /**
+     * Returns the Position immediately before Position p.
+     * @param p   a Position of the list
+     * @return the Position of the preceding element (or null, if p is first)
+     * @throws IllegalArgumentException if p is not a valid position for this list
+     */
+    public Position<E> before(Position<E> p) throws IllegalArgumentException {
+        Node<E> node = validate(p);
+        return position(node.getPrev());
+    }
+
+    /**
+     * Returns the Position immediately after Position p.
+     * @param p   a Position of the list
+     * @return the Position of the following element (or null, if p is last)
+     * @throws IllegalArgumentException if p is not a valid position for this list
+     */
+    public Position<E> after(Position<E> p) throws IllegalArgumentException {
+        Node<E> node = validate(p);
+        return position(node.getNext());
+    }
+
+    /** Public Update Methods **/
 }
