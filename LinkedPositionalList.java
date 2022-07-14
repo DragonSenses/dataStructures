@@ -318,4 +318,21 @@ public class LinkedPositionalList<E> {
         node.setPrev(null);
         return removed;
     }
+
+    /**
+     * Produce a String Representation of the contents of this Positional List.
+     */
+    @Override
+    public String toString() {
+        StringBuilder str = new StringBuilder("[");
+        Node<E> curr = head.getNext();
+        while (curr != tail) {
+          str.append(curr.getElement());
+          curr = curr.getNext();
+          if (curr != tail)
+            str.append(", ");
+        }
+        str.append("]");
+        return str.toString();
+      }
 }
