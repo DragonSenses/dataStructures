@@ -162,7 +162,7 @@ public class LinkedPositionalList<E> {
     /**
      * Adds an element to the linked list between the given nodes.
      * The given predecessor and successor should be neighboring each
-     * other prior to the call.
+     * other prior to the call. This updates the links to the node.
      *
      * @param e        The element to add
      * @param pred     node just before the location where the new element is inserted
@@ -170,7 +170,8 @@ public class LinkedPositionalList<E> {
      * @return the new element's node
      */
     private Position<E> addBetween(E e, Node<E> pred, Node<E> succ) {
-        Node<E> newest = new Node<>(e, pred, succ);  // create and link a new node
+        Node<E> newest = new Node<>(e, pred, succ);  // create a new node
+        // Update the links of predecessor and successor nodes to new node
         pred.setNext(newest);
         succ.setPrev(newest);
         size++;
@@ -231,4 +232,51 @@ public class LinkedPositionalList<E> {
     }
 
     /** Public Update Methods **/
+
+    /**
+     * Inserts an element at the front of the list.
+     *
+     * @param e the new element
+     * @return the Position representing the location of the new element
+     */
+    public Position<E> addFirst(E e) {
+        return addBetween(e, head, head.getNext());      
+    }
+
+    /**
+     * Inserts an element at the back of the list.
+     *
+     * @param e the new element
+     * @return the Position representing the location of the new element
+     */
+    public Position<E> addLast(E e) {
+        return addBetween(e, tail.getPrev(), tail);     
+    }
+
+    /**
+     * Inserts an element immediately before the given Position.
+     *
+     * @param p the Position before which the insertion takes place
+     * @param e the new element
+     * @return the Position representing the location of the new element
+     * @throws IllegalArgumentException if p is not a valid position for this list
+     */
+    public Position<E> addBefore(Position<E> p, E e) throws IllegalArgumentException {
+        Node<E> node = validate(p);
+        return addBetween(e, node.getPrev(), node);
+    }
+
+    /**
+     * Inserts an element immediately after the given Position.
+     *
+     * @param p the Position after which the insertion takes place
+     * @param e the new element
+     * @return the Position representing the location of the new element
+     * @throws IllegalArgumentException if p is not a valid position for this list
+     */
+    public Position<E> addAfter(Position<E> p, E e) throws IllegalArgumentException {
+        Node<E> node = validate(p);
+        return addBetween(e, node, node.getNext());
+    }
+
 }
