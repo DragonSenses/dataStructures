@@ -160,4 +160,33 @@ public class LinkedPositionalList<E> {
     }
 
     /** Public Access Methods **/
+    /**
+     * Returns the number of elements in the list.
+     * @return number of elements in the list
+     */
+    public int size() { return size; }
+
+    /**
+     * Tests whether the list is empty.
+     * @return true if the list is empty, false otherwise
+     */
+    public boolean isEmpty() { return size == 0; }
+
+    /**
+     * Returns the first Position in the list.
+     *
+     * @return the first Position in the list (or null, if empty)
+     */
+    public Position<E> first() {
+        return position(head.getNext());
+    }
+
+    /**
+     * Returns the last Position in the list.
+     *
+     * @return the last Position in the list (or null, if empty)
+     */
+    public Position<E> last() {
+        return position(tail.getPrev());
+    }
 }
