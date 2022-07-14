@@ -23,7 +23,6 @@ public class LinkedPositionalList<E> {
          * @return the stored element
          * @throws IllegalStateException if it is invalid position
          */
-    
         E getElement() throws IllegalStateException;
     }
 
@@ -114,9 +113,12 @@ public class LinkedPositionalList<E> {
     } //  end of nested Node class 
 
     /** Instance Variables of LinkedPositionalList **/
-    private Node<E> head;
-    private Node<E> tail; 
-    private int size = 0; 
+    private Node<E> head;   // Sentinel Head Node
+    private Node<E> tail;   // Sentinel Tail Node
+    private int size = 0;   // The number of elements within the list
+
+    private final static String ILLEGAL_POS = "Invalid Position";
+    private final static String NULL_NODE = "Node at Position is no longer in the list";
 
     /** Construct an empty PositionalList */
     public LinkedPositionalList(){
@@ -124,4 +126,38 @@ public class LinkedPositionalList<E> {
         tail = new Node<>(null,head,null);   // 2. Create the tail with prev link to head
         head.setNext(tail);                       // 3. Set Head next link to tail
     }
+
+    /** Private Utility Methods **/
+
+    /**
+     * Veriies that a Position belongs to the appropriate class, and is not one
+     * that has been previously removed. NOTE: Does not verify if position
+     * belongs to this particular list instance.
+     * 
+     * @param p - A Position
+     * @return the underlying Node instance at that position
+     * @throws IllegalArgumentException if an invalid position is detected
+     */
+    private Node<E> validate(Position<E> p) throws IllegalArgumentException {
+        if (!(p instanceof Node)) throw new IllegalArgumentException(ILLEGAL_POS);
+        Node<E> node = (Node<E>) p; // safe cast
+        if(node.getNext() == null) {
+            throw new IllegalArgumentException(NULL_NODE);
+        }
+        return node; 
+    }
+    
+    /**
+     * Returns the given node as a Position, unless it is a sentinel node, in
+     * which case null is returned (user must not be exposed to sentinels)
+     * @param node The node to be returned as a Position
+     * @return The node as a Position, otherwise null if it is a sentinel node
+     */
+    private Position<E> position(Node<E> node) {
+        // If node is either one of the sentinel nodes
+        if (node == head || node == tail) { return null; }
+        return node;
+    }
+
+    /** Public Access Methods **/
 }
