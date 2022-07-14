@@ -10,6 +10,7 @@ public class PriorityQueue <K,V extends Comparable<K>> {
     /** Instance Variables **/
     private DoublyLinkedList<Entry<K,V>> list = new DoublyLinkedList<>();
     Comparator<K> comp = (K k1, K k2) -> compare(k1,k2);
+    public static final String ILLEGAL_ARG_NULL_KEY = "Keys must be non-null";
 
     public PriorityQueue(){
         super();
@@ -37,6 +38,37 @@ public class PriorityQueue <K,V extends Comparable<K>> {
      */
     protected int compare(K x, K y){
         return comp.compare(x,y);
+    }
+
+    /**
+     * Determines whether the incoming parameter key is valid
+     * @param key to check
+     * @return true if key is valid, false otherwise
+     * @throws IllegalArgumentException when key is either null or invalid
+     */
+    private boolean checkKey(K key) throws IllegalArgumentException{
+        if(key == null) {    
+            throw new IllegalArgumentException(ILLEGAL_ARG_NULL_KEY);
+        }
+        return true;
+    }
+
+
+    public Entry<K,V> insert(K key, V value) throws IllegalArgumentException {
+        checkKey(key);    // auxiliary key-checking method (could throw exception)
+        Entry<K,V> newest = new Entry<>(key, value);
+        Node<Entry<K,V>> currNode = list.tail;
+        Entry<K,V> curr = list.last();
+        // curr advances backward in the list, looking for smaller key
+        while (curr != null && compare(newest, curr) < 0) {
+          curr = list.prev(curr);
+        }
+        if (curr == null) {
+          list.addFirst(newest);                   // new key is the smallest
+        } else {
+          list.insert(newest,curr, newest);             // newest goes after current
+        }
+        return newest;
     }
 
 
