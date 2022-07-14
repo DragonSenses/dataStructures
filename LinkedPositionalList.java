@@ -1,5 +1,22 @@
 /**
- * Implementation of a positional list using a Doubly Linked List
+ * Implementation of a positional list using a Doubly Linked List. 
+ * 
+ * A positional list is a collection of positions, each of which stores an
+ * element. Positions are a simple abstract data type (ADT) in which it 
+ * provides a general abstraction for the location of an element within a
+ * structure.
+ * 
+ * Access Methods: first(), last(), before(p), after(p), isEmpty(), size()
+ * 
+ * Note that the most of these access methods return the associated positions
+ * not the elements. The advantage of receiving a position as a return value
+ * is that we can subsequently use that position to traverse the list. In this
+ * implementation the null reference is returned when after() is called on the
+ * last position, or before() is called at the front of the list, or when 
+ * first() or last() are called on an empty list. 
+ * 
+ * Update Methods: addFirst(e), addLast(e), addBefore(p,e), addAfter(p,e), 
+ * set(p,e), remove(p).
  */
 public class LinkedPositionalList<E> {
 
@@ -313,6 +330,7 @@ public class LinkedPositionalList<E> {
         size--; // Decrement the size
         E removed = node.getElement();
         // Assist Garbage Collection by setting links of removed node to null
+        // This also allows us to detect whether a position is defunct later on
         node.setElement(null);           
         node.setNext(null);             
         node.setPrev(null);
