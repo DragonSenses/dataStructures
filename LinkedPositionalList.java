@@ -209,7 +209,7 @@ public class LinkedPositionalList<E> {
         return position(tail.getPrev());
     }
 
-     /**
+    /**
      * Returns the Position immediately before Position p.
      * @param p   a Position of the list
      * @return the Position of the preceding element (or null, if p is first)
@@ -279,4 +279,43 @@ public class LinkedPositionalList<E> {
         return addBetween(e, node, node.getNext());
     }
 
+    /**
+     * Replaces the element stored at the given Position and returns the replaced element.
+     *
+     * @param p the Position of the element to be replaced
+     * @param e the new element
+     * @return the replaced element
+     * @throws IllegalArgumentException if p is not a valid position for this list
+     */
+    public E set(Position<E> p, E e) throws IllegalArgumentException {
+        Node<E> node = validate(p);
+        E oldElement = node.getElement();
+        node.setElement(e);
+        return oldElement;
+    }
+
+    /**
+     * Removes the element stored at the given Position and returns it.
+     * The given position is invalidated as a result.
+     *
+     * @param p the Position of the element to be removed
+     * @return the removed element
+     * @throws IllegalArgumentException if p is not a valid position for this list
+     */
+    public E remove(Position<E> p) throws IllegalArgumentException {
+        Node<E> node = validate(p); // Validate the incoming position
+        // Take the node's neighbors
+        Node<E> before = node.getPrev();
+        Node<E> after = node.getNext();
+        // Update the neighbor's links to each other
+        before.setNext(after);
+        after.setPrev(before);
+        size--; // Decrement the size
+        E removed = node.getElement();
+        // Assist Garbage Collection by setting links of removed node to null
+        node.setElement(null);           
+        node.setNext(null);             
+        node.setPrev(null);
+        return removed;
+    }
 }
