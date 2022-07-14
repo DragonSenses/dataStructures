@@ -7,6 +7,7 @@ Data Structures that are Implemented
 - Linked Lists
     - SingularlyLinkedList
     - DoublyLinkedList
+        - Positional List (LinkedPositionalList.java)
     - CircularlyLinkedList
 - Stack
 - Queue
