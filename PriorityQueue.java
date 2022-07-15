@@ -148,11 +148,9 @@ public class PriorityQueue <K,V extends Comparable<K>> {
 
 		public V getValue() { return value; }
 		
-		public void setValue(V value) { this.value = value; }
-
 		@Override
 		public String toString(){
-			return "<" + String.valueOf(key) + " , " + String.valueOf(value) + ">";
+			return "<" + String.valueOf(key) + " , " + String.valueOf(this.getValue()) + ">";
 		}
 	}
 
