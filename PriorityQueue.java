@@ -8,7 +8,9 @@ import java.util.Comparator;
  */
 public class PriorityQueue <K,V extends Comparable<K>> {
     /** Instance Variables **/
-    private DoublyLinkedList<Entry<K,V>> list = new DoublyLinkedList<>();
+    // private DoublyLinkedList<Entry<K,V>> list = new DoublyLinkedList<>();
+    // A Positional List implemented via Doubly Linked List
+    private LinkedPositionalList<Entry<K,V>> list = new LinkedPositionalList<>();
     Comparator<K> comp = (K k1, K k2) -> compare(k1,k2);
     public static final String ILLEGAL_ARG_NULL_KEY = "Keys must be non-null";
 
@@ -57,16 +59,15 @@ public class PriorityQueue <K,V extends Comparable<K>> {
     public Entry<K,V> insert(K key, V value) throws IllegalArgumentException {
         checkKey(key);    // auxiliary key-checking method (could throw exception)
         Entry<K,V> newest = new Entry<>(key, value);
-        Node<Entry<K,V>> currNode = list.tail;
-        Entry<K,V> curr = list.last();
+        Position<Entry<K,V>> curr = list.last();
         // curr advances backward in the list, looking for smaller key
-        while (curr != null && compare(newest, curr) < 0) {
-          curr = list.prev(curr);
+        while (curr != null && compare(newest, curr.getElement()) < 0) {
+          curr = list.before(curr);
         }
         if (curr == null) {
           list.addFirst(newest);                   // new key is the smallest
         } else {
-          list.insert(newest,curr, newest);             // newest goes after current
+          list.addAfter(curr, newest);             // newest goes after current
         }
         return newest;
     }
