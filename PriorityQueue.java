@@ -1,7 +1,26 @@
 import java.util.Comparator;
 
 /**
- * Priority Queue implemented with a Sorted List. 
+ * Priority Queue implemented with a Sorted List. This maintains entries
+ * sorted by nondecreasing keys. This ensures that the first element of
+ * the list is an entry with the smallest key. An unsorted Priority Queue
+ * on the other hand would have methods min() and removeMin() run in
+ * linear time O(n) as opposed to a sorted list which only has one method
+ * insert() run in linear time O(n). This is due to the Priority Queue 
+ * being implemented as a DoublyLinkedList. 
+ * 
+ * Priority Queue is an ADT where a queue-like structure is used to manage
+ * objects that must be process in some way but the 
+ * "First-In, First-Out (FIFO)" principle would not suffice. This 
+ * collection of prioritized elements that allows arbitrary element 
+ * insertion, and allows the removal of the element that has the first 
+ * priority. When an element is added to a priority queue, the user 
+ * designates its priority with an associated key. The element with the
+ * minimal key will be the next to be removed from the Queue. Any objects
+ * (in Java) may be used as a key as long as there exists a way to compare
+ * any two instances of x and y, that defines a natural order of the keys. 
+ * Usually priorities are expressed numerically, otherwise applications
+ * may develop their own notion of priority for each element. 
  * 
  * O(1) - size(), isEmpty(), min(), removeMin()
  * O(n) - insert()
