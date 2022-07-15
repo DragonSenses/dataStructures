@@ -22,6 +22,7 @@ public class PriorityQueue <K,V extends Comparable<K>> {
         this.comp = c;
     }
 
+    /** Private Utility Methods **/
     /**
      * Compares Two Entries by natural ordering
      * @param x First Entry to compare
@@ -55,7 +56,23 @@ public class PriorityQueue <K,V extends Comparable<K>> {
         return true;
     }
 
-
+    /** Update Methods **/
+    /**
+     * Inserts a Key-Value pair and returns the entry created. Take note that to
+     * have better worst-case running times of O(1) for operations min() and 
+     * removeMin() by ensuring that the underlying list in the queue is sorted, 
+     * the cost is causing insert to have a worst-case running time of O(n) as
+     * we now have to scan the list to find the appropriate Position to insert
+     * the new entry. We start at the end of the list, advancing backward until
+     * the new key is smaller than the existing entry. In the worst case, the
+     * new key is the smallest entry and reaches the front of the list, performing
+     * at O(n) where n is the number of entries in the priority queue during 
+     * execution.
+     * @param key   The key of the new entry
+     * @param value The associated value of the new entry
+     * @return  the entry storing the new key-value pair
+     * @throws IllegalArgumentException If the key is invalid
+     */
     public Entry<K,V> insert(K key, V value) throws IllegalArgumentException {
         checkKey(key);    // auxiliary key-checking method (could throw exception)
         Entry<K,V> newest = new Entry<>(key, value);
@@ -64,7 +81,7 @@ public class PriorityQueue <K,V extends Comparable<K>> {
         while (curr != null && compare(newest, curr.getElement()) < 0) {
           curr = list.before(curr);
         }
-        if (curr == null) {
+        if (curr == null) { // This operation runs in Linear Time to keep list sorted
           list.addFirst(newest);                   // new key is the smallest
         } else {
           list.addAfter(curr, newest);             // newest goes after current
@@ -72,7 +89,31 @@ public class PriorityQueue <K,V extends Comparable<K>> {
         return newest;
     }
 
+    /** Access Methods **/
+    /** @return The number of Entries within the Priority Queue
+     */
+    public int size() { return size(); }
 
+    /** @return True if Priority Queue is empty, false otherwise */
+    public boolean isEmpty() { return size() == 0; }
+
+    /**
+     * Returns (but does not remove) an entry with minimal key.
+     * @return Entry with the smallest key (or null if empty)
+     */
+    public Entry<K,V> min() {
+        if(list.isEmpty()) { return null; }
+        return list.first().getElement();
+    }
+
+    /**
+     * Returns and removes an entry with minimal key.
+     * @return The removed entry ( or null if empty)
+     */
+    public Entry<K,V> removeMin() {
+        if (list.isEmpty()) { return null; }
+        return list.remove(list.first());
+    }
 
     private static class Entry<K, V> { //inner Entry Class
 		protected K key;
