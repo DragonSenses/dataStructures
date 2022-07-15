@@ -52,7 +52,7 @@ public class PriorityQueue <K,V extends Comparable<K>> {
         return comp.compare(x.getKey(), y.getKey());
     }
 
-     /**
+    /**
      * Compares Two Keys by natural ordering
      * @param x First key to compare
      * @param y Second key to compare
