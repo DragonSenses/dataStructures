@@ -28,7 +28,7 @@ import java.util.TreeMap;
  * 
  *  LinkedHashMap maintains a doubly-linked list through all 
  * of its entries. This linked list defines the iteration 
- * orderm which is the order in whichh the keys were inserted
+ * order which is the order in which the keys were inserted
  * into the map
  * 
  *  TreeMap is iterated according to the natural ordering of
@@ -38,9 +38,25 @@ import java.util.TreeMap;
 public class MapDifferences {
 
     /**
-     * 
+     * Here we demonstrate the iteration order of these Maps
      */
     public static void main(String[] args) {
+        // Start with LinkedHashMap as it Iterates based on
+        // The order the keys were inserted
+        Map<String, String> map = new LinkedHashMap<>();
+
+        map.put("USA", "California");
+        map.put("Japan", "Kyoto");
+        map.put("China", "Shanghai");
+        map.put("UK", "Edinburgh");
+
+        System.out.println("LinkedHashMap: " + map);
+
+        map = new TreeMap<>(map);
+        System.out.println("TreeMap: " + map);
+
+        map = new HashMap<>(map);
+        System.out.println("HashMap: " + map);
 
     }
 }
