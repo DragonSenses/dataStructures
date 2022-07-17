@@ -438,8 +438,28 @@ public class RedBlackTree<K extends Comparable<? super K>, V> {
 		return n; 	// Return the node that's been restructured
 	}
 
+	/**
+	 * When Node n is Red, and both the right child and right child's left
+	 * are both Black, then we make either the Node n's right child, or one
+	 * of its children RED
+	 * @param n
+	 * @return
+	 */
 	private Node<K,V> makeRedRight (Node<K,V> n){
-		
+		// TO DO Null Check
+		// Check if n is red, right child is Black, and right.left child is Black
+
+		// Flip the Colors of both Parent Node and its Children
+		flipColors(n);
+
+		// Check if the left child's left to move to the right of the tree
+		if(n.isRed(n.left.left)) {
+			// Adjust the left.left node by turning it right and flip colors
+			n = turnRight(n);
+			flipColors(n);
+		}
+
+		return n;
 	}
 
 	/**
