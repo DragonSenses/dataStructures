@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 // import java.util.Stack;
+import java.util.NoSuchElementException;
 
 /** WORK IN PROGRESS. Not yet implemented fully. May even start over, but use what I learned from 
  * attempting it here. Uploaded for documentation purposes. 
@@ -18,11 +19,12 @@ public class RedBlackTree<K extends Comparable<? super K>, V> {
 	int size;	//tracks the number of Entries within BST
 	public static final String ILLEGAL_ARG = "Argument is Null";
 	
-	/**
-	 * 
-	 */
+	/** 1-bit Field Flags that represent the color of a node*/
 	private static final boolean RED = true;	
 	private static final boolean BLACK = false; 
+
+	/** Error Messages **/
+	private static String UNDERFLOW = "Tree Underflow, there is nothing to remove!";
 
 	/**
 	 * Public Constructor of Binary Search Tree.
@@ -31,7 +33,20 @@ public class RedBlackTree<K extends Comparable<? super K>, V> {
 		super();
 		this.size = 0;
 	}
-	
+
+	/** Public Access Methods **/
+
+	//@return The number of (key, value) pairs in this BST
+	public int size() { //number of entries
+		if (this.isEmpty()) { return 0; }
+		return (this.size == root.size(root) ? this.size : root.size(root));
+	}
+
+	public boolean isEmpty() { //is BST empty --> root is null?
+		return root == null;
+	}
+
+	/** Insertion Methods **/
 	
 	/**
 	 * Search BST for entry with given key, update value if found. Otherwise add
@@ -110,7 +125,7 @@ public class RedBlackTree<K extends Comparable<? super K>, V> {
 		
 		//Update sizes
 		n.nodes = n.size(n.left) + n.size(n.right) + 1; //update subtree size
-		this.size++; //increment BST Entries
+		// this.size++; //increment BST Entries
 		
 		return n;
 	}
@@ -148,7 +163,6 @@ public class RedBlackTree<K extends Comparable<? super K>, V> {
 		if(n.isBlack(left) && n.isRed(right)) { 
 			n = turnLeft(n); //The right child becomes the parent
 		}
-		
 		//If the parent's left child is Red, and left child's left is also red
 		if(n.isRed(left.left) && n.isRed(left)) {
 			n = turnRight(n); //Temporarily shift the red edge to lean right
@@ -162,17 +176,36 @@ public class RedBlackTree<K extends Comparable<? super K>, V> {
 		
 		return n; //Either returns the original node, or the new parent Node
 	}
+
+	/** Deletion Methods **/
 	
 	/**
-	 * Replaces the value that maps to the key if it is present
-	 * @param key The key whose mapped value is being replaced
-	 * @param newValue The value to replace the existing value with
-	 * @return true if the key was in this DefaultMap
-	 * @throws IllegalArgumentException if the key is null
+	 * Removes the smallest key and its associated value
+	 * @throws NoSuchElementException when remove is called an empty tree
 	 */
-	public boolean replace(K key, V newValue) throws IllegalArgumentException {
-		return false;
+	public void removeMin() throws NoSuchElementException {
+		if (isEmpty()) { throw new NoSuchElementException(UNDERFLOW); }
+
+		// If Both Children of the root are Black, set root to Red
+		if(root.bothBlack(root)) { root.color = RED; }
+
+		// Private Utility method to delete the key-value pair at the root
+		root = removeMin(root);
 	}
+
+	private Node<K,V> removeMin(Node<K,V> n) {
+		if(n.left == null) { return null; }
+		// Both Node's left child , and left child's left are both black
+		// Make the Left Child or One of its Children red
+		if(n.isBlack(n.left) && n.isBlack(n.left.left)){
+			n = makeRedLeft(n);
+		}
+
+		n.left = removeMin(n.left);
+		// At this point we must restore the properties of the Red Black Tree
+		return null; 
+	}
+
 	
 	/**
 	 * Remove the entry corresponding to the given key
@@ -211,6 +244,19 @@ public class RedBlackTree<K extends Comparable<? super K>, V> {
 		return null;
 	}
 
+	/** Update Methods **/
+
+	/**
+	 * Replaces the value that maps to the key if it is present
+	 * @param key The key whose mapped value is being replaced
+	 * @param newValue The value to replace the existing value with
+	 * @return true if the key was in this DefaultMap
+	 * @throws IllegalArgumentException if the key is null
+	 */
+	public boolean replace(K key, V newValue) throws IllegalArgumentException {
+		return false;
+	}
+
 	/**
 	 * Adds the key, value pair to this DefaultMap if it is not present,
 	 * otherwise, replaces the value with the given value
@@ -220,6 +266,8 @@ public class RedBlackTree<K extends Comparable<? super K>, V> {
 		put(key,value); //put() updates value	
 	}
 	
+	/** Search Methods **/
+
 	/**
 	 * @return the value corresponding to the specified key
 	 * @throws IllegalArgumentException if the key is null
@@ -228,8 +276,6 @@ public class RedBlackTree<K extends Comparable<? super K>, V> {
 		if (key == null) { throw new IllegalArgumentException(ILLEGAL_ARG); }
 		return search(root,key);
 	}
-	
-
 	
 	/**
 	 * Searches through the BST, making a decision on which path to take by 
@@ -253,15 +299,7 @@ public class RedBlackTree<K extends Comparable<? super K>, V> {
 		return null; //Failed search, no value returned
 	}
 
-	//@return The number of (key, value) pairs in this BST
-	public int size() { //number of entries
-		if (this.isEmpty()) { return 0; }
-		return (this.size == root.size(root) ? this.size : root.size(root));
-	}
 
-	public boolean isEmpty() { //is BST empty --> root is null?
-		return root == null;
-	}
 
 	/**
 	 * @return true if the specified key is in this BST, false otherwise
@@ -272,11 +310,8 @@ public class RedBlackTree<K extends Comparable<? super K>, V> {
 		return this.get(key) != null; //Search BST for key, if non-null = found
 	}
 
-	// Keys must be in ascending sorted order
-	// You CANNOT use Collections.sort() or any other sorting implementations
-	// You must do inorder traversal of the tree
 	/**
-	 * 
+	 * Keys are in ascending sorted order through inorder traversal of the tree
 	 * @return an array containing the keys of this BST. If this BST is 
 	 * empty, returns list of length zero. 
 	 */
@@ -410,6 +445,15 @@ public class RedBlackTree<K extends Comparable<? super K>, V> {
 		}
 	}
 	
+	/**
+	 * Flips the colors of the parent node and its children
+	 * @param parent The node and its two children to flip colors with
+	 */
+	private void flipColors(Node<K,V> parent) {
+		parent.color = !parent.color;
+		parent.left.color = !parent.left.color;
+		parent.right.color = !parent.right.color;
+	}
 	
 	/**
 	 * Node class within our Binary Search Tree. This will contain the Entries,
