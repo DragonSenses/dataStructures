@@ -193,7 +193,16 @@ public class RedBlackTree<K extends Comparable<? super K>, V> {
 		root = removeMin(root);
 	}
 
+	/**
+	 * Removes the smallest key-value pair with the minimum key rooted at n
+	 * This recursively calls itself by traversing through the left side,
+	 * finding the minimum node by checking if the its left child is null, 
+	 * and stabilizing the tree as it returns upwards
+	 * @param n	The root node to remove the minimum element from
+	 * @return The smallest node rooted at n
+	 */
 	private Node<K,V> removeMin(Node<K,V> n) {
+		// Base Case
 		if(n.left == null) { return null; }
 		// Both Node's left child , and left child's left are both black
 		// Make the Left Child or One of its Children red
@@ -203,9 +212,38 @@ public class RedBlackTree<K extends Comparable<? super K>, V> {
 
 		n.left = removeMin(n.left);
 		// At this point we must restore the properties of the Red Black Tree
-		return null; 
+		return stabilize(n); 
 	}
 
+	public void removeMax() throws NoSuchElementException {
+		if (isEmpty()) { throw new NoSuchElementException(UNDERFLOW); }
+
+		// If Both Children of the root are Black, set root to Red
+		if(root.bothBlack(root)) { root.color = RED; }
+
+		//Set the new root as returned by the private utility method
+		root = removeMax(root);
+
+		// Recolor the root node
+		if(!isEmpty()) { root.color = BLACK; }
+	}
+
+	private Node<K,V> removeMax(Node<K,V> n) {
+		// Red Edge leaning left, then adjust the tree
+		if(n.isRed(n.left)) { n = turnRight(n); }
+
+		// Base Case, we are at max when the right leaf is null
+		if(n.right == null ) { return null; }
+
+		if(n.isBlack(n.right.left) && n.isBlack(n.right)){
+			n = makeRedRight(n);
+		}
+
+		// Recursively call and traverse right to remove the max node
+		n.right = removeMax(n.right);
+
+		return stabilize(n);
+	}
 	
 	/**
 	 * Remove the entry corresponding to the given key
@@ -369,7 +407,8 @@ public class RedBlackTree<K extends Comparable<? super K>, V> {
 		}
 
 		// Update the size
-		n.size = size(n.left) + size(n.right) + 1;
+		n.nodes = n.size(n.left) + n.size(n.right) + 1;
+		return n;
 	}
 
 	/**
@@ -397,6 +436,10 @@ public class RedBlackTree<K extends Comparable<? super K>, V> {
 		}
 
 		return n; 	// Return the node that's been restructured
+	}
+
+	private Node<K,V> makeRedRight (Node<K,V> n){
+		
 	}
 
 	/**
