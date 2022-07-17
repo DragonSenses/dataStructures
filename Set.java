@@ -12,8 +12,21 @@
  * 3. A Multimap is similar to a traditional map, in that it associates 
  * values with keys; however, in a multimap the same key can be mapped
  * to multiple values. 
+ * 
+ * Implementations: from Java Collections Framework
+ *  - HashSet provides an implementation of the Unordered set ADT with 
+ *    a Hash Table
+ *  - TreeSet implements the sorted set ADT using a balanced search tree
+ *  - java.util.concurrent.ConcurrentSkipListSet implements a sorted set
+ *    using a skip list
+ * 
+ * HashSet stores a group of individual objects but duplicate values are
+ * not allowed. Using a hashtable, its hashing techinque improves 
+ * performance by reducing the wait time. Does not guarantee insertion 
+ * order of elements.
  */
 public class Set {
+    // Looking at java.util.Set interface
     /** Fundamental Methods of Set ADT */
     /**
      * add(e) - Adds the element e to Set S (if not already present)
