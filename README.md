@@ -13,8 +13,10 @@ Data Structures that are Implemented
 - Queue
     - Deque (DoublyLinkedList implementation)
     - PriorityQueue (Sorted DoublyLinkedList implementation)
-- Heap
-    - Binary Heap (BST.java)
+- Binary Search Tree
+    - Red Black Tree (RedBlackTree.java)
+    - Heap
+        - Binary Heap (BST.java)
 - HashTable
     - Linear Probing (HashTable.java)
 - HashMap
@@ -27,6 +29,7 @@ Interfaces
 - Position
 
 Implemented but needs testing:
+- RedBlackTree
 - PriorityQueue
 - SortedTableMap
 - HashTable
@@ -36,8 +39,7 @@ Implemented but needs testing:
 
 Data Structures that are a Work In Progress (Not fully tested or implemented):
 
-- HashMap.java          (Not fully tested)
-- RedBlackTree.java     (Not fully implemented)
+- HashMap.java          (Not fully tested, fails removal)
 
 Files that are working but need maintainence:
 
