@@ -341,8 +341,37 @@ public class RedBlackTree<K extends Comparable<? super K>, V> {
 		addInOrder(n.right,list); 
 	}
 
-	/** Private Utility Methods to Restructure/Balance and Restore Red-Black Trees **/
+	/** Private Utility Methods to Restructure, Balance, and Restore Red-Black Trees **/
 	
+	/**
+	 * Balances the Red-Black tree to maintain its properties. Restores the target node
+	 * with their children based on their colors, while also updating their sizes. Warp
+	 * fields stabilized.
+	 * @param n	The target node to restore Red-Black tree properties
+	 * @return	The node at the original position after stabilizing the tree
+	 */
+	private Node<K,V> stabilize(Node<K,V> n){
+		// TO DO : Null Check
+
+		// Are the nodes Red Edge leaning Right?
+		if(n.isBlack(n.left) && n.isRed(n.right)) { 
+			n = turnLeft(n); 
+		}
+		
+		// Are the nodes Red Edge leaning left?
+		if(n.isRed(n.left) && n.isRed(n.left.left)) {
+			n = turnRight(n);
+		}
+
+		// Are both children Red?
+		if(n.isRed(n.left) && n.isRed(n.right)){
+			flipColors(n);
+		}
+
+		// Update the size
+		n.size = size(n.left) + size(n.right) + 1;
+	}
+
 	/**
 	 * When Node n is Red, and both the left child, and the left child's left
 	 * are both Black, then we make either the the Node n's left child, or one of 
