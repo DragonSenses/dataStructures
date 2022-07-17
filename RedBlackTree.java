@@ -224,7 +224,7 @@ public class RedBlackTree<K extends Comparable<? super K>, V> {
 		//Set the new root as returned by the private utility method
 		root = removeMax(root);
 
-		// Recolor the root node
+		//BST still has entries and root exists, then revert root color to Black
 		if(!isEmpty()) { root.color = BLACK; }
 	}
 
@@ -267,7 +267,7 @@ public class RedBlackTree<K extends Comparable<? super K>, V> {
 	}
 	
 	/**
-	 * Removes the Node entry with corresponding key, then balances the tree.
+	 * Removes the Node rooted at n with corresponding key, then balances the tree.
 	 * 
 	 * Just when we always add new nodes as Red, we also want to always delete a
 	 * red node, if not red then swap colors to make it red. 
@@ -276,9 +276,28 @@ public class RedBlackTree<K extends Comparable<? super K>, V> {
 	 * @return		The 
 	 */
 	private Node<K,V> cutAndTie(Node<K,V> n, K key){
-		// if (key.compareTo(n.getKey()) < 0) { //key less than node's key
+		// If the target key is less than current node's key, Go Left
+		if (key.compareTo(n.getKey()) < 0) { 
+			// If RBT is black leaning left, make Red
+			if (n.isBlack(n.left) && n.isBlack(n.left.left)){
+				n = makeRedLeft(n); 
+			}
+			n.left = cutAndTie(n.left, key); // Recur leftwards
+		} else { // If target key is greater than current node's key, Go Right
+			if(n.isRed(n.left)) { n = turnRight(n); } // Is left child Red?
+
+			// If Keys match and there are no more right nodes to traverse
+			if(key.compareTo(n.key) == 0 && (n.right == null)){
+				return null; // End Case
+			}
+
+			// If the right child and right child's left are both Black
+			if(n.isBlack(n.right) && n.isBlack(n.right.left)) {
+				n = makeRedRight(n); 
+			}
+
 			
-		// }
+		}
 		return null;
 	}
 
