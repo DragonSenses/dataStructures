@@ -24,6 +24,18 @@
  * not allowed. Using a hashtable, its hashing techinque improves 
  * performance by reducing the wait time. Does not guarantee insertion 
  * order of elements.
+ * 
+ * LinkedHashSet also stores a group of individual objects but duplicate 
+ * values are not allowed. Internally implements a hashtable and a 
+ * doubly linked list. It is an ordered Collection as it guarantees the 
+ * insertion order of elements.
+ * 
+ * TreeSet also implements the Set interface, but duplicate values are 
+ * not allowed. It does not support null values as it performs comparison
+ * operations, it also does not store different types of objects as a result.
+ * All elements are stored in a according to the natural ordering of
+ * its keys or according to the Comparator specified at the set's creation
+ * 
  */
 public class Set {
     // Looking at java.util.Set interface
