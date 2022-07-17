@@ -46,6 +46,50 @@ public class RedBlackTree<K extends Comparable<? super K>, V> {
 		return root == null;
 	}
 
+	/**
+	 * Returns the smallest key within the Tree
+	 * @return the minimum key
+	 */
+	public K min(){
+		if (isEmpty()) { throw new NoSuchElementException(UNDERFLOW); }
+		return (min(root)).getKey(); // Retroive the node with smallest key
+	}
+
+	/**
+	 * Recursive method to retrieve the Node that contains the smallest key
+	 * @param n	- The target node to traverse 
+	 * @return The node with the smallest key
+	 */
+	private Node<K,V> min(Node<K,V> n) {
+		// Base Case: No more Left Child
+		// if (n.left == null) { 
+		// 	return n; 
+		// } else {
+		// 	return (min(n.left));
+		// }
+		return (n.left == null) ? n : (min(n.left));
+	}
+
+	/**
+	 * Returns the largest key within the Tree
+	 * @return the maximum key
+	 */
+	public K max() {
+		if (isEmpty()) { throw new NoSuchElementException(UNDERFLOW); }
+		return max(root).getKey();
+	}
+
+	/**
+	 * Recursive method that traverses the tree rightwards to retrieve
+	 * the largest key
+	 * @param n - The target node to traverse
+	 * @return The node with the largest key
+	 */
+	private Node<K,V> max(Node<K,V> n){
+		// Base Case if Node's right child is null, then n has max key
+		return (n.right == null) ? n : (max(n.right));
+	}
+
 	/** Insertion Methods **/
 	
 	/**
@@ -287,7 +331,7 @@ public class RedBlackTree<K extends Comparable<? super K>, V> {
 			if(n.isRed(n.left)) { n = turnRight(n); } // Is left child Red?
 
 			// If Keys match and there are no more right nodes to traverse
-			if(key.compareTo(n.key) == 0 && (n.right == null)){
+			if(key.compareTo(n.getKey()) == 0 && (n.right == null)){
 				return null; // End Case
 			}
 
@@ -296,9 +340,20 @@ public class RedBlackTree<K extends Comparable<? super K>, V> {
 				n = makeRedRight(n); 
 			}
 
-			
+			// If Keys Match
+			if(key.compareTo(n.getKey()) == 0) {
+				// If Keys match then the Node should swap fields with 
+				// The Node with the smallest key rooted at right child
+				Node<K,V> temp = min(n.right); 
+				n.key = temp.key;
+				n.setValue(temp.value);
+				// Then Delete that Node
+				n.right = removeMin(n.right); 
+			} else { // Recur Right if keys dont match otherwise
+				n.right = cutAndTie(n.right, key);
+			}
 		}
-		return null;
+		return stabilize(n);
 	}
 
 	/** Update Methods **/
