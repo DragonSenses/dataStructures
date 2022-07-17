@@ -340,7 +340,36 @@ public class RedBlackTree<K extends Comparable<? super K>, V> {
 		//If Parent Node has right child, then traverse the right subtree of N
 		addInOrder(n.right,list); 
 	}
+
+	/** Private Utility Methods to Restructure/Balance and Restore Red-Black Trees **/
 	
+	/**
+	 * When Node n is Red, and both the left child, and the left child's left
+	 * are both Black, then we make either the the Node n's left child, or one of 
+	 * its children red. 
+	 * @param n	The node to set as a reference to restructure
+	 * @return	The node reference after rebalancing
+	 */
+	private Node<K,V> makeRedLeft(Node<K,V> n){
+		// TO DO Null Check
+		// Check if n is red, left child is Black, and left.left child is Black
+
+		// Flip the Colors of both Parent Node and its Children
+		flipColors(n);
+
+		// If the node's right child's left is Red then adjust the right child
+		if(n.isRed(n.right.left)){
+			// Switch the parent node (right child) from a larger key to a smaller key
+			// The right childs left becomes the new parent, going up the level 
+			// while the old parent node becomes the new right child
+			n.right = turnRight(n.right); 
+			n = turnLeft(n); 	// Adjust n, for red edge leaning right
+			flipColors(n);		// Flip the colors of both children
+		}
+
+		return n; 	// Return the node that's been restructured
+	}
+
 	/**
 	 * Consider the case when a Parent node's right child is Red, which is a 
 	 * Red Edge leaning right, we must adjust the Node's left, right 
