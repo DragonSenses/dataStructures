@@ -6,6 +6,16 @@ import java.util.TreeMap;
 /** HashMap vs. LinkedHashMap vs. TreeMap
  * This class considers the differences between these Maps
  * 
+ * Summary: Which to use, and which scenarios do each excel at?
+ *  HashMap - When Performance is Vital, and Ordering of Keys 
+ *            Does not matter
+ *  LinkedHashMap - If the insertion order of the keys should
+ *                  be preserved, guarantees this order will
+ *                  be maintained throught the life cycle of 
+ *                  the map
+ *  TreeMap - When keys need to be ordered by either their 
+ *            natural ordering or by a Comparator
+ * 
  * 1. Implementation
  *   - Map Interface: HashMap, LinkedHashMap, TreeMap
  *   - NavigableMap & SortedMap Interface : TreeMap
@@ -34,6 +44,31 @@ import java.util.TreeMap;
  *  TreeMap is iterated according to the natural ordering of
  * its keys or according to the Comparator specified at the 
  * map's creation time
+ * 
+ * 3. Performance
+ *  Assuming Hash function disperses the elements properly 
+ * among the buckets, HashMap and LinkedHashMap offer O(1)
+ * time performance for operations: get(), put(), containsKey(),
+ * remove(), etc.
+ *  TreeMap guarantees O(log(n)) time cost for these operations.
+ * 
+ * However, the added expense of maintaining the doubly-linked
+ * list makes LinkedHashMap's performance slighly lower than 
+ * that of HashMap. So opt for HashMap where performance is 
+ * more a concern.
+ * 
+ *  Space Complexity wise, HashMap requires less memory than
+ * TreeMap and LinkedHashMap since it uses a hash table to
+ * store the mappings. LinkedHashMap has extra overhead of a
+ * doubly-linked list, whereas TreeMap is implemented as a 
+ * Red-Black tree, which takes up more memory.
+ * 
+ * 4. Treatment of Null Keys and Values
+ *  HashMap and LinkedHashMap permits null keys and null values
+ *  TreeMap permits only null values, but does not permit null
+ * keys if thhe natural ordering of keys is used. It may support
+ * null keys only if its Comparator supports comparison on null
+ * keys.
  */
 public class MapDifferences {
 
