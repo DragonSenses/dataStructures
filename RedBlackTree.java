@@ -341,7 +341,9 @@ public class RedBlackTree<K extends Comparable<? super K>, V> {
 		//Ensure that this edge that now leans left
 		rChild.color = parent.color; //The new parent (prev. rChild) turns BLACK
 		parent.color = RED; //This is now the left child of rChild, we turn RED
-		
+		//Update the nodes field or size of subtree of each node
+		rChild.nodes = parent.nodes;
+		parent.nodes = parent.size(parent.left) + parent.size(parent.right) + 1;
 		return rChild; //Here, the right child is now the new Parent (root)
 		
 	}
@@ -376,7 +378,9 @@ public class RedBlackTree<K extends Comparable<? super K>, V> {
 		//child (or black) so that no two red edges are connected to one node
 		lChild.color = parent.right.color;
 		parent.color = RED; //parent is now the new Right Child, we turn RED
-
+		//Update the nodes field or size of subtree of each node
+		lChild.nodes = parent.nodes;
+		parent.nodes = parent.size(parent.left) + parent.size(parent.right) + 1;
 		return lChild; //Here, the left child is now the new Parent (root)
 
 	}
@@ -431,12 +435,12 @@ public class RedBlackTree<K extends Comparable<? super K>, V> {
 	 */
 	private static class Node<K extends Comparable<? super K>, V> {
 		//instance variables
-		private K key;				//Key
-		private V value;			//Value of key
+		private K key;				    //Key
+		private V value;				//Value of key
 		private Node<K,V> left, right;	//References left and right of Node
-		private boolean color;		//Red or Black color
+		private boolean color;		    //Red or Black color
 		//All null nodes, root, and leaves are Black
-		private int nodes; 			//Number of Nodes in Subtree
+		private int nodes; 			    //Number of Nodes in Subtree
 		
 		//Public Constructor
 		public Node(K key, V value, boolean color, int nodes) {
