@@ -366,7 +366,11 @@ public class RedBlackTree<K extends Comparable<? super K>, V> {
 	 * @throws IllegalArgumentException if the key is null
 	 */
 	public boolean replace(K key, V newValue) throws IllegalArgumentException {
-		return false;
+		if(key == null) { throw new IllegalArgumentException(ILLEGAL_ARG); }
+		if(!containsKey(key)){
+			return false;
+		}
+		return put(key,newValue);
 	}
 
 	/**
