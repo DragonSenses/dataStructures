@@ -1,3 +1,3 @@
-public class Edge {
+public class Edge <E> {
     
 }
