@@ -1,3 +1,3 @@
-public class Vertex {
+public class Vertex <V> {
     
 }
