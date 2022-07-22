@@ -30,7 +30,16 @@
  * vertex and each stretch of wire or pipe is viewed as an edge. Current 
  * can flow in a wire, or water can flow in a pipe in either direction, so
  * we may considered their edges undirected or directed.
+ * 
+ * Implementation: Graph ADT, can be modeled with three data types: 
+ * Vertex, Edge, and Graph.
  */
 public interface Graph<V,E> {
+  
+    /** Returns the number of vertices of the graph */
+  int numVertices();
+
+  /** Returns the number of edges of the graph */
+  int numEdges();
 
 }
