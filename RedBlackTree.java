@@ -1,18 +1,14 @@
 import java.util.ArrayList;
 import java.util.List;
-// import java.util.Stack;
 import java.util.NoSuchElementException;
 
-/** WORK IN PROGRESS. Not yet implemented fully. May even start over, but use what I learned from 
- * attempting it here. Uploaded for documentation purposes. 
+/** 
  * A self-balancing Red-Black Tree. 
- * @author kendr
  *
  * @param <K> The type of the keys of this BST. They need to be comparable by nature of the BST
  * "K extends Comparable" means that BST will only compile with classes that implement Comparable
  * interface. This is because our BST sorts entries by key. Therefore keys must be comparable.
  * @param <V> The type of the values of this BST. 
- * 
  */	
 public class RedBlackTree<K extends Comparable<? super K>, V> {
 	private Node<K,V> root;
@@ -36,12 +32,13 @@ public class RedBlackTree<K extends Comparable<? super K>, V> {
 
 	/** Public Access Methods **/
 
-	//@return The number of (key, value) pairs in this BST
+	/** @return The number of (key, value) pairs in this BST */
 	public int size() { //number of entries
 		if (this.isEmpty()) { return 0; }
 		return (this.size == root.size(root) ? this.size : root.size(root));
 	}
 
+	/** @return true if the tree is empty, false otherwise */
 	public boolean isEmpty() { //is BST empty --> root is null?
 		return root == null;
 	}
@@ -169,8 +166,6 @@ public class RedBlackTree<K extends Comparable<? super K>, V> {
 		
 		//Update sizes
 		n.nodes = n.size(n.left) + n.size(n.right) + 1; //update subtree size
-		// this.size++; //increment BST Entries
-		
 		return n;
 	}
 	
@@ -217,7 +212,6 @@ public class RedBlackTree<K extends Comparable<? super K>, V> {
 		if(n.isRed(left) && n.isRed(right)) {
 			swapColors(n);
 		}
-		
 		return n; //Either returns the original node, or the new parent Node
 	}
 
@@ -285,7 +279,6 @@ public class RedBlackTree<K extends Comparable<? super K>, V> {
 
 		// Recursively call and traverse right to remove the max node
 		n.right = removeMax(n.right);
-
 		return stabilize(n);
 	}
 	
@@ -306,7 +299,6 @@ public class RedBlackTree<K extends Comparable<? super K>, V> {
 		
 		//BST still has entries and root exists, then revert root color to Black
 		if(!isEmpty()) { this.root.color = BLACK; } 
-		
 		return true;
 	}
 	
@@ -512,7 +504,6 @@ public class RedBlackTree<K extends Comparable<? super K>, V> {
 			n = turnLeft(n); 	// Adjust n, for red edge leaning right
 			flipColors(n);		// Flip the colors of both children
 		}
-
 		return n; 	// Return the node that's been restructured
 	}
 
@@ -536,7 +527,6 @@ public class RedBlackTree<K extends Comparable<? super K>, V> {
 			n = turnRight(n);
 			flipColors(n);
 		}
-
 		return n;
 	}
 
