@@ -39,7 +39,39 @@ import java.util.HashMap;
  * return the same collection, and outDegree and inDegree return the
  * same value.
  */
-public class Graph<V, E> {
+public class Graph <V,E> {
+    /**
+     * A vertex of a graph. Also known as a Node.
+     */
+    private class Vertex <V>{
+        private V data;
+
+        /**
+         * Returns the data associated with the vertex. It
+         * retrieves the data stored within the node.
+         * @return the data asscoaited with the vertex
+         */
+        public V getData(){
+            return data;
+        }
+    }
+
+    /**
+     * An edge of a graph.
+     */
+    private class Edge <E>{
+        private E data; 
+
+        /**
+         * Returns the data associated with the edge.
+         * @return the data asscoiated with the edge
+         */
+        public E getData(){
+            return data;
+        }
+    }
+
+    /** Graph Instance Variables **/
     private LinkedList<Vertex<V>> vertices = new LinkedList<>();
     private LinkedList<Edge<E>> edges = new LinkedList<>(); 
     HashMap<Vertex<V>, LinkedList<Vertex<V>>> adjMap = new HashMap<>();
