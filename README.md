@@ -24,9 +24,6 @@ Data Structures that are Implemented
 - Sorted Map (SortedTableMap.java)   
 
 Interfaces
-- Graph
-    - Edge
-    - Vertex
 - List
 - Map
 - Position
