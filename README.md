@@ -23,7 +23,10 @@ Data Structures that are Implemented
     - Separate Chaining (ChainHashMap.java)
 - Sorted Map (SortedTableMap.java)   
 
-Interfaces 
+Interfaces
+- Graph
+    - Edge
+    - Vertex
 - List
 - Map
 - Position
