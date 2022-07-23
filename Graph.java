@@ -45,6 +45,7 @@ import java.util.Iterator;
  */
 public class Graph <V,E>  {
 
+    /************************* Nested Vertex Node class  ********************************/
     private class Node implements Vertex<V> {
         private V element;
         private Position<Vertex<V>> p;
@@ -64,6 +65,18 @@ public class Graph <V,E>  {
         /** Returns the element associated with the vertex node. */
         public V getElement() { return element; }
 
+        /** @returns the position of this vertex within the graphs list of vertexes */
+        public Position<Vertex<V>> getPosition() { return p; }
+
+        /** Set the position of this node vertex within the graphs list of vertexes */
+        public void setPosition(Position<Vertex<V>> p) { this.p = p; }
+
+        /** @return The reference to map of incoming edges */
+        public HashMap<Vertex<V>, Edge<E>> getIncoming() { return in; }
+
+        /** @return  The reference to map of outgoing edges*/
+        public HashMap<Vertex<V>, Edge<E>> getOutgoing() { return out; }
+
         /**
          * Check whether this vertex instance belongs to the given graph. This will serve
          * as a safety check when updating the graphs.
@@ -74,8 +87,9 @@ public class Graph <V,E>  {
         public boolean check(Graph<V,E> graph) {
             return (Graph.this == graph) && (p != null);
         }
-    }
+    } /************************ End of Vertex Node class  ********************************/
 
+    /************************* Nested Edge Node class  ********************************/
     private class EdgeNode implements Edge<E> {
         private E element;
         private Position<Edge<E>> p;
@@ -83,7 +97,7 @@ public class Graph <V,E>  {
 
         /** Returns the element associated with the edge. */
         public E getElement() { return element; }
-    }
+    } /************************* End of nested Edge Node class  ********************************/
     
     /** Graph Instance Variables **/
     private LinkedPositionalList<Vertex<V>> vertices = new LinkedPositionalList<>();
