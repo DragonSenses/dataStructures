@@ -1,5 +1,6 @@
 import java.util.LinkedList;
 import java.util.HashMap;
+import java.util.Iterator;
 /**
  * A Graph is a way of representing relationships that exists betwen
  * pairs of objects. A graph is a set of objects, called vertices,
@@ -71,10 +72,10 @@ public class Graph <V,E>  {
     public int numEdges(){ return edges.size(); }
 
     /** Returns the vertices of the graph as an iterable collection */
-    public Iterable<Vertex<V>> vertices(){ return vertices; }
+    public Iterator<Vertex<V>> vertices(){ return vertices.iterator(); }
 
     /** Returns the edges of the graph as an iterable collection */
-    public Iterable<Edge<E>> edges(){ return edges; }
+    public Iterator<Edge<E>> edges(){ return edges.iterator(); }
 
     /**
      * Returns the number of edges leaving vertex v.
