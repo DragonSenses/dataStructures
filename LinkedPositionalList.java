@@ -1,3 +1,6 @@
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
 /**
  * Implementation of a positional list using a Doubly Linked List. 
  * 
@@ -330,4 +333,58 @@ public class LinkedPositionalList<E> {
         str.append("]");
         return str.toString();
       }
+
+    /**
+     * A iterator class that is nonstatic, meaning that each instance of LinkedPositionalList
+     * has its own iterator. The iterator can make an implicit reference to the outer list
+     * allowing list methods to be called directly. 
+     */
+    private class PositionIterator implements Iterator<Position<E>> {
+        // A Position pointer keeps track of position in the list, initialized as first position
+        private Position<E> pointer = first(); 
+        // A Position pointer that keeps the most recent element thats been called with next
+        private Position<E> recent = null; 
+        // Error Messages
+        private static String NO_SUCH_ELEM = "There is no further elements to iterate on";
+        private static String ILLEGAL_STATE = "There is nothing to remove";
+
+        /**
+         * Tests whether the iterator has a next object
+         * @return true if there are more objects to call next on, false otherwise
+         */
+        public boolean hasNext() { return pointer != null; }
+
+        public Position<E> next() throws NoSuchElementException {
+            if (pointer == null) { throw new NoSuchElementException(NO_SUCH_ELEM); }
+            recent = pointer;   // Save the current pointer element as it may be removed later
+            pointer = after(pointer); // Reassign the pointer to position immediately after it
+            return recent; 
+        }
+
+        /**
+         * Removes the element returned by the most recent call to next
+         * @throws IllegalStateException if next has not yet been called, or
+         *                               if remove was already called since recent next
+         */
+        public void remove() throws IllegalStateException {
+            if(recent == null ) { throw new IllegalStateException(ILLEGAL_STATE); }
+            LinkedPositionalList.this.remove(recent); // Remove called from outer list class
+            recent = null;  // Prevent removed to be called again until next is called
+        }
+    } // end of nested Iterator Class
+
+    /**
+     * Returns an iterator of the elements stored in the list.
+     * 
+     * @return iterator of the list's elements
+     */
+    @Override
+    public Iterator<E> iterator() {
+        return new PositionIterator(); // Create a new instance of the Iterator inner class 
+    }
+    private class PositionIterable implements Iterable<Position<E>> {
+        public Iterator<Position<E>> iterator() { return new PositionIterator(); }
+    }
+
+
 }
