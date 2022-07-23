@@ -93,10 +93,43 @@ public class Graph <V,E>  {
     private class EdgeNode implements Edge<E> {
         private E element;
         private Position<Edge<E>> p;
-        private Vertex<V>[] endpoints;  
+        // A Vertex array that contains two Vertexes to form the edge
+        private Vertex<V>[] edge;  
+
+        /**
+         * Constructs an EdgeNode that contains the edge, or a pair of vertices
+         * @param u The first vertex
+         * @param v The second vertex
+         * @param data  The data contained within the edge
+         */
+        @SuppressWarnings("unchecked")
+        public EdgeNode(Vertex<V> u, Vertex<V> v, E data){
+            element = data; 
+            edge = (Vertex<V>[]) new Vertex[]{u,v}; // Array Length of 2
+        }
 
         /** Returns the element associated with the edge. */
         public E getElement() { return element; }
+
+        /** @return Reference to the edge, or array that stores the pair of vertices */
+        public Vertex<V>[] getEdge() { return edge; }
+
+        /** @returns the position of this edge within the graphs list of edges */
+        public Position<Edge<E>> getPosition() { return p; }
+
+        /** Set the position of this node edge within the graphs list of edges */
+        public void setPosition(Position<Edge<E>> p) { this.p = p; }
+
+        /**
+         * Check whether this edge instance belongs to the given graph. This will serve
+         * as a safety check when updating the graphs.
+         * @param graph the incoming graph to check in
+         * @return true if this and graph point to the same instance, and position is not null;
+         *         false otherwise
+         */
+        public boolean check(Graph<V,E> graph) {
+            return (Graph.this == graph) && (p != null);
+        }
     } /************************* End of nested Edge Node class  ********************************/
     
     /** Graph Instance Variables **/
