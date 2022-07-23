@@ -1,15 +1,11 @@
 /**
  * An edge of a graph.
  */
-public class Edge<E> {
-    private E data;
-
+public interface Edge <E> {
+    
     /**
-     * Returns the data associated with the edge.
-     * 
-     * @return the data associated with the edge
+     * Returns the element associated with the edge.
+     * @return the element asscoiated with the edge
      */
-    public E getData() {
-        return data;
-    }
+    E getElement();
 }
