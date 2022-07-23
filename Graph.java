@@ -1,4 +1,5 @@
-
+import java.util.LinkedList;
+import java.util.HashMap;
 /**
  * A Graph is a way of representing relationships that exists betwen
  * pairs of objects. A graph is a set of objects, called vertices,
@@ -38,19 +39,22 @@
  * return the same collection, and outDegree and inDegree return the
  * same value.
  */
-public interface Graph<V, E> {
+public class Graph<V, E> {
+    private LinkedList<Vertex<V>> vertices = new LinkedList<>();
+    private LinkedList<Edge<E>> edges = new LinkedList<>(); 
+    HashMap<Vertex<V>, LinkedList<Vertex<V>>> adjMap = new HashMap<>();
 
     /** Returns the number of vertices of the graph */
-    int numVertices();
+    public int numVertices(){ return vertices.size(); }
 
     /** Returns the number of edges of the graph */
-    int numEdges();
+    public int numEdges(){ return edges.size(); }
 
     /** Returns the vertices of the graph as an iterable collection */
-    Iterable<Vertex<V>> vertices();
+    public Iterable<Vertex<V>> vertices(){ return vertices; }
 
     /** Returns the edges of the graph as an iterable collection */
-    Iterable<Edge<E>> edges();
+    public Iterable<Edge<E>> edges(){ return edges; }
 
     /**
      * Returns the number of edges leaving vertex v.
@@ -58,7 +62,9 @@ public interface Graph<V, E> {
      * 
      * @throws IllegalArgumentException if v is not a valid vertex
      */
-    int outDegree(Vertex<V> v) throws IllegalArgumentException;
+    public int outDegree(Vertex<V> v) throws IllegalArgumentException{
+        return 0;
+    }
 
     /**
      * Returns the number of edges for which vertex v is the destination.
@@ -66,7 +72,9 @@ public interface Graph<V, E> {
      * 
      * @throws IllegalArgumentException if v is not a valid vertex
      */
-    int inDegree(Vertex<V> v) throws IllegalArgumentException;
+    public int inDegree(Vertex<V> v) throws IllegalArgumentException{
+        return 0;
+    }
 
     /**
      * Returns an iterable collection of edges for which vertex v is the origin.
@@ -74,7 +82,9 @@ public interface Graph<V, E> {
      * 
      * @throws IllegalArgumentException if v is not a valid vertex
      */
-    Iterable<Edge<E>> outgoingEdges(Vertex<V> v) throws IllegalArgumentException;
+    public Iterable<Edge<E>> outgoingEdges(Vertex<V> v) throws IllegalArgumentException{
+        return null;
+    }
 
     /**
      * Returns an iterable collection of edges for which vertex v is the
@@ -83,10 +93,14 @@ public interface Graph<V, E> {
      * 
      * @throws IllegalArgumentException if v is not a valid vertex
      */
-    Iterable<Edge<E>> incomingEdges(Vertex<V> v) throws IllegalArgumentException;
+    public Iterable<Edge<E>> incomingEdges(Vertex<V> v) throws IllegalArgumentException{
+        return null;
+    }
 
     /** Returns the edge from u to v, or null if they are not adjacent. */
-    Edge<E> getEdge(Vertex<V> u, Vertex<V> v) throws IllegalArgumentException;
+    public Edge<E> getEdge(Vertex<V> u, Vertex<V> v) throws IllegalArgumentException{
+        return null;
+    }
 
     /**
      * Returns the vertices of edge e as an array of length two.
@@ -94,13 +108,19 @@ public interface Graph<V, E> {
      * the second is the destination. If the graph is undirected, the
      * order is arbitrary.
      */
-    Vertex<V>[] endVertices(Edge<E> e) throws IllegalArgumentException;
+    public Vertex<V>[] endVertices(Edge<E> e) throws IllegalArgumentException{
+        return null;
+    }
 
     /** Returns the vertex that is opposite vertex v on edge e. */
-    Vertex<V> opposite(Vertex<V> v, Edge<E> e) throws IllegalArgumentException;
+    public Vertex<V> opposite(Vertex<V> v, Edge<E> e) throws IllegalArgumentException{
+        return null;
+    }
 
     /** Inserts and returns a new vertex with the given element. */
-    Vertex<V> insertVertex(V element);
+    public Vertex<V> insertVertex(V element){
+        return null;
+    }
 
     /**
      * Inserts and returns a new edge between vertices u and v, storing given
@@ -109,12 +129,18 @@ public interface Graph<V, E> {
      * @throws IllegalArgumentException if u or v are invalid vertices, or if an
      *                                  edge already exists between u and v.
      */
-    Edge<E> insertEdge(Vertex<V> u, Vertex<V> v, E element) throws IllegalArgumentException;
+    public Edge<E> insertEdge(Vertex<V> u, Vertex<V> v, E element) throws IllegalArgumentException{
+        return null;
+    }
 
     /** Removes a vertex and all its incident edges from the graph. */
-    void removeVertex(Vertex<V> v) throws IllegalArgumentException;
+    public void removeVertex(Vertex<V> v) throws IllegalArgumentException{
+
+    }
 
     /** Removes an edge from the graph. */
-    void removeEdge(Edge<E> e) throws IllegalArgumentException;
+    public void removeEdge(Edge<E> e) throws IllegalArgumentException{
+
+    }
 
 }
