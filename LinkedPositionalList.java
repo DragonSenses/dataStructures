@@ -334,6 +334,7 @@ public class LinkedPositionalList<E> {
         return str.toString();
       }
 
+    /************************* nested Iterator class  ********************************/
     /**
      * A iterator class that is nonstatic, meaning that each instance of LinkedPositionalList
      * has its own iterator. The iterator can make an implicit reference to the outer list
@@ -373,18 +374,29 @@ public class LinkedPositionalList<E> {
         }
     } // end of nested Iterator Class
 
+    // Private inner ElementIterator class needed to access the elements within
+    private class ElementIterator implements Iterator<E> {
+        Iterator<Position<E>> it = new PositionIterator();
+        public boolean hasNext() { return it.hasNext(); }
+        public E next() { return it.next().getElement(); }
+        public void remove() { it.remove(); }
+    }
+
     /**
      * Returns an iterator of the elements stored in the list.
      * 
      * @return iterator of the list's elements
      */
-    @Override
     public Iterator<E> iterator() {
-        return new PositionIterator(); // Create a new instance of the Iterator inner class 
+        return new ElementIterator(); // Create a new instance of the Iterator inner class 
     }
+
+    // This Iterator returns a Element wrapped as a Position -> Iterator<Position<Element>>
     private class PositionIterable implements Iterable<Position<E>> {
         public Iterator<Position<E>> iterator() { return new PositionIterator(); }
     }
 
-
+    public Iterable<Position<E>> pIterable() {
+        return new PositionIterable(); 
+    }
 }
