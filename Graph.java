@@ -1,6 +1,9 @@
 import java.util.LinkedList;
 import java.util.HashMap;
 import java.util.Iterator;
+
+/** #################### WORK IN PROGRESS ########################### */
+
 /**
  * A Graph is a way of representing relationships that exists betwen
  * pairs of objects. A graph is a set of objects, called vertices,
@@ -45,16 +48,38 @@ public class Graph <V,E>  {
     private class Node implements Vertex<V> {
         private V element;
         private Position<Vertex<V>> p;
-        private Map<Vertex<V>, Edge<E>> outgoing, incoming;
+        private HashMap<Vertex<V>, Edge<E>> out;
+        private HashMap<Vertex<V>, Edge<E>> in;
+
+        public Node(V data, boolean digraph) {
+            element = data;
+            out = new HashMap<Vertex<V>, Edge<E>>();
+            if(digraph) {
+                in = new HashMap<Vertex<V>, Edge<E>>();
+            } else {
+                in = out;   // If undirected graph, then in also refers to out map
+            }
+        }
 
         /** Returns the element associated with the vertex node. */
         public V getElement() { return element; }
+
+        /**
+         * Check whether this vertex instance belongs to the given graph. This will serve
+         * as a safety check when updating the graphs.
+         * @param graph the incoming graph to check in
+         * @return true if this and graph point to the same instance, and position is not null;
+         *         false otherwise
+         */
+        public boolean check(Graph<V,E> graph) {
+            return (Graph.this == graph) && (p != null);
+        }
     }
 
     private class EdgeNode implements Edge<E> {
         private E element;
         private Position<Edge<E>> p;
-        private Vertex<V>[] endpoints;
+        private Vertex<V>[] endpoints;  
 
         /** Returns the element associated with the edge. */
         public E getElement() { return element; }
@@ -64,6 +89,11 @@ public class Graph <V,E>  {
     private LinkedPositionalList<Vertex<V>> vertices = new LinkedPositionalList<>();
     private LinkedPositionalList<Edge<E>> edges = new LinkedPositionalList<>(); 
     HashMap<Vertex<V>, LinkedList<Vertex<V>>> adjMap = new HashMap<>();
+
+    // Default Constructor
+    public Graph() {
+        super();
+    }
 
     /** Returns the number of vertices of the graph */
     public int numVertices(){ return vertices.size(); }
@@ -84,6 +114,7 @@ public class Graph <V,E>  {
      * @throws IllegalArgumentException if v is not a valid vertex
      */
     public int outDegree(Vertex<V> v) throws IllegalArgumentException{
+        Node vertex;
         return 0;
     }
 
