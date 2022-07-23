@@ -40,9 +40,28 @@ import java.util.HashMap;
  * same value.
  */
 public class Graph <V,E>  {
+
+    private class Node implements Vertex<V> {
+        private V element;
+        private Position<Vertex<V>> p;
+        private Map<Vertex<V>, Edge<E>> outgoing, incoming;
+
+        /** Returns the element associated with the vertex node. */
+        public V getElement() { return element; }
+    }
+
+    private class EdgeNode implements Edge<E> {
+        private E element;
+        private Position<Edge<E>> p;
+        private Vertex<V>[] endpoints;
+
+        /** Returns the element associated with the edge. */
+        public E getElement() { return element; }
+    }
+    
     /** Graph Instance Variables **/
-    private LinkedList<Vertex<V>> vertices = new LinkedList<>();
-    private LinkedList<Edge<E>> edges = new LinkedList<>(); 
+    private LinkedPositionalList<Vertex<V>> vertices = new LinkedPositionalList<>();
+    private LinkedPositionalList<Edge<E>> edges = new LinkedPositionalList<>(); 
     HashMap<Vertex<V>, LinkedList<Vertex<V>>> adjMap = new HashMap<>();
 
     /** Returns the number of vertices of the graph */
