@@ -140,6 +140,7 @@ public class Graph <V,E>  {
     // Error Messages
     private static final String ILLEGAL_NODE = "Invalid Vertex";
     private static final String ILLEGAL_EDGE = "Invalid Edge";
+    private static final String EDGE_EXISTS = "Edge from u to v already exists";
 
     // Default Constructor
     public Graph() {
@@ -281,7 +282,20 @@ public class Graph <V,E>  {
      *                                  edge already exists between u and v.
      */
     public Edge<E> insertEdge(Vertex<V> u, Vertex<V> v, E element) throws IllegalArgumentException{
-        return null;
+        // Check if the HashMap contains the edge, if null is returned from get() then create it
+        if (getEdge(u,v) == null) {
+            EdgeNode edge = new EdgeNode(u, v, element); // Construct the edge
+            edge.setPosition(edges.addLast(edge));      // Update edges PositionalList
+            // Check the Vertices u and v
+            Node origin = check(u);
+            Node destination = check(v);
+            // Add the Vertex v, the origin, to the outgoing Map where it is the origin
+            origin.getOutgoing().put(v,edge);
+            // Add the Vertex u, the destination, the incoming Map where it is the destination
+            destination.getIncoming().put(u,edge);
+        } else { // Else it already exists therefore throw an Exception
+            throw new IllegalArgumentException(EDGE_EXISTS);
+        }
     }
 
     /** Removes a vertex and all its incident edges from the graph. */
