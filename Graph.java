@@ -49,8 +49,8 @@ public class Graph <V,E>  {
     private class Node implements Vertex<V> {
         private V element;
         private Position<Vertex<V>> p;
-        private HashMap<Vertex<V>, Edge<E>> out;
-        private HashMap<Vertex<V>, Edge<E>> in;
+        private HashMap<Vertex<V>, Edge<E>> out;    // Edges where Vertex is origin
+        private HashMap<Vertex<V>, Edge<E>> in;     // Edges where Vertex is destination
 
         public Node(V data, boolean digraph) {
             element = data;
@@ -112,7 +112,7 @@ public class Graph <V,E>  {
         public E getElement() { return element; }
 
         /** @return Reference to the edge, or array that stores the pair of vertices */
-        public Vertex<V>[] getEdge() { return edge; }
+        public Vertex<V>[] getEndpoints() { return edge; }
 
         /** @returns the position of this edge within the graphs list of edges */
         public Position<Edge<E>> getPosition() { return p; }
@@ -192,7 +192,7 @@ public class Graph <V,E>  {
      */
     public int outDegree(Vertex<V> v) throws IllegalArgumentException{
         Node vertex = check(v);
-        return vertex.getIncoming().size();
+        return vertex.getOutgoing().size(); // Node stores a Map of outgoing edges
     }
 
     /**
@@ -202,7 +202,8 @@ public class Graph <V,E>  {
      * @throws IllegalArgumentException if v is not a valid vertex
      */
     public int inDegree(Vertex<V> v) throws IllegalArgumentException{
-        return 0;
+        Node vertex = check(v);
+        return vertex.getIncoming().size();
     }
 
     /**
@@ -212,7 +213,8 @@ public class Graph <V,E>  {
      * @throws IllegalArgumentException if v is not a valid vertex
      */
     public Iterable<Edge<E>> outgoingEdges(Vertex<V> v) throws IllegalArgumentException{
-        return null;
+        Node vertex = check(v);               // Values in the HashMap are Edges
+        return vertex.getOutgoing().values(); // Collection view of values contained in map
     }
 
     /**
@@ -223,12 +225,14 @@ public class Graph <V,E>  {
      * @throws IllegalArgumentException if v is not a valid vertex
      */
     public Iterable<Edge<E>> incomingEdges(Vertex<V> v) throws IllegalArgumentException{
-        return null;
+        Node vertex = check(v); // Always check for parameter v
+        return vertex.getIncoming().values(); // Collection view of edges contained in map
     }
 
     /** Returns the edge from u to v, or null if they are not adjacent. */
     public Edge<E> getEdge(Vertex<V> u, Vertex<V> v) throws IllegalArgumentException{
-        return null;
+        Node origin = check(u);
+        return origin.getOutgoing().get(v); // If no mapping for the key, returns null in HashMap
     }
 
     /**
@@ -238,7 +242,8 @@ public class Graph <V,E>  {
      * order is arbitrary.
      */
     public Vertex<V>[] endVertices(Edge<E> e) throws IllegalArgumentException{
-        return null;
+        EdgeNode edge = check(e);
+        return edge.getEndpoints();
     }
 
     /** Returns the vertex that is opposite vertex v on edge e. */
