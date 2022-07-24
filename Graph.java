@@ -1,4 +1,3 @@
-import java.util.LinkedList;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -293,6 +292,7 @@ public class Graph <V,E>  {
             origin.getOutgoing().put(v,edge);
             // Add the Vertex u, the destination, the incoming Map where it is the destination
             destination.getIncoming().put(u,edge);
+            return edge;
         } else { // Else it already exists therefore throw an Exception
             throw new IllegalArgumentException(EDGE_EXISTS);
         }
@@ -300,12 +300,16 @@ public class Graph <V,E>  {
 
     /** Removes a vertex and all its incident edges from the graph. */
     public void removeVertex(Vertex<V> v) throws IllegalArgumentException{
+        Node vertex = check(v);
 
+        vertices.remove(vertex.getPosition());  // Remove vertex from positional list
     }
 
     /** Removes an edge from the graph. */
     public void removeEdge(Edge<E> e) throws IllegalArgumentException{
+        EdgeNode edge = check(e);           
 
+        edges.remove(edge.getPosition());   // Remove edge from positional list
     }
 
 }
