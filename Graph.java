@@ -135,7 +135,7 @@ public class Graph <V,E>  {
     /** Graph Instance Variables **/
     private LinkedPositionalList<Vertex<V>> vertices = new LinkedPositionalList<>();
     private LinkedPositionalList<Edge<E>> edges = new LinkedPositionalList<>(); 
-    HashMap<Vertex<V>, LinkedList<Vertex<V>>> adjMap = new HashMap<>();
+    private boolean isDigraph;
 
     // Error Messages
     private static final String ILLEGAL_NODE = "Invalid Vertex";
@@ -144,6 +144,11 @@ public class Graph <V,E>  {
     // Default Constructor
     public Graph() {
         super();
+        isDigraph = false;
+    }
+
+    public Graph(boolean directed) {
+        this.isDigraph = directed; // Set whether the Graph is directed or undirected
     }
 
     /** Returns the number of vertices of the graph */
@@ -248,12 +253,24 @@ public class Graph <V,E>  {
 
     /** Returns the vertex that is opposite vertex v on edge e. */
     public Vertex<V> opposite(Vertex<V> v, Edge<E> e) throws IllegalArgumentException{
-        return null;
+       EdgeNode edge = check(e);    // Is Edge e valid within the graph?
+       Vertex<V>[] endpoints = edge.getEndpoints(); // Get the set of vertices of the edge
+       
+       if(endpoints[0] == v) {
+        return endpoints[1]; // if v is found in the first spot, return the other
+       } else if (endpoints[1] == v) {
+            return endpoints[0]; // if v is found in second spot, return the first
+       } else {
+        throw new IllegalArgumentException("Vertex v is not incident to this edge");
+       }
+
     }
 
     /** Inserts and returns a new vertex with the given element. */
     public Vertex<V> insertVertex(V element){
-        return null;
+        Node vertex = new Node(element, this.isDigraph); // Construct the new Node vertex
+        vertex.setPosition(vertices.addLast(vertex));    // Add to end of PositionalList of Vertices
+        return vertex;
     }
 
     /**
