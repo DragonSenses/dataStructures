@@ -137,6 +137,10 @@ public class Graph <V,E>  {
     private LinkedPositionalList<Edge<E>> edges = new LinkedPositionalList<>(); 
     HashMap<Vertex<V>, LinkedList<Vertex<V>>> adjMap = new HashMap<>();
 
+    // Error Messages
+    private static final String ILLEGAL_NODE = "Invalid Vertex";
+    private static final String ILLEGAL_EDGE = "Invalid Edge";
+
     // Default Constructor
     public Graph() {
         super();
@@ -155,14 +159,40 @@ public class Graph <V,E>  {
     public Iterator<Edge<E>> edges(){ return edges.iterator(); }
 
     /**
+     * Checks if the given vertex is a valid instance of a Node (vertex) and is
+     * part of this instance of Graph
+     * @param v - Vertex to Check for
+     * @return the reference to the vertex wrapped as a Node
+     */
+    private Node check(Vertex<V> v) {
+        if (!(v instanceof Node)) { throw new IllegalArgumentException(ILLEGAL_NODE); }
+        Node node = (Node) v; // Safe Cast and wrap as a Node
+        if(!node.check(this)) { throw new IllegalArgumentException(ILLEGAL_NODE); }
+        return node;
+    }
+
+    /**
+     * Checks if the given edge is a valid instance of a EdgeNode and is
+     * part of this instance of Graph
+     * @param e - Edge to Check for
+     * @return the reference to the edge wrapped as a EdgeNode
+     */
+    private EdgeNode check(Edge<E> e) {
+        if (!(e instanceof EdgeNode)) { throw new IllegalArgumentException(ILLEGAL_EDGE); }
+        EdgeNode node = (EdgeNode) e; // Safe Cast and wrap as an EdgeNode
+        if(!node.check(this)) { throw new IllegalArgumentException(ILLEGAL_EDGE); }
+        return node;
+    }
+
+    /**
      * Returns the number of edges leaving vertex v.
      * For an undirected graph, this is the same result returned by inDegree
      * 
      * @throws IllegalArgumentException if v is not a valid vertex
      */
     public int outDegree(Vertex<V> v) throws IllegalArgumentException{
-        Node vertex;
-        return 0;
+        Node vertex = check(v);
+        return vertex.getIncoming().size();
     }
 
     /**
