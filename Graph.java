@@ -140,7 +140,7 @@ public class Graph <V,E>  {
             e.append(edge[0].getElement().toString());
             e.append(", ");
             e.append(edge[1].getElement().toString());
-            e.append("]");
+            e.append("] Already Exists");
             return e.toString();
         }
     } /************************* End of nested Edge Node class  ********************************/
@@ -153,7 +153,6 @@ public class Graph <V,E>  {
     // Error Messages
     private static final String ILLEGAL_NODE = "Invalid Vertex";
     private static final String ILLEGAL_EDGE = "Invalid Edge";
-    private static final String EDGE_EXISTS = " already exists";
 
     // Default Constructor
     public Graph() {
@@ -161,8 +160,9 @@ public class Graph <V,E>  {
         isDigraph = false;
     }
 
+    // One-Arg Constructor that determines whether Graph is directed or undirected
     public Graph(boolean directed) {
-        this.isDigraph = directed; // Set whether the Graph is directed or undirected
+        this.isDigraph = directed; 
     }
 
     /** Returns the number of vertices of the graph */
@@ -308,7 +308,7 @@ public class Graph <V,E>  {
             destination.getIncoming().put(u,edge);
             return edge;
         } else { // Else it already exists therefore throw an Exception
-            throw new IllegalArgumentException(getEdge(u,v).toString() + EDGE_EXISTS);
+            throw new IllegalArgumentException(getEdge(u,v).toString());
         }
     }
 
@@ -403,7 +403,36 @@ public class Graph <V,E>  {
          */
 
         // System.out.println(graph.toString());
-        System.err.println(graph.insertEdge(graph.insertVertex("A"),
+        System.out.println(graph.insertEdge(graph.insertVertex("A"),
             graph.insertVertex("B"), "AB"));
+
+        /** Create a Larger Sample Graph **/
+        graph = new Graph<>(digraph);
+        /**
+         * A - B - C - D
+         * | \ |   | / | 
+         * E - F   G   H
+         * |  /  / | \ |
+         * I - J - K   L
+         * | \    /|   |
+         * M - N   O   P
+         */
+
+         /** First Row **/
+        graph.insertEdge(graph.insertVertex("A"),
+            graph.insertVertex("B"), "AB");
+
+        graph.insertEdge(graph.insertVertex("B"),
+            graph.insertVertex("C"), "BC");
+
+        graph.insertEdge(graph.insertVertex("C"),
+            graph.insertVertex("D"), "BD");
+
+        graph.insertEdge(graph.insertVertex("C"),
+            graph.insertVertex("E"), "CE");
+
+        graph.insertEdge(graph.insertVertex("B"),
+            graph.insertVertex("A"), "BA");
+
     }
 } // end of Graph Class
