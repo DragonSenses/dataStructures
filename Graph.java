@@ -333,4 +333,35 @@ public class Graph <V,E>  {
         vertex.setPosition(null);   
     }
 
+    /**
+     * For debugging purposes
+     * @return String representation of Graph
+     */
+    @Override
+    public String toString() {
+        StringBuilder g = new StringBuilder();
+        for (Vertex<V> v : vertices.eIterable()) {
+            g.append("Vertex " + v.getElement() + "\n");
+            if (isDigraph)
+                g.append(" [outgoing]");
+            g.append(" " + outDegree(v) + " adjacencies:");
+            for (Edge<E> e: outgoingEdges(v))
+                g.append(String.format(" (%s, %s)", opposite(v,e).getElement(), e.getElement()));
+            g.append("\n");
+            if (isDigraph) {
+                g.append(" [incoming]");
+                g.append(" " + inDegree(v) + " adjacencies:");
+                for (Edge<E> e: incomingEdges(v))
+                g.append(String.format(" (%s, %s)", opposite(v,e).getElement(), e.getElement()));
+                g.append("\n");
+            }
+        }
+
+        return g.toString();
+    }
+
+    public static void main(String[] args){
+        boolean digraph = true;
+        Graph<String,String> graph = new Graph<>(digraph);
+    }
 } // end of Graph Class
