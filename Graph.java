@@ -360,6 +360,16 @@ public class Graph <V,E>  {
         vertex.setPosition(null);   
     }
 
+    public static <V,E> void BreadthFirstSearch(Graph<V,E> g, Vertex<V> u) {
+
+    }
+
+    public static <V,E> void DepthFirstSearch(Graph<V,E> g, Vertex<V> u) {
+
+    }
+
+    
+
     /**
      * For debugging purposes
      * @return String representation of Graph
@@ -416,8 +426,8 @@ public class Graph <V,E>  {
          */
 
         // System.out.println(graph.toString());
-        System.out.println(graph.insertEdge(graph.insertVertex("A"),
-            graph.insertVertex("B"), "AB"));
+        // System.out.println(graph.insertEdge(graph.insertVertex("A"),
+        //     graph.insertVertex("B"), "AB"));
 
         /** Create a Larger Sample Graph **/
         graph = new Graph<>(digraph);
@@ -497,5 +507,7 @@ public class Graph <V,E>  {
 
         /** Seventh Row **/
         graph.insert("M","N","MN");
+
+        System.out.println(graph.toString());
     }
 } // end of Graph Class
