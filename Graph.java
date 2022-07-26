@@ -370,10 +370,28 @@ public class Graph <V,E>  {
         // graph.insertEdge(new Node<String>("A", digraph), new Node<String>("B", digraph),digraph);
         // Cannot make static reference to non-static type Node, learned from the line above
         // Need to use insertVertex and insertEdge to instantiate vertexes and edges
-        graph.insertVertex("A");
-        graph.insertVertex("B");
-        graph.insertVertex("C");
-        graph.insertVertex("D");
-        graph.insertVertex("E");
+       
+        graph.insertEdge(graph.insertVertex("A"),
+            graph.insertVertex("B"), "AB");
+
+        graph.insertEdge(graph.insertVertex("B"),
+            graph.insertVertex("C"), "BC");
+
+        graph.insertEdge(graph.insertVertex("B"),
+            graph.insertVertex("D"), "BD");
+
+        graph.insertEdge(graph.insertVertex("C"),
+            graph.insertVertex("E"), "CE");
+
+        graph.insertEdge(graph.insertVertex("B"),
+            graph.insertVertex("A"), "BA");
+        /**
+         *      
+         * A -> B -> C - > E
+         *      |
+         *       -> D
+         */
+
+        System.out.println(graph.toString());
     }
 } // end of Graph Class
