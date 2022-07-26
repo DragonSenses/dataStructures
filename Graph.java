@@ -51,6 +51,10 @@ public class Graph <V,E>  {
         private HashMap<Vertex<V>, Edge<E>> out;    // Edges where Vertex is origin
         private HashMap<Vertex<V>, Edge<E>> in;     // Edges where Vertex is destination
 
+        public Node(V data){
+            this(data,isDigraph);
+        }
+
         public Node(V data, boolean digraph) {
             element = data;
             out = new HashMap<Vertex<V>, Edge<E>>();
@@ -363,5 +367,7 @@ public class Graph <V,E>  {
     public static void main(String[] args){
         boolean digraph = true;
         Graph<String,String> graph = new Graph<>(digraph);
+        graph.insertEdge(new Node<String>("A", digraph), new Node<String>("B", digraph),digraph);
+
     }
 } // end of Graph Class
