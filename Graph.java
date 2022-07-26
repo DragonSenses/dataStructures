@@ -298,18 +298,39 @@ public class Graph <V,E>  {
         }
     }
 
-    /** Removes a vertex and all its incident edges from the graph. */
-    public void removeVertex(Vertex<V> v) throws IllegalArgumentException{
-        Node vertex = check(v);
-
-        vertices.remove(vertex.getPosition());  // Remove vertex from positional list
-    }
-
     /** Removes an edge from the graph. */
     public void removeEdge(Edge<E> e) throws IllegalArgumentException{
-        EdgeNode edge = check(e);           
+        EdgeNode edge = check(e);           // 0. Check Valid Edge
+        // 1. Get the two Vertex Nodes that make up the edge, or endpoints
+        Node[] endpoints = (Node[]) edge.getEndpoints(); 
+        // 2. Remove the respective vertexes incident to each other within their maps
+        // Since endpoints[0] is u, and endpoints[1] is v, we assume u is the origin
+        // and v is the destination. Thus, we remove v from u's outgoing map and 
+        // u from v's incoming list
+        endpoints[0].getOutgoing().remove(endpoints[1]);
+        endpoints[1].getIncoming().remove(endpoints[0]);
 
+        // 3. Remove the edge from the list of edges
         edges.remove(edge.getPosition());   // Remove edge from positional list
+        // 4. Invalidate the Edge, EdgeNode, and Position
+        edge.setPosition(null);
     }
 
-}
+    /** Removes a vertex and all its incident edges from the graph. */
+    public void removeVertex(Vertex<V> v) throws IllegalArgumentException{
+        Node vertex = check(v); //0. Check valid vertex
+        // 1. Remove all edges in which vertex is the origin
+        for(Edge<E> e : vertex.getOutgoing().values()){
+            removeEdge(e);
+        }
+        //2. Remove all edges in which vertex is the destination
+        for(Edge<E> e : vertex.getIncoming().values()){
+            removeEdge(e);
+        }
+        //3. Remove vertex from the list of vertices
+        vertices.remove(vertex.getPosition());  // Remove vertex from positional list
+        //4. Invalidate the vertex, node, and position
+        vertex.setPosition(null);   
+    }
+
+} // end of Graph Class
