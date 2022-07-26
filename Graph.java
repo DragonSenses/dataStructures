@@ -90,6 +90,14 @@ public class Graph <V,E>  {
         public boolean check(Graph<V,E> graph) {
             return (Graph.this == graph) && (p != null);
         }
+
+        /**
+         * String representation of a Node/Vertex
+         */
+        @Override
+        public String toString(){
+            return element.toString();
+        }
     } /************************ End of Vertex Node class  ********************************/
 
     /************************* Nested Edge Node class  ********************************/
@@ -475,9 +483,19 @@ public class Graph <V,E>  {
         graph.insert("G","K","GK");
         graph.insert("G","L","GL");
         graph.insert("H","L","HL");
-        
+
         /** Fifth Row **/
-        graph.insert("G","K","GK");
-        graph.insert("G","K","GK");
+        graph.insert("I","J","IJ");
+        graph.insert("J","K","JK");
+
+        /** Sixth Row **/
+        graph.insert("I","M","IM");
+        graph.insert("I","N","IN");
+        graph.insert("K","N","KN");
+        graph.insert("K","O","KO");
+        graph.insert("L","P","LP");
+
+        /** Seventh Row **/
+        graph.insert("M","N","MN");
     }
 } // end of Graph Class
