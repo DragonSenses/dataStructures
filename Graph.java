@@ -133,6 +133,16 @@ public class Graph <V,E>  {
         public boolean check(Graph<V,E> graph) {
             return (Graph.this == graph) && (p != null);
         }
+
+        @Override
+        public String toString(){
+            StringBuilder e = new StringBuilder("Edge [");
+            e.append(edge[0].getElement().toString());
+            e.append(", ");
+            e.append(edge[1].getElement().toString());
+            e.append("]");
+            return e.toString();
+        }
     } /************************* End of nested Edge Node class  ********************************/
     
     /** Graph Instance Variables **/
@@ -143,7 +153,7 @@ public class Graph <V,E>  {
     // Error Messages
     private static final String ILLEGAL_NODE = "Invalid Vertex";
     private static final String ILLEGAL_EDGE = "Invalid Edge";
-    private static final String EDGE_EXISTS = "Edge from u to v already exists";
+    private static final String EDGE_EXISTS = " already exists";
 
     // Default Constructor
     public Graph() {
@@ -298,7 +308,7 @@ public class Graph <V,E>  {
             destination.getIncoming().put(u,edge);
             return edge;
         } else { // Else it already exists therefore throw an Exception
-            throw new IllegalArgumentException(EDGE_EXISTS);
+            throw new IllegalArgumentException(getEdge(u,v).toString() + EDGE_EXISTS);
         }
     }
 
@@ -392,6 +402,8 @@ public class Graph <V,E>  {
          *       -> D
          */
 
-        System.out.println(graph.toString());
+        // System.out.println(graph.toString());
+        System.err.println(graph.insertEdge(graph.insertVertex("A"),
+            graph.insertVertex("B"), "AB"));
     }
 } // end of Graph Class
