@@ -399,4 +399,12 @@ public class LinkedPositionalList<E> {
     public Iterable<Position<E>> pIterable() {
         return new PositionIterable(); 
     }
+
+    private class ElementIterable implements Iterable<E> {
+        public Iterator<E> iterator() { return new ElementIterator(); }
+    }
+
+    public Iterable<E> eIterable() {
+        return new ElementIterable();
+    }
 }
