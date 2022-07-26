@@ -272,7 +272,7 @@ public class Graph <V,E>  {
 
     /** Inserts and returns a new vertex with the given element. */
     public Vertex<V> insertVertex(V element){
-        Node vertex = new Node(element, this.isDigraph); // Construct the new Node vertex
+        Node vertex = new Node(element); // Construct the new Node vertex
         vertex.setPosition(vertices.addLast(vertex));    // Add to end of PositionalList of Vertices
         return vertex;
     }
@@ -367,7 +367,13 @@ public class Graph <V,E>  {
     public static void main(String[] args){
         boolean digraph = true;
         Graph<String,String> graph = new Graph<>(digraph);
-        graph.insertEdge(new Node<String>("A", digraph), new Node<String>("B", digraph),digraph);
-
+        // graph.insertEdge(new Node<String>("A", digraph), new Node<String>("B", digraph),digraph);
+        // Cannot make static reference to non-static type Node, learned from the line above
+        // Need to use insertVertex and insertEdge to instantiate vertexes and edges
+        graph.insertVertex("A");
+        graph.insertVertex("B");
+        graph.insertVertex("C");
+        graph.insertVertex("D");
+        graph.insertVertex("E");
     }
 } // end of Graph Class
