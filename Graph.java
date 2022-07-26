@@ -312,6 +312,11 @@ public class Graph <V,E>  {
         }
     }
 
+    /** Inserts and returns a new edge between vertices u and v, with given element */
+    public Edge<E> insert(V u, V v, E e){
+        return this.insertEdge(this.insertVertex(u), this.insertVertex(v), e);
+    }
+
     /** Removes an edge from the graph. */
     public void removeEdge(Edge<E> e) throws IllegalArgumentException{
         EdgeNode edge = check(e);           // 0. Check Valid Edge
@@ -426,13 +431,53 @@ public class Graph <V,E>  {
             graph.insertVertex("C"), "BC");
 
         graph.insertEdge(graph.insertVertex("C"),
-            graph.insertVertex("D"), "BD");
+            graph.insertVertex("D"), "CD");
+        
+        /** Second Row */
+
+        graph.insertEdge(graph.insertVertex("A"),
+            graph.insertVertex("E"), "AE");
+
+        graph.insertEdge(graph.insertVertex("A"),
+            graph.insertVertex("F"), "AF");
+
+        graph.insertEdge(graph.insertVertex("E"),
+            graph.insertVertex("A"), "EA");
+
+        graph.insertEdge(graph.insertVertex("F"),
+            graph.insertVertex("A"), "FA");
 
         graph.insertEdge(graph.insertVertex("C"),
-            graph.insertVertex("E"), "CE");
+            graph.insertVertex("G"), "CG");
+        
+        graph.insertEdge(graph.insertVertex("D"),
+            graph.insertVertex("G"), "DG");
 
-        graph.insertEdge(graph.insertVertex("B"),
-            graph.insertVertex("A"), "BA");
+        graph.insertEdge(graph.insertVertex("D"),
+            graph.insertVertex("H"), "DH");
 
+        /** Third Row **/
+
+        graph.insertEdge(graph.insertVertex("E"),
+            graph.insertVertex("F"), "EF");
+
+        /** Fourth Row  **/
+
+        graph.insertEdge(graph.insertVertex("E"),
+            graph.insertVertex("I"), "EI");
+
+        graph.insertEdge(graph.insertVertex("F"),
+            graph.insertVertex("I"), "FI");
+
+        graph.insertEdge(graph.insertVertex("G"),
+            graph.insertVertex("J"), "GJ");
+
+        graph.insert("G","K","GK");
+        graph.insert("G","L","GL");
+        graph.insert("H","L","HL");
+        
+        /** Fifth Row **/
+        graph.insert("G","K","GK");
+        graph.insert("G","K","GK");
     }
 } // end of Graph Class
