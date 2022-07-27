@@ -1,7 +1,6 @@
 import java.util.HashMap;
 import java.util.Iterator;
-
-/** #################### WORK IN PROGRESS ########################### */
+import java.util.Set;
 
 /**
  * A Graph is a way of representing relationships that exists betwen
@@ -41,6 +40,9 @@ import java.util.Iterator;
  * In case of undirected graph, methods outgoingEdges and incomingEdges
  * return the same collection, and outDegree and inDegree return the
  * same value.
+ * 
+ * Source: Goodrich, M. T., Tamassia, R., &amp; Goldwasser, M. H. (2015). 
+ *          Data Structures and algorithms in Java. Wiley. 
  */
 public class Graph <V,E>  {
 
@@ -364,8 +366,23 @@ public class Graph <V,E>  {
 
     }
 
-    public static <V,E> void DepthFirstSearch(Graph<V,E> g, Vertex<V> u) {
-
+    /**
+     * A Depth-first search algorithm that searches the Graph. Maintains two auxiliary
+     * data structures, 1) a set that marks all visited nodes and 2) map that contains
+     * any paths that have been used to search
+     * @param g - The Graph to search in
+     * @param u - The vertex to search for if it exists
+     * @param visited - A set auxiliary data structure that contains vertices that have
+     *                  already been visited
+     * @param aux - A Map that associates any vertex v with the edge e of the graph
+     *              that is used to discover v
+     */
+    public static <V,E> void DepthFirstSearch(Graph<V,E> g, Vertex<V> u,
+        Set<Vertex<V>> visited, Map<Vertex<V>,Edge<E>> aux) {
+        // 1. Mark the incoming vertex u as visited
+        visited.add(u);
+        
+        
     }
 
     
