@@ -374,15 +374,25 @@ public class Graph <V,E>  {
      * @param u - The vertex to search for if it exists
      * @param visited - A set auxiliary data structure that contains vertices that have
      *                  already been visited
-     * @param aux - A Map that associates any vertex v with the edge e of the graph
+     * @param map - A Map that associates any vertex v with the edge e of the graph
      *              that is used to discover v
      */
     public static <V,E> void DepthFirstSearch(Graph<V,E> g, Vertex<V> u,
-        Set<Vertex<V>> visited, Map<Vertex<V>,Edge<E>> aux) {
+        Set<Vertex<V>> visited, Map<Vertex<V>,Edge<E>> map) {
+        Vertex<V> v; // Declared outside the for loop to save space
         // 1. Mark the incoming vertex u as visited
         visited.add(u);
-        
-        
+        // 2. For every outgoing edge e of vertex u, where u is the origin
+        for(Edge<E> e: g.outgoingEdges(u)){
+            v = g.opposite(u,e); // Get the opposite vertex of u, using edge e
+            // If the vertex v is not within the set of visited nodes/vertices
+            if(!visited.contains(v)){
+                // 3. Put this edge e and vertex v as a known path within the map
+                map.put(v,e); 
+                // 4. Recursively call to continue exploring the path of v
+                DepthFirstSearch(g, u, visited, map);
+            }
+        }
     }
 
     
