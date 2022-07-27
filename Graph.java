@@ -362,14 +362,55 @@ public class Graph <V,E>  {
         vertex.setPosition(null);   
     }
 
-    public static <V,E> void BreadthFirstSearch(Graph<V,E> g, Vertex<V> u) {
-
+    /**
+     * A Breadth-First Search algorithm searches the graph by sending out multiple
+     * explorers collectively, taking one step at a time in all directions. This
+     * search proceeds in rounds and subdivides the nodes into levels. Level 0 is 
+     * the starting node u. Maintains a set of visited vertices and stores the 
+     * search within a map. 
+     * @param g - The graph to search
+     * @param u - The vertex to search for
+     * @param visited - A set that contains nodes that have already been visited
+     * @param map - the map that stores explored paths
+     */
+    public static <V,E> void BreadthFirstSearch(Graph<V,E> g, Vertex<V> u,
+        Set<Vertex<V>> visited, Map<Vertex<V>,Edge<E>> map) {
+        // 0. Make a List reference to the next level and the endpoint vertex
+        LinkedPositionalList<Vertex<V>> nextLevel; // Stores next list of vertices of the next level
+        Vertex<V> v2;
+        // 1. Make a List of Vertexes that represent each level of depth to explore
+        LinkedPositionalList<Vertex<V>> level = new LinkedPositionalList<>();
+        // 2. Add the starting node u to the set of visited nodes
+        visited.add(u); 
+        // 3. Add the first level which includes the first node
+        level.addLast(u);
+        // 4. While the queue of the current level is not empty
+        while(!level.isEmpty()) {
+            nextLevel = new LinkedPositionalList<>(); 
+            // For each vertex in the current level
+            for(Vertex<V> v : level.eIterable()) {
+                // For each edge connected to that vertex
+                for(Edge<E> e : g.outgoingEdges(v)){
+                    // Get the other endpoint of vertex v, to get v2
+                    v2 = g.opposite(v,e);
+                    // If the set of visited nodes does not contain v2
+                    if(!visited.contains(v2)){
+                        visited.add(v2); // Add v2 to the set
+                        map.put(v2,e);   // Put v2 in the explored map
+                        nextLevel.addLast(v2); // Add v2 to the nextLevel
+                    }
+                }
+            
+            }
+            level = nextLevel; // After the end of the current level, move up to next level
+        }// end of while loop
     }
 
     /**
      * A Depth-first search algorithm that searches the Graph. Maintains two auxiliary
      * data structures, 1) a set that marks all visited nodes and 2) map that contains
-     * any paths that have been used to search
+     * any paths that have been used to search. It is akin to sending out one explorer
+     * to deeply search one path at a time. 
      * @param g - The Graph to search in
      * @param u - The vertex to search for if it exists
      * @param visited - A set auxiliary data structure that contains vertices that have
