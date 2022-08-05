@@ -9,7 +9,14 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class BSTTest {
 	BST<String,String> bst;
+
+	/** Error Messages **/
 	private static final String ILLEGAL_ARG = "Argument is Null";
+	public static final String ILLEGAL_ARG_BAD_RANGE = "maxPrefixLen cannot be "
+			+ "less than minPrefixLen";
+	public static final String ILLEGAL_ARG_LENGTH = "List must be same length as"
+			+ " number of trees";
+			
 	// Old Junit4 exception handling, where ex.expect(IllegalArgumentException.class);
 	// @Rule //Allows us to see that certain Exceptions are Thrown
 	// public final ExpectedException ex = ExpectedException.none();
@@ -699,7 +706,7 @@ public class BSTTest {
 		//We expect that this illegal parameter will throw an error
 		IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
 			()-> f.buildFrequencyTrees(trainingText, 0, -4));
-		assertEquals(ILLEGAL_ARG,e.getMessage());
+		assertEquals(ILLEGAL_ARG_BAD_RANGE,e.getMessage());
 	}
 	
 	@Test
@@ -709,7 +716,7 @@ public class BSTTest {
 		//We expect that this illegal parameter will throw an error
 		IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
 			()-> f.buildFrequencyTrees(trainingText, 20, 2));
-		assertEquals(ILLEGAL_ARG,e.getMessage());
+		assertEquals(ILLEGAL_ARG_BAD_RANGE,e.getMessage());
 		
 		
 	}
@@ -791,7 +798,7 @@ public class BSTTest {
 		
 		IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
 		()-> f.filter(arr)); //Expect that the following line will throw a certain exception
-			assertEquals(ILLEGAL_ARG,e.getMessage());
+			assertEquals(ILLEGAL_ARG_LENGTH,e.getMessage());
 	}
 
 	// Delete nodes within bst after each test to help java garbage collection
