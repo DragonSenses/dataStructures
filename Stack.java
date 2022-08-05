@@ -9,7 +9,7 @@ import java.util.NoSuchElementException;
  * A dynamic Array-based stack to ensure constant operation times O(1) and memory efficiency
  * @author kendr
  */
-public class Stack<E>{
+public class Stack<E> {
     /**  Instance Variables **/
     private static final int INIT_SIZE = 8;  //Initial size of every default Stack
 
@@ -17,7 +17,7 @@ public class Stack<E>{
     private int size;     // number of elements on stack
 
     /** Error Messages  **/
-    public static final String ILLEGAL_ARG_CAPACITY = "Initial Capacity must be non-negative";
+    private static final String ILLEGAL_ARG_CAPACITY = "Initial Capacity must be non-negative";
     private static final String UNDERFLOW = "Stack Underflow";
 
     /**
@@ -156,8 +156,8 @@ public class Stack<E>{
 		if (this.size != other.size) {
 			return false;
 		}
-		E ptrA = this.arr[0]; // Traverses through the primary list
-		E ptrB = (E) other.arr[0]; // Traverse through the secondary list
+		E ptrA = this.arr[0];      // Traverses through the primary Stack
+		E ptrB = (E) other.arr[0]; // Traverse through the secondary Stack
 
         // 4. Element-by-Element check
 		//Traversal through both stacks
@@ -168,4 +168,4 @@ public class Stack<E>{
         }
 		return true; // When reached, every element matched successfuly
 	}
-}
+} // end of Stack class
