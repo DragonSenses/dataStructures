@@ -9,20 +9,30 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class StackTest {
-    Stack<Integer> stack = new Stack<>();
-
+    Stack<Integer> stack;
     @BeforeAll
     public static void setup(){
-        System.out.println("Starting DoublyLinkedTest");
+        System.out.println("Starting Stack Test");
     }
 
     @BeforeEach
     public void init(){
-        this.stack = new DoublyLinkedList<Integer>();
+        this.stack = new Stack<Integer>();
+    }
+
+    /**
+     * Populates the Stack with integers, [1-n]
+     * @param s The Stack to fill
+     * @param n the number of integers to fill it with
+     */
+    private static void fill(Stack<Integer> s, int n) {
+        for(int i = 1; i < n+1; i++){
+            s.push(i);
+        }
     }
     
     @Test
-    public void emptyList(){ //Tests default constructor
+    public void emptyList(){         //Tests default constructor
         assumeTrue(stack.isEmpty()); // Expect an empty list
         assertEquals(0,stack.size()); // Expect the size to be 0
     }
@@ -35,6 +45,11 @@ public class StackTest {
             () -> assertEquals(1,stack.size()),
 
         );
+    }
+
+    @Test
+    public void addNine(){
+
     }
 
 
@@ -56,7 +71,7 @@ public class StackTest {
 
     @Test
     public void equalsNull(){
-        assertEquals(false,list.equals(null));
+        assertEquals(false,stack.equals(null));
     }
 
     @Test
