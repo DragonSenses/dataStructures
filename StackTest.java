@@ -134,6 +134,13 @@ public class StackTest {
         assertEquals(UNDERFLOW, e.getMessage());
     }
 
+    @Test
+    public void peekEmptyStack(){
+        NoSuchElementException e = assertThrows(NoSuchElementException.class,
+            () -> stack.peek());
+        assertEquals(UNDERFLOW, e.getMessage());
+    }
+
     @AfterEach
     void tearDown() {
     }
