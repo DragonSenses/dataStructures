@@ -42,30 +42,32 @@ public class StackTest {
         stack.push(1);
         assertAll("stack",
             () -> assertEquals(false,stack.isEmpty()),
-            () -> assertEquals(1,stack.size()),
-
+            () -> assertEquals(1,stack.size())
         );
     }
 
+    // Tests the resizing mechanism
     @Test
     public void addNine(){
-
+        fill(stack, 9);
+        assertAll("stack",
+            () -> assertEquals(false, stack.isEmpty()),
+            () -> assertEquals(9,stack.size())
+        );
     }
-
 
     @Test
     public void removeOneElement(){
         stack.push(1);
         assertAll("stack",
             () -> assertEquals(false,stack.isEmpty()),
-            () -> assertEquals(1,stack.size()),
-
+            () -> assertEquals(1,stack.size())
         );
         //After removal we expect empty, 0 size, and null first/last
         stack.pop();
         assertAll("stack",
         () -> assertEquals(true,stack.isEmpty()),
-        () -> assertEquals(0,stack.size()),
+        () -> assertEquals(0,stack.size())
         );
     }
 
@@ -76,29 +78,31 @@ public class StackTest {
 
     @Test
     public void equalsItself(){
-        list.addFirst(1);
-        assertEquals(true, list.equals(list));
+        stack.push(1);
+        assertEquals(true, stack.equals(stack));
     }
 
     @Test
     public void equalsItselfOneElement(){
-        list.addFirst(2);
-        assertEquals(true, list.equals(list));
+        stack.push(2);
+        assertEquals(true, stack.equals(stack));
     }
 
-
+    // Check whether two different stacks with the same elemnt within are equivalent
     @Test
     public void equalsOneElement(){
-        DoublyLinkedList<Integer> list2 = new DoublyLinkedList<Integer>();
-        list.addFirst(1);
-        list2.addLast(1);
-        assertEquals(true, list.equals(list2));
+        Stack<Integer> stack2 = new Stack<Integer>();
+        stack.push(1);
+        stack2.push(1);
+        assertEquals(true, stack.equals(stack2));
     }
 
     @Test
     public void notEquals(){
-        DoublyLinkedList<Integer> list2 = new DoublyLinkedList<Integer>();
-        list2.addLast(2);
-        assertEquals(false, list.equals(list2));
+        Stack<Integer> stack2 = new Stack<Integer>();
+        stack2.push(2);
+        assertEquals(false, stack.equals(stack2));
     }
+
+    
 }
