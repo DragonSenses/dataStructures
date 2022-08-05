@@ -5,6 +5,9 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
+
+import java.util.NoSuchElementException;
+
 import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -123,6 +126,13 @@ public class StackTest {
 			()-> stack = new Stack<Integer>(-1));
 		assertEquals(ILLEGAL_ARG_CAPACITY,e.getMessage());
 	}
+
+    @Test
+    public void popEmptyStack(){
+        NoSuchElementException e = assertThrows(NoSuchElementException.class,
+            () -> stack.pop());
+        assertEquals(UNDERFLOW, e.getMessage());
+    }
 
     @AfterEach
     void tearDown() {
