@@ -117,4 +117,55 @@ public class Stack<E>{
         if(this.size == arr.length) { rescale(2*arr.length); }
         arr[size++] = data;
     }
+
+    /**
+	 * Higher level notion of equivalence where we define two Stacks
+	 * as equivalent if:
+	 * I) They have the same Length
+	 * II) The contents that are element-by-element are equivalent
+	 * 
+	 * @param o - The Stack object parameter to compare with the caller
+	 * @return True, if both stacks are the same size and the contents are
+	 *         element-by-element equivalent, otherwise false
+	 */
+    @SuppressWarnings("unchecked")
+	@Override
+	public boolean equals(Object o) {
+		// 1. Null Treatment
+		if (o == null) {
+			return false;
+		}
+		/*
+		 * 2. Class Equivalence - getClass() vs. instanceof
+		 * getClass() only returns true if object is actually an instance of the
+		 * specified class but instanceof operator returns true even if the object
+		 * is a subclass of a specified class or interface in Java; allows implementation
+		 * of equality between super and subclasses but does not satisfy symmetry: 
+		 * x.equals(y) is true then y.equals(x) is also true, but if you swap x
+		 * with a subclass then x instanceof y is true but y instanceof x will be false,
+		 * hence equals is false. 
+		 */
+		if (this.getClass() != o.getClass()) {
+			return false;
+		}
+		// Although declared formal type parameter <E> cannot detect at runtime whether
+		// other list has a matching type. See Type erasure.
+		Stack<?> other = (Stack<?>) o; // Typecast and use unknown type 
+
+		// 3. Size Check
+		if (this.size != other.size) {
+			return false;
+		}
+		E ptrA = this.arr[0]; // Traverses through the primary list
+		E ptrB = (E) other.arr[0]; // Traverse through the secondary list
+
+        // 4. Element-by-Element check
+		//Traversal through both stacks
+        for(int i = 0; i < this.arr.length; i++){
+            if(ptrA != ptrB) { return false; }
+            ptrA = this.arr[i];
+            ptrB = (E) other.arr[i];
+        }
+		return true; // When reached, every element matched successfuly
+	}
 }
