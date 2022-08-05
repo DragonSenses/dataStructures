@@ -301,7 +301,7 @@ public class HashTable<Key, Value> {
 	public List<Key> keys() {
 		if (isEmpty()) { return new ArrayList<Key>(0); }
 		
-		List<Key> ring = new ArrayList<Key>();
+		List<Key> ring = new ArrayList<Key>(capacity);
 		
 		for (int k = 0; k < this.capacity; k++) {
 			if (keys[k] != null) { //if Key,Value pair isn't Null
