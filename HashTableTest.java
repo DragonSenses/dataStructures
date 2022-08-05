@@ -360,13 +360,15 @@ public class HashTableTest {
 		for(String k: sKeys){
 			strTable.remove(k);
 		}
-	}
 
-    @AfterAll
-    public void tearDownAll() {
-        table = null;
+		table = null;
         strTable = null;
         emptyTable = null;
         zeroSizedTable = null;
+	}
+
+    @AfterAll
+    static void tearDownAll() {
+
     }
 }
