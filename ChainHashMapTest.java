@@ -40,6 +40,7 @@ public class ChainHashMapTest {
 
     @BeforeAll
     static void initAll() {
+		System.out.println("ChainHashMap Unit Testing has started...");
     }
 
     @BeforeEach
@@ -164,6 +165,7 @@ public class ChainHashMapTest {
     @Test
 	public void removeOneKey(){
 		List<String> expectedKeys = new ArrayList<>(5);
+		String expectedValue = "Test Value0";
 		for(int i = 0; i < 5; i++) {
 			// key + i is used to differentiate keys since they must be unique
 			testMap.put(TEST_KEY + i, TEST_VAL + i);
@@ -175,7 +177,7 @@ public class ChainHashMapTest {
 		assertAll("testMap",
 			() -> assertEquals(expectedKeys, actualKeys),
 			() -> assertEquals(expectedKeys.size(),actualKeys.size()),
-			() -> assertEquals(true,testMap.remove(TEST_KEY + "0"))
+			() -> assertEquals(expectedValue,testMap.remove(TEST_KEY + "0"))
 		);
 
 		expectedKeys.remove(TEST_KEY + "0");
@@ -186,8 +188,11 @@ public class ChainHashMapTest {
 
 	@Test
 	public void removeNone(){
-		fillMap(testMap,8);
-		assertEquals(false,testMap.remove(TEST_KEY));
+		assertAll("testMap",
+			() -> assertEquals(0,testMap.size()),
+			() -> assertEquals(true,testMap.isEmpty()),
+			() -> assertEquals(null,testMap.remove(TEST_KEY))
+		);
 	}
 
 	@Test
@@ -216,11 +221,14 @@ public class ChainHashMapTest {
     @Test	
 	public void removeTwo(){
 		List<String> expectedKeys = new ArrayList<>(0);
-		testMap.put("A", "65");
-		testMap.put("B","66");		
-		
-		assertEquals(true,testMap.remove("A"));
-		assertEquals(true,testMap.remove("B"));
+		String expectedValueOfA = "65";
+		String expectedValueOfB = "66";
+
+		testMap.put("A", expectedValueOfA);
+		testMap.put("B",expectedValueOfB);		
+
+		assertEquals(expectedValueOfA,testMap.remove("A"));
+		assertEquals(expectedValueOfB,testMap.remove("B"));
 		
 		actualKeys = testMap.keys();
 		Collections.sort(actualKeys);
@@ -264,5 +272,6 @@ public class ChainHashMapTest {
 
     @AfterAll
     static void tearDownAll() {
+		System.out.println("ChainHashMap Unit Testing is Complete.");
     }
 }
