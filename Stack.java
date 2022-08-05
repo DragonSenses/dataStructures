@@ -16,6 +16,10 @@ public class Stack<E>{
     private E[] arr;      // Underlying array of elements
     private int size;     // number of elements on stack
 
+    /** Error Messages  **/
+    public static final String ILLEGAL_ARG_CAPACITY = "Initial Capacity must be non-negative";
+    private static final String UNDERFLOW = "Stack Underflow";
+
     /**
      * Default Constructor that initializes an empty Stack
      */
@@ -25,6 +29,21 @@ public class Stack<E>{
         //Declaring a generic array of type E[] but cannot instantiate, so must instantiate
         //an array of type Object[] then make a narrowing cast to type E[]
         this.arr = (E[]) new Object[INIT_SIZE];
+        this.size = 0;
+    }
+
+    /**
+     * Constructor that allows user to determine the initial size
+     * @param initialCapacity the initial size of the Stack
+     */
+    @SuppressWarnings("unchecked")
+    public Stack(int initialCapacity){
+        if (initialCapacity <= 0) { // non-negative [0, infinity)
+			this.arr = (E[]) new Object[INIT_SIZE];
+			throw new IllegalArgumentException(ILLEGAL_ARG_CAPACITY);
+		} else { // If initialCapacity is a non-negative number, set Stack capacity
+			this.arr = (E[]) new Object[initialCapacity];
+		}
         this.size = 0;
     }
 
@@ -49,7 +68,7 @@ public class Stack<E>{
      * @throws NoSuchElementException if stack is empty
      */
     public E peek() throws NoSuchElementException {
-        if(isEmpty()){ throw new NoSuchElementException("Stack Underflow"); }
+        if(isEmpty()){ throw new NoSuchElementException(UNDERFLOW); }
         return arr[size-1];
     }
 
@@ -77,7 +96,7 @@ public class Stack<E>{
      * @throws NoSuchElementException if Stack is empty
      */
     public E pop() throws NoSuchElementException {
-        if(isEmpty()){ throw new NoSuchElementException("Stack Underflow"); }
+        if(isEmpty()){ throw new NoSuchElementException(UNDERFLOW); }
         E element = arr[size-1]; //Hold the data temporarily
         //Delete the element from the array, then decrement size
         arr[size-1] = null; //Dereference to help garbage collection
