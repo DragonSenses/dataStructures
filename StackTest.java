@@ -4,16 +4,20 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.RepeatedTest;
+import org.junit.jupiter.api.TestInfo;
+import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 import java.util.NoSuchElementException;
 
-import static org.junit.Assert.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 public class StackTest {
     Stack<Integer> stack;
+
+    private static final int repetitions = 100;
 
     /** Error Messages **/
     private static final String UNDERFLOW = "Stack Underflow";
@@ -21,7 +25,7 @@ public class StackTest {
 
     @BeforeAll
     public static void setup(){
-        System.out.println("Starting Stack Test");
+        System.out.println("Stack Unit Testing has begun ...");
     }
 
     @BeforeEach
@@ -180,11 +184,29 @@ public class StackTest {
         assertEquals(UNDERFLOW, e.getMessage());
     }
 
+    @RepeatedTest(value = repetitions, 
+        name = "{displayName} {currentRepetition}/{totalRepetitions}")
+    @DisplayName("Repeat")
+    public void pushPopPeekRepeat(TestInfo testInfo){
+        for(int i = 1; i < repetitions+1; i++){
+            stack.push(i);
+            assertEquals(i,stack.peek());
+        }
+
+        for(int k = repetitions; k != 0; k--){
+            assertEquals(k,stack.pop());
+        }
+    }
+
     @AfterEach
     void tearDown() {
+        while(!stack.isEmpty()){
+            stack.pop();
+        }
     }
 
     @AfterAll
     static void tearDownAll() {
+        System.out.println("Stack Unit Testing is complete.");
     }
 }
