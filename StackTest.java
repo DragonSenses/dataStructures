@@ -5,11 +5,17 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
+import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class StackTest {
     Stack<Integer> stack;
+
+    /** Error Messages **/
+    private static final String UNDERFLOW = "Stack Underflow";
+    public static final String ILLEGAL_ARG_CAPACITY = "Initial Capacity must be non-negative";
+
     @BeforeAll
     public static void setup(){
         System.out.println("Starting Stack Test");
@@ -103,6 +109,20 @@ public class StackTest {
         stack2.push(2);
         assertEquals(false, stack.equals(stack2));
     }
+
+    @Test
+	public void zeroSizeConstructor(){
+		IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
+			()-> stack = new Stack<Integer>(0));
+		assertEquals(ILLEGAL_ARG_CAPACITY,e.getMessage());
+	}
+
+    @Test
+	public void negativeSizeConstructor(){
+		IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
+			()-> stack = new Stack<Integer>(-1));
+		assertEquals(ILLEGAL_ARG_CAPACITY,e.getMessage());
+	}
 
     @AfterEach
     void tearDown() {
