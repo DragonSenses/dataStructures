@@ -47,7 +47,7 @@ public class StackTest {
     }
 
     @Test
-    public void addOne(){
+    public void pushOne(){
         stack.push(1);
         assertAll("stack",
             () -> assertEquals(false,stack.isEmpty()),
@@ -57,7 +57,7 @@ public class StackTest {
 
     // Tests the resizing mechanism
     @Test
-    public void addNine(){
+    public void pushNine(){
         fill(stack, 9);
         assertAll("stack",
             () -> assertEquals(false, stack.isEmpty()),
@@ -66,7 +66,46 @@ public class StackTest {
     }
 
     @Test
-    public void removeOneElement(){
+    public void pushNinePopNine(){
+        fill(stack, 9);
+        assertAll("stack",
+            () -> assertEquals(false, stack.isEmpty()),
+            () -> assertEquals(9,stack.size()),
+            () -> assertEquals(9,stack.pop()),
+            () -> assertEquals(8,stack.pop()),
+            () -> assertEquals(7,stack.pop()),
+            () -> assertEquals(6,stack.pop()),
+            () -> assertEquals(5,stack.pop()),
+            () -> assertEquals(4,stack.pop()),
+            () -> assertEquals(3,stack.pop()),
+            () -> assertEquals(2,stack.pop()),
+            () -> assertEquals(1,stack.pop())
+        );
+    }
+
+    @Test
+    public void pushNinePopTen(){
+        fill(stack, 9);
+        assertAll("stack",
+            () -> assertEquals(false, stack.isEmpty()),
+            () -> assertEquals(9,stack.size()),
+            () -> assertEquals(9,stack.pop()),
+            () -> assertEquals(8,stack.pop()),
+            () -> assertEquals(7,stack.pop()),
+            () -> assertEquals(6,stack.pop()),
+            () -> assertEquals(5,stack.pop()),
+            () -> assertEquals(4,stack.pop()),
+            () -> assertEquals(3,stack.pop()),
+            () -> assertEquals(2,stack.pop()),
+            () -> assertEquals(1,stack.pop())
+        );
+        NoSuchElementException e = assertThrows(NoSuchElementException.class,
+            () -> stack.pop());
+        assertEquals(UNDERFLOW, e.getMessage());
+    }
+
+    @Test
+    public void popOne(){
         stack.push(1);
         assertAll("stack",
             () -> assertEquals(false,stack.isEmpty()),
