@@ -1,4 +1,3 @@
-
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -17,7 +16,7 @@ import java.util.NoSuchElementException;
 public class StackTest {
     Stack<Integer> stack;
 
-    private static final int repetitions = 100;
+    private static final int repetitions = 4096;
 
     /** Error Messages **/
     private static final String UNDERFLOW = "Stack Underflow";
@@ -45,7 +44,7 @@ public class StackTest {
     }
     
     @Test
-    public void emptyList(){         //Tests default constructor
+    public void emptyStack(){         //Tests default constructor
         assumeTrue(stack.isEmpty()); // Expect an empty list
         assertEquals(0,stack.size()); // Expect the size to be 0
     }
@@ -73,8 +72,8 @@ public class StackTest {
     public void pushNinePopNine(){
         fill(stack, 9);
         assertAll("stack",
-            () -> assertEquals(false, stack.isEmpty()),
             () -> assertEquals(9,stack.size()),
+            () -> assertEquals(false, stack.isEmpty()),
             () -> assertEquals(9,stack.pop()),
             () -> assertEquals(8,stack.pop()),
             () -> assertEquals(7,stack.pop()),
@@ -83,7 +82,9 @@ public class StackTest {
             () -> assertEquals(4,stack.pop()),
             () -> assertEquals(3,stack.pop()),
             () -> assertEquals(2,stack.pop()),
-            () -> assertEquals(1,stack.pop())
+            () -> assertEquals(1,stack.pop()),
+            () -> assertEquals(true, stack.isEmpty()),
+            () -> assertEquals(0,stack.size())
         );
     }
 
@@ -115,11 +116,11 @@ public class StackTest {
             () -> assertEquals(false,stack.isEmpty()),
             () -> assertEquals(1,stack.size())
         );
-        //After removal we expect empty, 0 size, and null first/last
+        //After removal we expect empty and 0 size
         stack.pop();
         assertAll("stack",
-        () -> assertEquals(true,stack.isEmpty()),
-        () -> assertEquals(0,stack.size())
+            () -> assertEquals(true,stack.isEmpty()),
+            () -> assertEquals(0,stack.size())
         );
     }
 
@@ -186,13 +187,13 @@ public class StackTest {
 
     @RepeatedTest(value = repetitions, 
         name = "{displayName} {currentRepetition}/{totalRepetitions}")
-    @DisplayName("Repeat")
+    @DisplayName("Repetition:")
     public void pushPopPeekRepeat(TestInfo testInfo){
         for(int i = 1; i < repetitions+1; i++){
             stack.push(i);
             assertEquals(i,stack.peek());
         }
-
+        assertEquals(repetitions,stack.size());
         for(int k = repetitions; k != 0; k--){
             assertEquals(k,stack.pop());
         }
