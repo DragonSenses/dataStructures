@@ -151,10 +151,26 @@ public class StackTest {
     }
 
     @Test
-    public void notEquals(){
+    public void notEquals(){ // Empty Stack vs Non-Empty Stack
         Stack<Integer> stack2 = new Stack<Integer>();
         stack2.push(2);
         assertEquals(false, stack.equals(stack2));
+    }
+
+    @Test
+    public void notEqualsDifferentSize(){
+        fill(stack,4);
+        Stack<Integer> stack2 = new Stack<Integer>();
+        stack2.push(2);
+        assertEquals(false, stack.equals(stack2));
+    }
+
+    @Test
+    public void notEqualsOneElement(){
+        stack.push(7);
+        Stack<Integer> stack2 = new Stack<Integer>();
+        stack2.push(2);
+        assertEquals(false,stack.equals(stack2));
     }
 
     @Test
