@@ -38,9 +38,9 @@ public class QueueTest {
      * @param s The Queue to fill
      * @param n the number of integers to fill it with
      */
-    private static void fill(Queue<Integer> s, int n) {
+    private static void fill(Queue<Integer> q, int n) {
         for(int i = 1; i < n+1; i++){
-            s.enqueue(i);
+            q.enqueue(i);
         }
     }
     
@@ -109,79 +109,81 @@ public class QueueTest {
         assertEquals(UNDERFLOW, e.getMessage());
     }
 
+
     @Test
-    public void popOne(){
-        stack.push(1);
-        assertAll("stack",
-            () -> assertEquals(false,stack.isEmpty()),
-            () -> assertEquals(1,stack.size())
+    public void removeOne(){
+        queue.enqueue(1);
+        assertAll("queue",
+            () -> assertEquals(false,queue.isEmpty()),
+            () -> assertEquals(1,queue.size())
         );
         //After removal we expect empty and 0 size
-        stack.pop();
-        assertAll("stack",
-            () -> assertEquals(true,stack.isEmpty()),
-            () -> assertEquals(0,stack.size())
+        assertEquals(1,queue.dequeue());
+        assertAll("queue",
+            () -> assertEquals(true,queue.isEmpty()),
+            () -> assertEquals(0,queue.size())
         );
     }
 
     @Test
     public void equalsNull(){
-        assertEquals(false,stack.equals(null));
+        assertEquals(false,queue.equals(null));
     }
 
     @Test
     public void equalsItself(){
-        stack.push(1);
-        assertEquals(true, stack.equals(stack));
+        queue.enqueue(1);
+        assertEquals(true, queue.equals(queue));
     }
 
     @Test
     public void equalsItselfOneElement(){
-        stack.push(2);
-        assertEquals(true, stack.equals(stack));
+        queue.enqueue(2);
+        assertEquals(true, queue.equals(queue));
     }
 
-    // Check whether two different stacks with the same elemnt within are equivalent
+    // Check whether two different queues with the same elemnt within are equivalent
     @Test
     public void equalsOneElement(){
-        Stack<Integer> stack2 = new Stack<Integer>();
-        stack.push(1);
-        stack2.push(1);
-        assertEquals(true, stack.equals(stack2));
+        Queue<Integer> queue2 = new Queue<Integer>();
+        queue.enqueue(1);
+        queue2.enqueue(1);
+        assertEquals(true, queue.equals(queue2));
     }
 
     @Test
-    public void notEquals(){
-        Stack<Integer> stack2 = new Stack<Integer>();
-        stack2.push(2);
-        assertEquals(false, stack.equals(stack2));
+    public void notEqualsDifferentSize(){
+        fill(queue,4);
+        Queue<Integer> queue2 = new Queue<Integer>();
+        queue2.enqueue(2);
+        assertEquals(false, queue.equals(queue2));
     }
 
     @Test
 	public void zeroSizeConstructor(){
 		IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
-			()-> stack = new Stack<Integer>(0));
+			()-> queue = new Queue<Integer>(0));
 		assertEquals(ILLEGAL_ARG_CAPACITY,e.getMessage());
 	}
 
     @Test
 	public void negativeSizeConstructor(){
 		IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
-			()-> stack = new Stack<Integer>(-1));
+			()-> queue = new Queue<Integer>(-1));
 		assertEquals(ILLEGAL_ARG_CAPACITY,e.getMessage());
 	}
 
     @Test
-    public void popEmptyStack(){
+    public void removeEmptyQueue(){
         NoSuchElementException e = assertThrows(NoSuchElementException.class,
-            () -> stack.pop());
+            () -> queue.dequeue());
         assertEquals(UNDERFLOW, e.getMessage());
     }
 
     @Test
-    public void peekEmptyStack(){
+    public void peekEmptyQueue(){
         NoSuchElementException e = assertThrows(NoSuchElementException.class,
-            () -> stack.peek());
+            () -> queue.first());
         assertEquals(UNDERFLOW, e.getMessage());
     }
 
@@ -190,25 +192,24 @@ public class QueueTest {
     @DisplayName("Repetition:")
     public void pushPopPeekRepeat(TestInfo testInfo){
         for(int i = 1; i < repetitions+1; i++){
-            stack.push(i);
-            assertEquals(i,stack.peek());
+            queue.enqueue(i);
         }
-        assertEquals(repetitions,stack.size());
-        for(int k = repetitions; k != 0; k--){
-            assertEquals(k,stack.pop());
+        assertEquals(repetitions,queue.size());
+        for(int k = 1; k <= repetitions+1; k++){
+            assertEquals(k,queue.dequeue());
         }
     }
 
     @AfterEach
     void tearDown() {
-        while(!stack.isEmpty()){
-            stack.pop();
+        while(!queue.isEmpty()){
+            queue.dequeue();
         }
     }
 
     @AfterAll
     static void tearDownAll() {
-        System.out.println("Stack Unit Testing is complete.");
+        System.out.println("Queue Unit Testing is complete.");
     }
 }
 
