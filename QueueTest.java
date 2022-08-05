@@ -151,6 +151,49 @@ public class QueueTest {
     }
 
     @Test
+    public void addFourRemoveTwo(){
+        fill(queue,4);
+        assertAll("queue",
+            () -> assertEquals(4,queue.size()),
+            () -> assertEquals(false,queue.isEmpty()),
+            () -> assertEquals(1,queue.size()),
+            () -> assertEquals(1,queue.dequeue()),
+            () -> assertEquals(2,queue.dequeue()),
+            () -> assertEquals(2,queue.size())
+        );
+    }
+
+    @Test
+    public void addFourRemoveTwoAddThreeRemoveFour(){
+        fill(queue,4);
+        assertAll("queue",
+            () -> assertEquals(4,queue.size()),
+            () -> assertEquals(false,queue.isEmpty()),
+            () -> assertEquals(4,queue.size()),
+            () -> assertEquals(1,queue.dequeue()),
+            () -> assertEquals(2,queue.dequeue()),
+            () -> assertEquals(2,queue.size())
+        );
+        // Queue should be [3, 4]
+        // Add three elements, Queue should be [3, 4, 5, 6, 7]
+        queue.enqueue(5);
+        queue.enqueue(6);
+        queue.enqueue(7);
+
+        // Remove three elements
+        assertAll("queue",
+            () -> assertEquals(5,queue.size()),
+            () -> assertEquals(false,queue.isEmpty()),
+            () -> assertEquals(3,queue.dequeue()),
+            () -> assertEquals(4,queue.dequeue()),
+            () -> assertEquals(5,queue.dequeue()),
+            () -> assertEquals(6,queue.dequeue()),
+            () -> assertEquals(1,queue.size()),
+            () -> assertEquals(7,queue.first())
+        ); // Queue expected to be [7]
+    }
+
+    @Test
     public void equalsNull(){
         assertEquals(false,queue.equals(null));
     }
@@ -177,6 +220,13 @@ public class QueueTest {
     }
 
     @Test
+    public void notEquals(){
+        Queue<Integer> queue2 = new Queue<Integer>();
+        queue2.enqueue(2);
+        assertEquals(false,queue.equals(queue2));
+    }
+
+    @Test
     public void notEqualsDifferentSize(){
         fill(queue,4);
         Queue<Integer> queue2 = new Queue<Integer>();
@@ -187,13 +237,6 @@ public class QueueTest {
     @Test
     public void notEqualsOneElement(){
         queue.enqueue(7);
-        Queue<Integer> queue2 = new Queue<Integer>();
-        queue2.enqueue(2);
-        assertEquals(false,queue.equals(queue2));
-    }
-
-    @Test
-    public void notEqualsEmptyAndNonEmpty(){
         Queue<Integer> queue2 = new Queue<Integer>();
         queue2.enqueue(2);
         assertEquals(false,queue.equals(queue2));
