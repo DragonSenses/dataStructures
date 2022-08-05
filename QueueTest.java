@@ -16,7 +16,7 @@ import java.util.NoSuchElementException;
 public class QueueTest {
     Queue<Integer> queue;   // Default Capacity of 8
 
-    private static final int repetitions = 4096;
+    private static final int repetitions = 64;
 
     /** Error Messages **/
     private static final String UNDERFLOW = "Queue Underflow";
@@ -109,6 +109,31 @@ public class QueueTest {
         assertEquals(UNDERFLOW, e.getMessage());
     }
 
+    @Test
+    public void addNineCapacityEight(){
+        fill(queue, 8);
+
+        // Max Default Capacity of Queue is 8, expect an exception after adding again
+        IllegalStateException e = assertThrows(IllegalStateException.class,
+            () -> queue.enqueue(9));
+        assertEquals(OVERFLOW,e.getMessage());
+
+        // Queue should contain the elements and operate normally afterwards
+        assertAll("queue",
+            () -> assertEquals(8,queue.size()),
+            () -> assertEquals(false, queue.isEmpty()),
+            () -> assertEquals(1,queue.dequeue()),
+            () -> assertEquals(2,queue.dequeue()),
+            () -> assertEquals(3,queue.dequeue()),
+            () -> assertEquals(4,queue.dequeue()),
+            () -> assertEquals(5,queue.dequeue()),
+            () -> assertEquals(6,queue.dequeue()),
+            () -> assertEquals(7,queue.dequeue()),
+            () -> assertEquals(8,queue.dequeue()),
+            () -> assertEquals(true, queue.isEmpty()),
+            () -> assertEquals(0,queue.size())
+        );
+    }
 
     @Test
     public void removeOne(){
@@ -157,6 +182,21 @@ public class QueueTest {
         Queue<Integer> queue2 = new Queue<Integer>();
         queue2.enqueue(2);
         assertEquals(false, queue.equals(queue2));
+    }
+
+    @Test
+    public void notEqualsOneElement(){
+        queue.enqueue(7);
+        Queue<Integer> queue2 = new Queue<Integer>();
+        queue2.enqueue(2);
+        assertEquals(false,queue.equals(queue2));
+    }
+
+    @Test
+    public void notEqualsEmptyAndNonEmpty(){
+        Queue<Integer> queue2 = new Queue<Integer>();
+        queue2.enqueue(2);
+        assertEquals(false,queue.equals(queue2));
     }
 
     @Test
