@@ -99,4 +99,64 @@ public class Queue <E> {
         this.size++;
     }
 
+    /**
+	 * Higher level notion of equivalence where we define two Queues
+	 * as equivalent if:
+	 * I) They have the same Length
+	 * II) The contents that are element-by-element are equivalent
+	 * 
+	 * @param o - The Queue object parameter to compare with the caller
+	 * @return True, if both queues are the same size and the contents are
+	 *         element-by-element equivalent, otherwise false
+	 */
+    @SuppressWarnings("unchecked")
+	@Override
+	public boolean equals(Object o) {
+		// 1. Null Treatment
+		if (o == null) {
+			return false;
+		}
+		/*
+		 * 2. Class Equivalence - getClass() vs. instanceof
+		 * getClass() only returns true if object is actually an instance of the
+		 * specified class but instanceof operator returns true even if the object
+		 * is a subclass of a specified class or interface in Java; allows implementation
+		 * of equality between super and subclasses but does not satisfy symmetry: 
+		 * x.equals(y) is true then y.equals(x) is also true, but if you swap x
+		 * with a subclass then x instanceof y is true but y instanceof x will be false,
+		 * hence equals is false. 
+		 */
+		if (this.getClass() != o.getClass()) {
+			return false;
+		}
+		// Although declared formal type parameter <E> cannot detect at runtime whether
+		// other list has a matching type. See Type erasure.
+		Queue<?> other = (Queue<?>) o; // Typecast and use unknown type 
+
+		// 3. Size Check
+		if (this.size != other.size) {
+			return false;
+		}
+
+        /** Circular Array requires two different front pointers to keep track of the
+         *  first element so recall that we :
+         *  - Move up the front index to the next element in line, % keeps it within arr
+         *  - such that: front = (front + 1) % arr.length; 
+         */
+        int f1 = this.front;
+        int f2 = other.front;
+		E ptrA = this.arr[f1];      // Traverses through the primary Queue
+		E ptrB = (E) other.arr[f2]; // Traverse through the secondary Queue
+        
+        // 4. Element-by-Element check
+		//Traversal through both queues, iterations based on number of elements
+        for(int i = this.size(); i == 0; i--){
+            if(ptrA != ptrB) { return false; }
+            ptrA = this.arr[f1];
+            ptrB = (E) other.arr[f2];
+            f1 = (f1 + 1) % arr.length;
+            f2 = (f2 + 1) % other.arr.length;
+        }
+		return true; // When reached, every element matched successfuly
+	}
 } // end of Queue Class
