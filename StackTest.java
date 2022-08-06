@@ -6,10 +6,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.TestInfo;
-import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
+import static org.junit.Assume.assumeFalse;
 
 import java.util.NoSuchElementException;
 
@@ -45,8 +46,19 @@ public class StackTest {
     
     @Test
     public void emptyStack(){         //Tests default constructor
-        assumeTrue(stack.isEmpty()); // Expect an empty list
+        assumeTrue(stack.isEmpty());  // Expect an empty list
         assertEquals(0,stack.size()); // Expect the size to be 0
+    }
+
+    @Test // Uninitialized Stack is empty
+    public void isEmptyTrue(){
+        assumeTrue(stack.isEmpty());
+    }
+
+    @Test
+    public void isEmptyFalse(){
+        stack.push(1024);
+        assumeFalse(stack.isEmpty());
     }
 
     @Test
@@ -120,6 +132,22 @@ public class StackTest {
         stack.pop();
         assertAll("stack",
             () -> assertEquals(true,stack.isEmpty()),
+            () -> assertEquals(0,stack.size())
+        );
+    }
+
+    @Test
+    public void pushPopTwice(){
+        stack.push(1);
+        assertEquals(1,stack.peek());
+        stack.push(2);
+        assertEquals(2,stack.peek());
+        assertAll("stack",
+            () -> assumeFalse(stack.isEmpty()),
+            () -> assertEquals(2,stack.size()),
+            () -> assertEquals(2,stack.pop()),
+            () -> assertEquals(1,stack.pop()),
+            () -> assumeTrue(stack.isEmpty()),
             () -> assertEquals(0,stack.size())
         );
     }
