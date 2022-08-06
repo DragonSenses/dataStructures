@@ -243,6 +243,28 @@ public class StackTest {
         }
     }
 
+    @Test   /** Testing Order Property **/
+    public void reverseOrder(){
+        fill(stack,65536); // Fill Stack with integers [1,2^16]
+        // We expect the stack to return the values in reverse order
+        for(int k=65536; k > 0; k--){
+            assertEquals(k,stack.pop());
+        }
+    }
+
+    // Note: Works when n = 2^28 (268435456) or less, n = 2^28 takes ~6.7 seconds 
+    // when n = 2^29 (536870912) or  n = 2^30 (1073741824) or higher,
+    // an java.lang.OutOfMemoryError occurs
+    @Test
+    public void reverseOrderN(){
+        int n = 16777216; // 2^24  for quicker testing
+        fill(stack,n); // Fill Stack with integers [1,2^16]
+        // We expect the stack to return the values in reverse order
+        for(int k=n; k > 0; k--){
+            assertEquals(k,stack.pop());
+        }
+    }
+
     @AfterEach
     void tearDown() {
         while(!stack.isEmpty()){
