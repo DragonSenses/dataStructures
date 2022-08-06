@@ -255,6 +255,30 @@ public class QueueTest {
     }
 
     @Test
+    public void equalsSameContentsAfterRemoval(){
+        fill(queue,8);
+        // Remove 4 first 4 elements of the queue
+        assertAll("queue",
+            () -> assertEquals(8,queue.size()),
+            () -> assertEquals(false,queue.isEmpty()),
+            () -> assertEquals(1,queue.dequeue()),
+            () -> assertEquals(2,queue.dequeue()),
+            () -> assertEquals(3,queue.dequeue()),
+            () -> assertEquals(4,queue.dequeue()),
+            () -> assertEquals(4,queue.size()),
+            () -> assertEquals(5,queue.first())
+        );
+        Queue<Integer> queue2 = new Queue<>();
+        // Add elements 5 through 8, the same contents as queue
+        for(int i = 5 ; i < 9; i++){
+            queue2.enqueue(i);
+        }
+        // The front pointer are both different for each queue, but we expect
+        // them to be both be equal since the contents are the same
+        assertEquals(true,queue.equals(queue2));
+    }   
+
+    @Test
     public void notEquals(){
         Queue<Integer> queue2 = new Queue<Integer>();
         queue2.enqueue(2);
@@ -271,11 +295,27 @@ public class QueueTest {
 
     @Test
     public void notEqualsOneElement(){
-        queue.enqueue(7);
+        queue.enqueue(3);
         Queue<Integer> queue2 = new Queue<Integer>();
         queue2.enqueue(2);
         assertEquals(false,queue.equals(queue2));
     }
+
+    @Test
+    public void notEqualsAfterRemovalTwice(){
+        fill(queue,8);
+        assertAll("queue",
+            () -> assertEquals(8,queue.size()),
+            () -> assertEquals(false,queue.isEmpty()),
+            () -> assertEquals(1,queue.dequeue()),
+            () -> assertEquals(2,queue.dequeue()),
+            () -> assertEquals(6,queue.size()),
+            () -> assertEquals(3,queue.first())
+        );
+        Queue<Integer> queue2 = new Queue<>();
+        fill(queue2,6);
+        assertEquals(false,queue.equals(queue2));
+    }   
 
     @Test
 	public void zeroSizeConstructor(){
