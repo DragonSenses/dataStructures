@@ -179,6 +179,14 @@ public class StackTest {
     }
 
     @Test
+    public void equalContentsDifferentCapacity(){
+        fill(stack,8);
+        Stack<Integer> stack16 = new Stack<>(16);
+        fill(stack16,8);
+        assertEquals(true, stack.equals(stack16));
+    }
+
+    @Test
     public void notEquals(){ // Empty Stack vs Non-Empty Stack
         Stack<Integer> stack2 = new Stack<Integer>();
         stack2.push(2);
