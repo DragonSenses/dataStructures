@@ -72,6 +72,26 @@ public class QueueTest {
     }
 
     @Test
+    public void addCopy(){
+        queue.enqueue(2);
+        queue.enqueue(2);
+        assertAll("queue",
+            () -> assumeFalse(queue.isEmpty()),
+            () -> assertEquals(2,queue.size()),
+            () -> assertEquals(2,queue.dequeue()),
+            () -> assertEquals(2,queue.dequeue()),
+            () -> assumeTrue(queue.isEmpty()),
+            () -> assertEquals(0,queue.size())
+        );
+    }
+
+    @Test   // Should Queue allow null values?
+    public void addNull(){
+        queue.enqueue(null);
+        assertEquals(null,queue.dequeue());
+    }
+
+    @Test
     public void addRemoveTwice(){
         queue.enqueue(1);
         assertEquals(1,queue.first());
@@ -255,7 +275,7 @@ public class QueueTest {
     }
 
     @Test
-    public void equalsSameContentsAfterRemoval(){
+    public void equalContentsAfterRemoval(){
         fill(queue,8);
         // Remove 4 first 4 elements of the queue
         assertAll("queue",
