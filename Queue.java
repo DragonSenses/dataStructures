@@ -150,7 +150,7 @@ public class Queue <E> {
         
         // 4. Element-by-Element check
 		//Traversal through both queues, iterations based on number of elements
-        for(int i = this.size(); i == 0; i--){
+        for(int i = this.size(); i > 0; i--){
             if(ptrA != ptrB) { return false; }
             ptrA = this.arr[f1];
             ptrB = (E) other.arr[f2];
