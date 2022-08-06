@@ -184,7 +184,7 @@ public class QueueTest {
         assertAll("queue",
             () -> assertEquals(4,queue.size()),
             () -> assertEquals(false,queue.isEmpty()),
-            () -> assertEquals(1,queue.size()),
+            () -> assertEquals(4,queue.size()),
             () -> assertEquals(1,queue.dequeue()),
             () -> assertEquals(2,queue.dequeue()),
             () -> assertEquals(2,queue.size())
@@ -228,7 +228,6 @@ public class QueueTest {
 
     @Test
     public void equalsItself(){
-        queue.enqueue(1);
         assertEquals(true, queue.equals(queue));
     }
 
@@ -301,13 +300,39 @@ public class QueueTest {
     @RepeatedTest(value = repetitions, 
         name = "{displayName} {currentRepetition}/{totalRepetitions}")
     @DisplayName("Repetition:")
-    public void pushPopPeekRepeat(TestInfo testInfo){
+    public void addRemoveRepeat(TestInfo testInfo){
+        Queue<Integer> testQueue = new Queue<>(repetitions);
         for(int i = 1; i < repetitions+1; i++){
-            queue.enqueue(i);
+            testQueue.enqueue(i);
         }
-        assertEquals(repetitions,queue.size());
-        for(int k = 1; k <= repetitions+1; k++){
-            assertEquals(k,queue.dequeue());
+        assertEquals(repetitions,testQueue.size());
+        for(int k = 1; k < repetitions+1; k++){
+            assertEquals(k,testQueue.dequeue());
+        }
+    }
+
+    @Test   /** Testing Order Property **/
+    public void inOrder(){
+        int n = 65536;
+        Queue<Integer> queue16 = new Queue<>(n);
+        fill(queue16,n); // Fill Queue with integers [1,2^16]
+        // We expect the queue to return the values in order of insertion
+        for(int k=1; k < n+1; k++){
+            assertEquals(k,queue16.dequeue());
+        }
+    }
+
+    // Note: Works when n = 2^28 (268435456) or less, n = 2^28 takes ~6.7 seconds 
+    // when n = 2^29 (536870912) or  n = 2^30 (1073741824) or higher,
+    // an java.lang.OutOfMemoryError occurs
+    @Test
+    public void inOrderN(){
+        int n = 16777216;
+        Queue<Integer> nQueue = new Queue<>(n);
+        fill(nQueue,n); // Fill Queue with integers [1,2^16]
+        // We expect the queue to return the values in order of insertion
+        for(int k=1; k < n+1; k++){
+            assertEquals(k,nQueue.dequeue());
         }
     }
 
