@@ -6,10 +6,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.TestInfo;
-import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
+import static org.junit.Assume.assumeFalse;
 
 import java.util.NoSuchElementException;
 
@@ -50,12 +51,39 @@ public class QueueTest {
         assertEquals(0,queue.size()); // Expect the size to be 0
     }
 
+    @Test // Uninitialized Queue is empty
+    public void isEmptyTrue(){
+        assumeTrue(queue.isEmpty());
+    }
+
+    @Test
+    public void isEmptyFalse(){
+        queue.enqueue(1024);
+        assumeFalse(queue.isEmpty());
+    }
+
     @Test
     public void addOne(){
         queue.enqueue(1);
         assertAll("queue",
             () -> assertEquals(false,queue.isEmpty()),
             () -> assertEquals(1,queue.size())
+        );
+    }
+
+    @Test
+    public void addRemoveTwice(){
+        queue.enqueue(1);
+        assertEquals(1,queue.first());
+        queue.enqueue(2);
+        assertEquals(1,queue.first());
+        assertAll("queue",
+            () -> assumeFalse(queue.isEmpty()),
+            () -> assertEquals(2,queue.size()),
+            () -> assertEquals(1,queue.dequeue()),
+            () -> assertEquals(2,queue.dequeue()),
+            () -> assumeTrue(queue.isEmpty()),
+            () -> assertEquals(0,queue.size())
         );
     }
 
