@@ -247,6 +247,14 @@ public class QueueTest {
     }
 
     @Test
+    public void equalContentsDifferentCapacity(){
+        fill(queue,8);
+        Queue<Integer> queue16 = new Queue<>(16);
+        fill(queue16,8);
+        assertEquals(true, queue.equals(queue16));
+    }
+
+    @Test
     public void notEquals(){
         Queue<Integer> queue2 = new Queue<Integer>();
         queue2.enqueue(2);
