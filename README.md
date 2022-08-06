@@ -34,8 +34,6 @@ Implemented but needs testing:
 - SortedTableMap
 - HashTable
 - ChainHashMap
-- Stack
-- Queue
 
 Data Structures that are a Work In Progress (Not fully tested or implemented):
 
