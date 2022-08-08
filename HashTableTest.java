@@ -38,8 +38,8 @@ public class HashTableTest {
 	public static final String ILLEGAL_ARG_LOAD_FACTOR = "Load Factor must be positive";
     
     @BeforeAll
-    static void initAll() {
-		counter = 4;
+    static void setup() {
+		System.out.println("Hash Table Unit Testing has begun ...");
     }
 
     @BeforeEach
@@ -75,7 +75,7 @@ public class HashTableTest {
 	/** Tests  **/
 
 	@Test
-	public void oneElement(){
+	public void addOne(){
 		table.put(1, 65);
 		strTable.put("1", "65");
 		
@@ -85,8 +85,10 @@ public class HashTableTest {
 		expectedKeysStr.add("1");
 
 		List<Integer> actualKeysInt = table.keys();
+		actualKeysInt.add(1);
 		List<String> actualKeysStr = strTable.keys();
-
+		actualKeysStr.add("1");
+		
 		assertAll("table",
 			() -> assertTrue(!table.isEmpty()),
 			() -> assertEquals(1, table.size()),
@@ -369,6 +371,6 @@ public class HashTableTest {
 
     @AfterAll
     static void tearDownAll() {
-
+		System.out.println("Hash Table Unit Testing is complete.");
     }
 }
