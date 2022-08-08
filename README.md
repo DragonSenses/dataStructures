@@ -31,14 +31,12 @@ Interfaces
 Implemented but needs testing:
 - RedBlackTree
 - PriorityQueue
+- Deque
 - SortedTableMap
+- Positional List
 - HashTable
-- ChainHashMap
 
 Data Structures that are a Work In Progress (Not fully tested or implemented):
 
-- HashMap.java          (Not fully tested, fails removal)
+- HashMap.java          (Not fully tested, fails remove twice test)
 
-Files that are working but need maintainence:
-
--None for now! 
