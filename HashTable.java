@@ -2,6 +2,8 @@ import java.util.Objects;
 import java.util.Random;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Set;
+import java.util.HashSet;
 
 /**
  * Linear Probing Hash Table.
@@ -301,14 +303,15 @@ public class HashTable<Key, Value> {
 	public List<Key> keys() {
 		if (isEmpty()) { return new ArrayList<Key>(0); }
 		
-		List<Key> ring = new ArrayList<Key>(this.size);
+		// Using a set ensures unique keys, no duplicates allowed
+		Set<Key> ring = new HashSet<Key>(this.size); 
 		
 		for (int k = 0; k < this.size; k++) {
 			if (keys[k] != null) { //if Key,Value pair isn't Null
-				ring.add(k,keys[k]);
+				ring.add(keys[k]);
 			}
 		}
-		
-		return ring;
+		// Convert set into List using ArrayList constructor
+		return new ArrayList<>(ring);
 	}
 }
