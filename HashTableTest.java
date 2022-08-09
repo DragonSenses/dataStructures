@@ -76,18 +76,19 @@ public class HashTableTest {
 
 	@Test
 	public void addOne(){
-		table.put(1, 65);
-		strTable.put("1", "65");
-		
+		// Create the Expected Values
 		List<Integer> expectedKeysInt = new ArrayList<>();
 		expectedKeysInt.add(1);
 		List<String> expectedKeysStr = new ArrayList<>();
 		expectedKeysStr.add("1");
 
+		// Add One value to each HashTable
+		table.put(1, 65);
+		strTable.put("1", "65");
+
+		// Create the List of Keys for each to compare to Expected
 		List<Integer> actualKeysInt = table.keys();
-		actualKeysInt.add(1);
 		List<String> actualKeysStr = strTable.keys();
-		actualKeysStr.add("1");
 		
 		assertAll("table",
 			() -> assertTrue(!table.isEmpty()),
