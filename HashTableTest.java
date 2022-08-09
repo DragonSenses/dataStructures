@@ -31,7 +31,7 @@ public class HashTableTest {
     public static final Integer KEY = 7;
     public static final Integer VAL = 16;
 
-	public static Integer counter;	// For a repeated test that determines capacity
+	public static Integer counter = 8;	// For a repeated test that determines capacity
 
     //Error Messages
 	public static final String ILLEGAL_ARG_CAPACITY = "Initial Capacity must be non-negative";
@@ -168,14 +168,13 @@ public class HashTableTest {
 			() -> assertEquals(expectedKeys, actualListOfKeys)
 		);
 
-		table.remove(0);
-		table.remove(1);
-
+		System.out.println(table.remove(0));
+		System.out.println(table.remove(1));
+		System.out.println(table.containsKey(1));
+		
 		expectedKeys.clear(); // remove all elements within expected List
 		actualListOfKeys = table.keys(); 
-		System.out.println(table.size());
-		System.out.println(table.get(1));
-		System.out.println(table.get(0));
+		System.out.println("Size is: " + table.size());
 		assertAll("table",
 			() -> assertTrue(table.isEmpty()),
 			() -> assertEquals(false, table.containsKey(0)),
@@ -332,7 +331,7 @@ public class HashTableTest {
     @Test
 	public void keysEmptyTable(){
 		List<Integer> expected = new ArrayList<Integer>(0);
-		List<Integer> actual = emptyTable.keys();
+		List<Integer> actual = table.keys();
 		assertEquals(expected,actual);
 	}
 

@@ -2,7 +2,6 @@ import java.util.Objects;
 import java.util.Random;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * Linear Probing Hash Table.
@@ -171,7 +170,7 @@ public class HashTable<Key, Value> {
 	 // resizes the hash table to the given capacity by re-hashing all of the keys
 	 private void resize(int capacity) {
         HashTable<Key, Value> table = new HashTable<Key, Value>(capacity);
-        for (int k = 0; k < capacity; k++) {
+        for (int k = 0; k < keys.length; k++) {
             if (keys[k] != null) {
                 table.put(keys[k], values[k]);
             }
@@ -272,8 +271,8 @@ public class HashTable<Key, Value> {
 	 * 
 	 * @throws IllegalArgument exception if the key is null
 	 */
-	public void remove(Key key) throws IllegalArgumentException {
-		if(!containsKey(key)) { return; } // Check if null key, empty map, or no key exists
+	public boolean remove(Key key) throws IllegalArgumentException {
+		if(!containsKey(key)) { return false; } // Check if null key, empty map, or no key exists
 
 		// Get the hashed index of the key
 		int i = hash(key);
@@ -292,7 +291,9 @@ public class HashTable<Key, Value> {
 		//If current loadFactor (Entries/ArrayLength) is 1/4loadFactor or less
 		if( this.size > 0 && ((double)size/capacity) <= loadFactor/4) { 
 			this.resize(capacity/2); //loadFactor|0.75*1/4 = .1875 = 18.75% full
-		} 
+		}
+
+		return true;
 	}
 
 	/**
