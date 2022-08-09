@@ -5,10 +5,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -73,6 +74,17 @@ public class HashTableTest {
 	}
 
 	/** Tests  **/
+
+	@Test
+	void isEmptyTrue(){
+		assertTrue(table.isEmpty());
+	}
+
+	@Test
+	void isEmptyFalse(){
+		fillTable(1);
+		assertFalse(table.isEmpty());
+	}
 
 	@Test
 	public void addOne(){
@@ -140,8 +152,12 @@ public class HashTableTest {
 		expectedKeys.add(0);
 		expectedKeys.add(1);
 
-		fillTable(2);
+		table.put(0,0);
+		table.put(1,1);
+		
 		actualListOfKeys = table.keys();
+		Collections.sort(actualListOfKeys); // List does not guarantee order
+
 		assertAll("table",
 			() -> assertTrue(!table.isEmpty()),
 			() -> assertEquals(2, table.size()),
@@ -154,9 +170,12 @@ public class HashTableTest {
 
 		table.remove(0);
 		table.remove(1);
-		expectedKeys.remove(0);
-		expectedKeys.remove(1);
 
+		expectedKeys.clear(); // remove all elements within expected List
+		actualListOfKeys = table.keys(); 
+		System.out.println(table.size());
+		System.out.println(table.get(1));
+		System.out.println(table.get(0));
 		assertAll("table",
 			() -> assertTrue(table.isEmpty()),
 			() -> assertEquals(false, table.containsKey(0)),
