@@ -302,10 +302,15 @@ public class HashTable<Key, Value> {
 	public List<Key> keys() {
 		if (isEmpty()) { return new ArrayList<Key>(0); }
 		
-		// Turn the underlying key array into an ArrayList
-		List<Key> ring = new ArrayList<>(Arrays.asList(keys));
+		// Make an empty ArrayList of keys with length of the underlying array
+		List<Key> ring = new ArrayList<>(keys.length);
+
+		// Make a deep copy of the elements within keys[]
+		for(int i = 0; i < keys.length; i++){
+			ring.add(keys[i]);
+		}
 		
-		// Iterate through the ArrayList of keys, and remove null values
+		// Iterate through the ArrayList , and remove null values
 		for(Key k: ring){
 			if(k == null){
 				ring.remove(k);
