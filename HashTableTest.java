@@ -166,7 +166,7 @@ public class HashTableTest {
 		fillTableASCII(3);
 		assertAll("table",
 			() -> assertEquals(VAL,table.get(KEY)),
-			() -> assertEquals(VAL+1,table.remove(KEY+1)),
+			() -> assertEquals(true,table.remove(KEY+1)),
 			() -> assertEquals(VAL+2,table.get(KEY+2))
 		);
 	}
@@ -179,124 +179,7 @@ public class HashTableTest {
 		assertEquals(ILLEGAL_ARG_NULL_KEY,e.getMessage());
 	}
 
-	@Test
-	public void removeOne(){
-		List<Integer> expectedKeys = new ArrayList<>();
-		expectedKeys.add(1);
-		table.put(1, 65);
-		actualListOfKeys = table.keys();
-
-		assertAll("table",
-			() -> assertTrue(!table.isEmpty()),
-			() -> assertEquals(1, table.size()),
-			() -> assertEquals(true, table.containsKey(1)),
-			() -> assertEquals(65, table.get(1)),
-			() -> assertEquals(expectedKeys, actualListOfKeys)
-		);
-
-		table.remove(1);
-		actualListOfKeys = table.keys();
-		expectedKeys.remove(0);
-
-		assertAll("table",
-			() -> assertTrue(table.isEmpty()),
-			() -> assertEquals(false, table.containsKey(1)),
-			() -> assertEquals(null, table.get(1)),
-			() -> assertEquals(expectedKeys, actualListOfKeys)
-		);
-	}
-
-	@Test
-	public void removeTwo(){
-		List<Integer> expectedKeys = new ArrayList<>();
-		expectedKeys.add(0);
-		expectedKeys.add(1);
-
-		table.put(0,0);
-		table.put(1,1);
-		
-		actualListOfKeys = table.keys();
-		Collections.sort(actualListOfKeys); // List does not guarantee order
-
-		assertAll("table",
-			() -> assertTrue(!table.isEmpty()),
-			() -> assertEquals(2, table.size()),
-			() -> assertEquals(true, table.containsKey(0)),
-			() -> assertEquals(true, table.containsKey(1)),
-			() -> assertEquals(0, table.get(0)),
-			() -> assertEquals(1, table.get(1)),
-			() -> assertEquals(expectedKeys, actualListOfKeys)
-		);
-
-		System.out.println(table.remove(0));
-		System.out.println(table.remove(1));
-		System.out.println(table.containsKey(1));
-		
-		expectedKeys.clear(); // remove all elements within expected List
-		actualListOfKeys = table.keys(); 
-		System.out.println("Size is: " + table.size());
-		assertAll("table",
-			() -> assertTrue(table.isEmpty()),
-			() -> assertEquals(false, table.containsKey(0)),
-			() -> assertEquals(false, table.containsKey(1)),
-			() -> assertEquals(null, table.get(0)),
-			() -> assertEquals(null, table.get(1)),
-			() -> assertEquals(expectedKeys, actualListOfKeys)
-		);
-	}
-
-	@RepeatedTest(value = 2, name = "{displayName} {currentRepetition}/{totalRepetitions}" )
-    @DisplayName("Repeat!")
-	public void doubleResizeCheck(){
-		table = new HashTable<Integer, Integer>(counter);
-		List<Integer> expectedKeys = new ArrayList<>(counter);
-		// Create elements up to counter times
-		for(int i = 0; i < counter; i++) {
-			table.put(i, i);
-			expectedKeys.add(i);
-		}
-		actualListOfKeys = table.keys();
-		// we need to sort because hash table doesn't guarantee ordering
-		Collections.sort(actualListOfKeys);
-
-		assertAll("table",
-			() -> assertTrue(!table.isEmpty()),
-			() -> assertEquals(counter, table.size()),
-			() -> assertEquals(expectedKeys, actualListOfKeys)
-		);
-
-		counter *= 2; // Double the capacity size starting from 4 for the next test
-	}
-
-	// Checks when resize() reduces the table properly
-	@RepeatedTest(value = 2, name = "{displayName} {currentRepetition}/{totalRepetitions}" )
-    @DisplayName("Repeat!")
-	public void halveResizeCheck(){
-		table = new HashTable<Integer, Integer>(counter);
-		List<Integer> expectedKeys = new ArrayList<>(counter);
-		// Create elements up to counter times
-		fillTable(counter);
-		// Add only the first half to list or [0, counter/2)
-		for(int i = 0; i < counter/2; i++) { 
-			expectedKeys.add(i);
-		}
-		//Remove the second half, or [(counter/2), counter)
-		for(int i = counter/2; i < counter; i++){
-			table.remove(i);
-		}
-
-		actualListOfKeys = table.keys();
-		// we need to sort because hash table doesn't guarantee ordering
-		Collections.sort(actualListOfKeys);
-
-		assertAll("table",
-			() -> assertTrue(!table.isEmpty()),
-			() -> assertEquals(counter/2, table.size()),
-			() -> assertEquals(expectedKeys, actualListOfKeys)
-		);
-
-		counter /= 2; // Double the capacity size starting from 4 for the next test
-	}
+	
 
 	@Test
 	public void get4KeysString(){
@@ -429,6 +312,125 @@ public class HashTableTest {
 			() -> assertEquals(true, strTable.containsKey("2")),
 			() -> assertEquals(true, strTable.containsKey("3"))
 		);
+	}
+
+	@Test
+	public void removeOne(){
+		List<Integer> expectedKeys = new ArrayList<>();
+		expectedKeys.add(1);
+		table.put(1, 65);
+		actualListOfKeys = table.keys();
+
+		assertAll("table",
+			() -> assertTrue(!table.isEmpty()),
+			() -> assertEquals(1, table.size()),
+			() -> assertEquals(true, table.containsKey(1)),
+			() -> assertEquals(65, table.get(1)),
+			() -> assertEquals(expectedKeys, actualListOfKeys)
+		);
+
+		table.remove(1);
+		actualListOfKeys = table.keys();
+		expectedKeys.remove(0);
+
+		assertAll("table",
+			() -> assertTrue(table.isEmpty()),
+			() -> assertEquals(false, table.containsKey(1)),
+			() -> assertEquals(null, table.get(1)),
+			() -> assertEquals(expectedKeys, actualListOfKeys)
+		);
+	}
+
+	@Test
+	public void removeTwo(){
+		List<Integer> expectedKeys = new ArrayList<>();
+		expectedKeys.add(0);
+		expectedKeys.add(1);
+
+		table.put(0,0);
+		table.put(1,1);
+		
+		actualListOfKeys = table.keys();
+		Collections.sort(actualListOfKeys); // List does not guarantee order
+
+		assertAll("table",
+			() -> assertTrue(!table.isEmpty()),
+			() -> assertEquals(2, table.size()),
+			() -> assertEquals(true, table.containsKey(0)),
+			() -> assertEquals(true, table.containsKey(1)),
+			() -> assertEquals(0, table.get(0)),
+			() -> assertEquals(1, table.get(1)),
+			() -> assertEquals(expectedKeys, actualListOfKeys)
+		);
+
+		System.out.println(table.remove(0));
+		System.out.println(table.remove(1));
+		// System.out.println(table.containsKey(1));
+		
+		expectedKeys.clear(); // remove all elements within expected List
+		actualListOfKeys = table.keys(); 
+		System.out.println("Size is: " + table.size());
+		assertAll("table",
+			() -> assertTrue(table.isEmpty()),
+			() -> assertEquals(false, table.containsKey(0)),
+			() -> assertEquals(false, table.containsKey(1)),
+			() -> assertEquals(null, table.get(0)),
+			() -> assertEquals(null, table.get(1)),
+			() -> assertEquals(expectedKeys, actualListOfKeys)
+		);
+	}
+
+	@RepeatedTest(value = 2, name = "{displayName} {currentRepetition}/{totalRepetitions}" )
+    @DisplayName("Repeat!")
+	public void doubleResizeCheck(){
+		table = new HashTable<Integer, Integer>(counter);
+		List<Integer> expectedKeys = new ArrayList<>(counter);
+		// Create elements up to counter times
+		for(int i = 0; i < counter; i++) {
+			table.put(i, i);
+			expectedKeys.add(i);
+		}
+		actualListOfKeys = table.keys();
+		// we need to sort because hash table doesn't guarantee ordering
+		Collections.sort(actualListOfKeys);
+
+		assertAll("table",
+			() -> assertTrue(!table.isEmpty()),
+			() -> assertEquals(counter, table.size()),
+			() -> assertEquals(expectedKeys, actualListOfKeys)
+		);
+
+		counter *= 2; // Double the capacity size starting from 4 for the next test
+	}
+
+	// Checks when resize() reduces the table properly
+	@RepeatedTest(value = 2, name = "{displayName} {currentRepetition}/{totalRepetitions}" )
+    @DisplayName("Repeat!")
+	public void halveResizeCheck(){
+		table = new HashTable<Integer, Integer>(counter);
+		List<Integer> expectedKeys = new ArrayList<>(counter);
+		// Create elements up to counter times
+		fillTable(counter);
+		// Add only the first half to list or [0, counter/2)
+		for(int i = 0; i < counter/2; i++) { 
+			expectedKeys.add(i);
+		}
+		//Remove the second half, or [(counter/2), counter)
+		for(int i = counter/2; i < counter; i++){
+			table.remove(i);
+		}
+
+		actualListOfKeys = table.keys();
+		// we need to sort because hash table doesn't guarantee ordering
+		Collections.sort(actualListOfKeys);
+
+		assertAll("table",
+			() -> assertTrue(!table.isEmpty()),
+			() -> assertEquals(counter/2, table.size()),
+			() -> assertEquals(expectedKeys, actualListOfKeys)
+		);
+
+		counter /= 2; // Double the capacity size starting from 4 for the next test
 	}
 
 
