@@ -562,7 +562,9 @@ public class HashMap<K, V> {
 		this.capacity = newCapacity;
 		this.size = newHashMap.size;
 		this.entries = newHashMap.entries;
-		
+		this.p = newHashMap.p;
+		this.scale = newHashMap.scale;
+		this.shift = newHashMap.shift;
 	}
 
 	private String toStringIndex(){
