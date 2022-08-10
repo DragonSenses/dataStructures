@@ -172,19 +172,18 @@ public class HashTable<Key, Value> {
 
 	 // resizes the hash table to the given capacity by re-hashing all of the keys
 	 private void resize(int capacity) {
-        HashTable<Key, Value> table = new HashTable<Key, Value>(capacity);
+        HashTable<Key, Value> newTable = new HashTable<Key, Value>(capacity);
         for (int k = 0; k < keys.length; k++) {
-            if (keys[k] != null) {
-                table.put(keys[k], values[k]);
+            if (this.keys[k] != null) {
+                newTable.put(keys[k], values[k]);
             }
         }
 		// Relink the instance variables to the new table
-        keys = table.keys;
-        values = table.values;
-        capacity = table.capacity;
+        this.keys = newTable.keys;
+        this.values = newTable.values;
+        this.capacity = newTable.capacity;
+		this.size = newTable.size;
     }
-
-
 
 	/** Access Methods **/
 
