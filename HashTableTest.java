@@ -1,8 +1,6 @@
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -372,7 +370,11 @@ public class HashTableTest {
 			System.out.println("Contains 1: " + table.containsKey(1));
 			System.out.println(table.toString());
 			System.out.println("Size is: " + table.size());
+		} else {
+			table.remove(0);
+			table.remove(1);
 		}
+
 		expectedKeys.clear(); // remove all elements within expected List
 		actualListOfKeys = table.keys(); 
 		
@@ -385,6 +387,41 @@ public class HashTableTest {
 			() -> assertEquals(expectedKeys, actualListOfKeys)
 		);
 	}
+
+	// @Test 
+	// void remove100(){
+	// 	int n = 100;
+	// 	List<Integer> expectedKeys = new ArrayList<>();
+
+	// 	for(int i = 0; i < n; i++){
+	// 		expectedKeys.add(i);
+	// 		table.put(i,i);
+	// 	}
+
+	// 	actualListOfKeys = table.keys();
+	// 	Collections.sort(actualListOfKeys); // List does not guarantee order
+
+	// 	assertAll("table",
+	// 		() -> assertTrue(!table.isEmpty()),
+	// 		() -> assertEquals(n, table.size()),
+	// 		() -> assertEquals(expectedKeys, actualListOfKeys)
+	// 	);
+
+
+	// 	for(int i = 0; i < n; i++){
+	// 		assertEquals(i, table.remove(i));
+	// 	}
+
+	// 	expectedKeys.clear();
+	// 	actualListOfKeys = table.keys();
+	// 	Collections.sort(actualListOfKeys); // List does not guarantee order
+
+	// 	assertAll("table",
+	// 		() -> assertTrue(table.isEmpty()),
+	// 		() -> assertEquals(0, table.size()),
+	// 		() -> assertEquals(expectedKeys, actualListOfKeys)
+	// 	);
+	// }
 
 	@Test
 	public void doubleResizeCheck(){
