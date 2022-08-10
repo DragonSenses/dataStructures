@@ -155,15 +155,18 @@ public class HashTable<Key, Value> {
 	private void rehash(int i){
 		Key k; 
 		Value v;
-		for(; keys[i] != null; i = (i+1) % capacity){
+		while(keys[i] != null){ 
 			k = keys[i];
 			v = values[i];
+
 			// Remove the Key,Value pair 
 			keys[i] = null;
 			values[i] = null;
+
 			//Reduce the size and re-put and rehash the pair into HashTable
 			size--;
 			put(k,v);
+			i = (i+1) % capacity;
 		}
 	}
 
@@ -272,12 +275,13 @@ public class HashTable<Key, Value> {
 	 * @throws IllegalArgument exception if the key is null
 	 */
 	public boolean remove(Key key) throws IllegalArgumentException {
+		if(key == null) { throw new IllegalArgumentException(ILLEGAL_ARG_NULL_KEY); }
 		if(!containsKey(key)) { return false; } // Check if null key, empty map, or no key exists
 
 		// Get the hashed index of the key
 		int i = hash(key);
 		while(!key.equals(keys[i])){
-			i = (i+1) % capacity;
+			i = (i+1) % size;
 		}
 
 		//Remove the key, value pair by setting them both to null
