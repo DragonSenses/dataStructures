@@ -28,8 +28,8 @@ public class HashTableTest {
 
     public static final String TEST_KEY = "Key";
 	public static final String TEST_VAL = "Value";
-    public static final Integer KEY = 7;
-    public static final Integer VAL = 16;
+    public static final Integer KEY = 1;
+    public static final Integer VAL = 65;
 
 	public static Integer counter = 4;	// For a repeated test that determines capacity
 
@@ -70,6 +70,18 @@ public class HashTableTest {
 	public void fillTable(int n) {
 		for(int i=0; i<n; i++) {
 			this.table.put(i,i); //1st entry: <0,0>
+		}
+	}
+
+	/**
+	 * Helper method that fills in the table with entries with the 
+	 * key values within the range of [1 - (n-1)], and values [65, (n+64)]
+	 * @param table		table to populate
+	 * @param n			Number of entries
+	 */
+	public void fillTableASCII(int n) {
+		for(int i=0; i<n; i++) {
+			this.table.put(KEY+i,VAL+i); //1st entry: <1,65>
 		}
 	}
 
@@ -117,6 +129,54 @@ public class HashTableTest {
 			() -> assertEquals("65", strTable.get("1")),
 			() -> assertEquals(expectedKeysStr, actualKeysStr)
 		);
+	}
+
+	@Test
+	void getOne(){
+		table.put(KEY,VAL); 
+		assertEquals(VAL,table.get(KEY));
+	}
+
+	@Test
+	void getNone(){
+		fillTable(4);
+		assertEquals(null,table.get(4096));
+	}
+
+	@Test
+	void getTwice(){
+		table.put(KEY,VAL); 
+		table.put(KEY+1,VAL+1);
+		assertEquals(VAL,table.get(KEY));
+		assertEquals(VAL+1,table.get(KEY+1));
+	}
+
+	@Test
+	void getThreeTimes(){
+		fillTableASCII(3);
+		assertAll("table",
+			() -> assertEquals(VAL,table.get(KEY)),
+			() -> assertEquals(VAL+1,table.get(KEY+1)),
+			() -> assertEquals(VAL+2,table.get(KEY+2))
+		);
+	}
+
+	@Test
+	void getTwiceAfterRemove(){
+		fillTableASCII(3);
+		assertAll("table",
+			() -> assertEquals(VAL,table.get(KEY)),
+			() -> assertEquals(VAL+1,table.remove(KEY+1)),
+			() -> assertEquals(VAL+2,table.get(KEY+2))
+		);
+	}
+
+	@Test
+	void getNullKey(){
+		fillTable(4);
+		IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
+			()-> table.get(null));
+		assertEquals(ILLEGAL_ARG_NULL_KEY,e.getMessage());
 	}
 
 	@Test
