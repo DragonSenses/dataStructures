@@ -341,6 +341,8 @@ public class HashTableTest {
 		);
 	}
 
+	public static boolean debugRemove = true;
+
 	@Test
 	public void removeTwo(){
 		List<Integer> expectedKeys = new ArrayList<>();
@@ -363,13 +365,17 @@ public class HashTableTest {
 			() -> assertEquals(expectedKeys, actualListOfKeys)
 		);
 
-		System.out.println(table.remove(0));
-		System.out.println(table.remove(1));
-		// System.out.println(table.containsKey(1));
-		
+		if(debugRemove){
+			System.out.println(table.toString());
+			System.out.println("Removed 0: " + table.remove(0));
+			System.out.println("Removed 1: " + table.remove(1));
+			System.out.println("Contains 1: " + table.containsKey(1));
+			System.out.println(table.toString());
+			System.out.println("Size is: " + table.size());
+		}
 		expectedKeys.clear(); // remove all elements within expected List
 		actualListOfKeys = table.keys(); 
-		System.out.println("Size is: " + table.size());
+		
 		assertAll("table",
 			() -> assertTrue(table.isEmpty()),
 			() -> assertEquals(false, table.containsKey(0)),
