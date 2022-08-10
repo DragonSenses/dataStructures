@@ -325,4 +325,24 @@ public class HashTable<Key, Value> {
 		return ring;
 	}
 
+	/**
+	 * Prints a string representation of the hash table. 
+	 * For Debugging purposes.
+	 */
+	@Override
+	public String toString(){
+		StringBuilder sb = new StringBuilder("Keys: [");
+		for (int k = 0; k < keys.length; k++) {
+            if (k > 0) { sb.append(", "); }
+            sb.append(keys[k]);
+        }
+        sb.append("]\nValues: [");
+		for (int v = 0; v < values.length; v++) {
+            if (v > 0) { sb.append(", "); }
+            sb.append(values[v]);
+        }
+		sb.append("]");
+		return sb.toString();	
+	}
+
 }
