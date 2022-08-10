@@ -409,35 +409,32 @@ public class HashTableTest {
 		counter *= 2; // Double the capacity size starting from 4 for the next test
 	}
 
-	// Checks when resize() reduces the table properly
-	@RepeatedTest(value = 2, name = "{displayName} {currentRepetition}/{totalRepetitions}" )
-    @DisplayName("Repeat!")
-	public void halveResizeCheck(){
-		table = new HashTable<Integer, Integer>(counter);
-		List<Integer> expectedKeys = new ArrayList<>(counter);
-		// Create elements up to counter times
-		fillTable(counter);
-		// Add only the first half to list or [0, counter/2)
-		for(int i = 0; i < counter/2; i++) { 
-			expectedKeys.add(i);
-		}
-		//Remove the second half, or [(counter/2), counter)
-		for(int i = counter/2; i < counter; i++){
-			table.remove(i);
-		}
+	// @Test
+	// public void halveResizeCheck(){
+	// 	int testSize = 16;
+	// 	table = new HashTable<Integer, Integer>(testSize);
+	// 	fillTable(testSize);
+		
+	// 	List<Integer> expectedKeys = new ArrayList<>(testSize);
+	// 	// Add only the first half to list or [0, testSize/2)
+	// 	for(int i = 0; i < testSize/2; i++) { 
+	// 		expectedKeys.add(i);
+	// 	}
+	// 	//Remove the second half, or [(testSize/2), testSize)
+	// 	for(int i = testSize/2; i < testSize; i++){
+	// 		table.remove(i);
+	// 	}
 
-		actualListOfKeys = table.keys();
-		// we need to sort because hash table doesn't guarantee ordering
-		Collections.sort(actualListOfKeys);
+	// 	actualListOfKeys = table.keys();
+	// 	// we need to sort because hash table doesn't guarantee ordering
+	// 	Collections.sort(actualListOfKeys);
 
-		assertAll("table",
-			() -> assertTrue(!table.isEmpty()),
-			() -> assertEquals(counter/2, table.size()),
-			() -> assertEquals(expectedKeys, actualListOfKeys)
-		);
-
-		counter /= 2; // Double the capacity size starting from 4 for the next test
-	}
+	// 	assertAll("table",
+	// 		() -> assertTrue(!table.isEmpty()),
+	// 		() -> assertEquals(testSize/2, table.size()),
+	// 		() -> assertEquals(expectedKeys, actualListOfKeys)
+	// 	);
+	// }
 
 
     @AfterEach
