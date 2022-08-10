@@ -31,7 +31,7 @@ public class HashTableTest {
     public static final Integer KEY = 7;
     public static final Integer VAL = 16;
 
-	public static Integer counter = 8;	// For a repeated test that determines capacity
+	public static Integer counter = 4;	// For a repeated test that determines capacity
 
     //Error Messages
 	public static final String ILLEGAL_ARG_CAPACITY = "Initial Capacity must be non-negative";
@@ -185,9 +185,10 @@ public class HashTableTest {
 		);
 	}
 
-	@RepeatedTest(value = 10, name = "{displayName} {currentRepetition}/{totalRepetitions}" )
+	@RepeatedTest(value = 2, name = "{displayName} {currentRepetition}/{totalRepetitions}" )
     @DisplayName("Repeat!")
 	public void doubleResizeCheck(){
+		table = new HashTable<Integer, Integer>(counter);
 		List<Integer> expectedKeys = new ArrayList<>(counter);
 		// Create elements up to counter times
 		for(int i = 0; i < counter; i++) {
@@ -208,9 +209,10 @@ public class HashTableTest {
 	}
 
 	// Checks when resize() reduces the table properly
-	@RepeatedTest(value = 10, name = "{displayName} {currentRepetition}/{totalRepetitions}" )
+	@RepeatedTest(value = 2, name = "{displayName} {currentRepetition}/{totalRepetitions}" )
     @DisplayName("Repeat!")
 	public void halveResizeCheck(){
+		table = new HashTable<Integer, Integer>(counter);
 		List<Integer> expectedKeys = new ArrayList<>(counter);
 		// Create elements up to counter times
 		fillTable(counter);
