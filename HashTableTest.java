@@ -31,7 +31,7 @@ public class HashTableTest {
     public static final Integer KEY = 1;
     public static final Integer VAL = 65;
 
-	public static Integer counter = 4;	// For a repeated test that determines capacity
+	public static Integer counter = 4;	
 
     //Error Messages
 	public static final String ILLEGAL_ARG_CAPACITY = "Initial Capacity must be non-negative";
@@ -386,11 +386,10 @@ public class HashTableTest {
 		);
 	}
 
-	@RepeatedTest(value = 2, name = "{displayName} {currentRepetition}/{totalRepetitions}" )
-    @DisplayName("Repeat!")
+	@Test
 	public void doubleResizeCheck(){
-		table = new HashTable<Integer, Integer>(counter);
-		List<Integer> expectedKeys = new ArrayList<>(counter);
+		counter <<= 2; 
+		List<Integer> expectedKeys = new ArrayList<>();
 		// Create elements up to counter times
 		for(int i = 0; i < counter; i++) {
 			table.put(i, i);
@@ -405,24 +404,34 @@ public class HashTableTest {
 			() -> assertEquals(counter, table.size()),
 			() -> assertEquals(expectedKeys, actualListOfKeys)
 		);
-
-		counter *= 2; // Double the capacity size starting from 4 for the next test
 	}
+
+	public boolean debugHalve = true;
 
 	// @Test
 	// public void halveResizeCheck(){
-	// 	int testSize = 16;
+	// 	int testSize = 8;
 	// 	table = new HashTable<Integer, Integer>(testSize);
-	// 	fillTable(testSize);
 		
+	// 	if(debugHalve){
+	// 		System.out.println(table.toString());
+	// 	}
+
 	// 	List<Integer> expectedKeys = new ArrayList<>(testSize);
-	// 	// Add only the first half to list or [0, testSize/2)
-	// 	for(int i = 0; i < testSize/2; i++) { 
-	// 		expectedKeys.add(i);
+		
+	// 	for(int i = 0; i < testSize; i++) { 
+	// 		table.put(i,i);
+	// 		// Add only the first half to list or [0, testSize/2)
+	// 		if(i < testSize/2) { expectedKeys.add(i); }
 	// 	}
 	// 	//Remove the second half, or [(testSize/2), testSize)
 	// 	for(int i = testSize/2; i < testSize; i++){
-	// 		table.remove(i);
+	// 		System.out.println("Removing i " + table.remove(i));
+	// 	}
+
+	// 	if(debugHalve){
+	// 		System.out.println(expectedKeys);
+	// 		System.out.println(table.toString());
 	// 	}
 
 	// 	actualListOfKeys = table.keys();
