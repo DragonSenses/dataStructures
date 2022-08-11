@@ -149,8 +149,10 @@ public class SinglyLinkedList <E> {
 
         // Iterate through the list until we arrived at tail node
         while(curr != this.last){
-            // if curr.next is the Node to remove
-            if(curr.next.getData().equals(toRemove)){
+            // Check if curr.next is the last node to remove
+            if(curr.next == last && curr.next.getData().equals(toRemove)){
+                return removeLast();
+            } else if(curr.next.getData().equals(toRemove)){  
                 E removed = curr.next.getData(); // Hold curr.next data
                 // Remove curr.next by updating curr's link
                 curr.next = curr.next.next;
@@ -158,11 +160,6 @@ public class SinglyLinkedList <E> {
                 return removed;
             }
             curr = curr.next;  // Iterate
-        }
-
-        // current node is now the last/tail node, check its data
-        if(curr == last && curr.getData().equals(toRemove)){
-            return removeLast();
         }
 
         return null; // Search Failed

@@ -116,7 +116,6 @@ public class SinglyLinkedListTest<E> {
     @Test
     public void removeMiddleElement(){
         singly = makeList(7); 
-        System.out.println(singly.toString());
         assertAll("singly",
             () -> assertEquals(false,singly.isEmpty()),
             () -> assertEquals(7,singly.size()),
@@ -131,6 +130,48 @@ public class SinglyLinkedListTest<E> {
             () -> assertEquals(1,singly.first()),
             () -> assertEquals(7,singly.last())
         );
+    }
+
+    @Test
+    public void removeHead(){
+        singly = makeList(7); 
+        assertAll("singly",
+            () -> assertEquals(false,singly.isEmpty()),
+            () -> assertEquals(7,singly.size()),
+            () -> assertEquals(1,singly.first()),
+            () -> assertEquals(7,singly.last())
+        );
+
+        assertAll("singly",
+            () -> assertEquals(1,singly.remove(1)),
+            () -> assertFalse(singly.isEmpty()),
+            () -> assertEquals(6,singly.size()),
+            () -> assertEquals(2,singly.first()),
+            () -> assertEquals(7,singly.last())
+        );
+    }
+
+    @Test
+    public void removeTail(){
+        singly = makeList(7); 
+        System.out.println(singly.toString());
+
+        assertAll("singly",
+            () -> assertEquals(false,singly.isEmpty()),
+            () -> assertEquals(7,singly.size()),
+            () -> assertEquals(1,singly.first()),
+            () -> assertEquals(7,singly.last())
+        );
+
+        assertAll("singly",
+            () -> assertEquals(7,singly.remove(7)),
+            () -> assertFalse(singly.isEmpty()),
+            () -> assertEquals(6,singly.size()),
+            () -> assertEquals(1,singly.first()),
+            () -> assertEquals(6,singly.last())
+        );
+
+        System.out.println("After removal\n" + singly.toString());
     }
 
     @Test
