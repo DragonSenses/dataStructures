@@ -319,7 +319,11 @@ public class HashMap<K, V> {
 		return false; 
 	}
 
-	private boolean bruteForceRemove(K key, int index) {
+	/**
+	 * @deprecated Used to go through entire HashMap's underlying entries array and 
+	 * search for the given Entry to remove. Runs in O(n).
+	 */
+	public boolean bruteForceRemove(K key, int index) {
 		for (int i=0; i < entries.length; i++){
 			if(validEntry(i)){
 				entries[i].getKey().equals(key);
@@ -503,12 +507,15 @@ public class HashMap<K, V> {
 	@Override
 	public String toString(){
 		StringBuilder str = new StringBuilder("[");
-		
+		int sz = 0; // Keeps track of entries appended to String
         for (int k = 0; k < entries.length; k++) {
-			if(entries[k] != null){
+			if(entries[k] != null && entries[k] != TOMBSTONE){ //Don't print Tombstones
 				str.append(entries[k].toString());
+				sz++;
+				if(sz < this.size()){ // For cleaner output
+					str.append(", ");
+				}
 			} 
-
         }
         str.append("]");
         return str.toString();
@@ -530,9 +537,7 @@ public class HashMap<K, V> {
 			map4.remove(String.valueOf(i));
 		}
 		
-		//List<String> actualKeys = map4.keys();
-		
 		System.out.println(map4.toString());
+	} // end of Main
 
-	}
 } //end of HashMap class
