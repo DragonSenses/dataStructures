@@ -11,10 +11,6 @@ import java.util.Random;
  * @param <V>	The value you store, associated with a key
  */
 public class HashMap<K, V> {
-	//For Debugging Purposes
-	public static final boolean TESTING = false; 
-	public static final boolean TESTING_REMOVE = true;
-	public static final boolean BRUTEFORCE = true;
 	/**
 	 * HashMapEntry class represents the Hash Map Entries of Key-Value pairs.
 	 * @param <K>		Keys
@@ -152,7 +148,7 @@ public class HashMap<K, V> {
 		
 		this.entries[-(i+1)] = new HashMapEntry<K,V>(key,value);
 		this.size++;
-		if(TESTING_REMOVE) { print(); }
+		
 		return true;
 	}
 	
@@ -238,11 +234,6 @@ public class HashMap<K, V> {
 	 * @return		True if keys match (duplicate), false otherwise
 	 */
 	private boolean keysMatch(int i, K key) {
-		if (TESTING){
-			System.out.println("Checking if keys match @ index" + i);
-			if(i >0) { System.out.print("Key @ Index is: " + entries[i].getKey().toString()); }
-			System.out.println(" compared to parameter key: " + key);
-		}
 		return entries[i].getKey().equals(key); //access array and compare
 	}
 	
@@ -345,51 +336,6 @@ public class HashMap<K, V> {
 		return false;
 	}
 
-	private void printNeighbors(int i){
-		// System.out.println(this.toString());
-		if(validIndex(-(i+1))) System.out.println("Index @ " + -(i+1) +"| " + entries[-(i+1)]);
-		if(validIndex(-i)) System.out.println("Index @ " + -(i) + "| " +entries[-i]);
-		if(validIndex(-(i-1))) System.out.println("Index @ " + -(i-1) + "| " +entries[-(i-1)]);
-	}
-
-	//Stop gap solution for when index returned was negative
-	private boolean removeHack(K key, int i){
-		if(i<0 && validIndex(-(i))){
-			boolean doRemoval = false;
-			if (validEntry(-(i+1))){
-				i = -(i+1);
-				doRemoval = true;
-			} else if(validEntry(-i)) {
-				i = -i;
-				doRemoval = true;
-			} else if(validEntry(-(i-1))){
-				i = -(i-1);
-				doRemoval = true;
-			}
-
-			if (TESTING_REMOVE && doRemoval){
-				System.out.println("KEYS MATCH");
-				System.out.println("Removing Entry @ Index: " + i);
-				System.out.println(entries[i]);
-			}
-			if(doRemoval){
-				entries[i] = TOMBSTONE; //Lay the Entry to rest
-				this.size--; 			//decrement size and remove from keys
-		
-				//If current loadFactor (Entries/ArrayLength) is 1/4loadFactor or less
-				if( this.size > 0 && ((double)size/capacity) <= loadFactor/4) { 
-					this.scale(capacity/2); //loadFactor|0.75*1/4 = .1875 = 18.75% full
-				} //Also need 1 entry or more, size > 0 so we don't halve unnecessarily
-
-				return true;
-			}
-			if(!doRemoval && BRUTEFORCE) {
-				return bruteForceRemove(key, i);
-			}
-		}
-		return false;
-	}
-
 	/**
 	 * Remove the entry corresponding to the given key
 	 * 
@@ -401,31 +347,12 @@ public class HashMap<K, V> {
 		if(isEmpty()) { return false; } //Empty Map -> no Keys to remove
 		
 		int i = findIndex(key,hash(key)); 
-		if (TESTING_REMOVE){
-			System.out.print("Index found within Remove(): " + i);
-			if(i >0) { System.out.print("\nKey @ Index is: " + entries[i].getKey().toString()); }
-			System.out.println(" compared to parameter key: " + key);
-			if( i < 0 ) {
-				printNeighbors(i);
-			}
-		}
-
-		//A temporary solution to fixing when remove is called again
-		if(i<0 && validIndex(-(i))) { removeHack(key,i); }	
 
 		//Negative Index implies no Entry for Key
 		if (i < 0 ) { 
 			return false;
 		}
 
-		if(TESTING_REMOVE) {
-			System.out.println("=============================");
-			System.out.println("SUCCESSFUL REMOVAL OF " + key);
-			System.out.println(entries[i]);
-			System.out.println("Removing Entry @ Index: " + i);
-			System.out.println("=============================");
-			print();
-		}
 		entries[i] = TOMBSTONE; //Lay the Entry to rest
 		this.size--; 			//decrement size and remove from keys
 		
@@ -447,11 +374,7 @@ public class HashMap<K, V> {
 		if(isEmpty()) { return; } //Empty Map -> no Keys to set
 		
 		int i = findIndex(key,hash(key)); //Search entries for index of Key
-		if (TESTING){
-			System.out.println("Index found within set(): " + i);
-			if(i >0) { System.out.print("Key @ Index is: " + entries[i].getKey().toString()); }
-			System.out.println(" compared to parameter key: " + key);
-		}
+
 		if(i >= 0) { //non-negative index implies an entry was found 
 			entries[i].setValue(value); //Replace value 
 		} else if (i < 0) { //negative index means no matching entry for key
@@ -494,11 +417,7 @@ public class HashMap<K, V> {
 		if(key == null) { throw new IllegalArgumentException(ILLEGAL_ARG_NULL_KEY); }
 		if(isEmpty()) { return false; } //Empty Map -> no Keys
 		int i = findIndex(key,hash(key));
-		if (TESTING){
-			System.out.println("Index found within containsKey(): " + i);
-			if(i >0) { System.out.print("Key @ Index is: " + entries[i].getKey().toString()); }
-			System.out.println(" compared to parameter key: " + key);
-		}
+
 		if(i > 0 && keysMatch(i,key)) { 
 			return true;
 		}
@@ -567,12 +486,12 @@ public class HashMap<K, V> {
 		this.shift = newHashMap.shift;
 	}
 
-	private String toStringIndex(){
+	private String toStringKeys(){
 		List<K> keys = this.keys();
 		StringBuilder str = new StringBuilder("[");
         for (int k = 0; k < keys.size(); k++) {
             if (k > 0) { str.append(", "); }
-            str.append(k);
+            
         }
         str.append("]");
         return str.toString();
@@ -580,29 +499,23 @@ public class HashMap<K, V> {
 
 	@Override
 	public String toString(){
-		List<K> keys = this.keys();
-		
 		StringBuilder str = new StringBuilder("[");
-        for (int k = 0; k < keys.size(); k++) {
+		String prefix;
+        for (int k = 0; k < entries.length; k++) {
+			prefix = (entries[k] != null) ? (entries[k].toString()) 
+				: "<null>";
+			str.append(prefix);
             if (k > 0) { str.append(", "); }
-            str.append(this.get(keys.get(k)));
         }
         str.append("]");
         return str.toString();
 	}
 
-	public void print(){
-		System.out.println(toStringIndex());
-		System.out.println(this.toString());
-	}
-
 	public static void main(String[] args){
 		HashMap<String, String> m = new HashMap<>(4, HashMap.DEFAULT_LOAD_FACTOR);
-		//m.print();
 		m.put("2", "2");
-		m.print();
-		m.remove("2");
-		m.print();
+		System.out.println(m);
+
 		// HashMap<String, String> map4 = new HashMap<>(4, HashMap.DEFAULT_LOAD_FACTOR);
 		
 		// //add different entries 16 times
