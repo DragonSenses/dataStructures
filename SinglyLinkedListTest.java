@@ -2,10 +2,10 @@
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-// import org.junit.jupiter.api.AfterAll;
-// import org.junit.jupiter.api.AfterEach;
-// import static org.junit.jupiter.api.Assertions.fail;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
+import static org.junit.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -23,7 +23,7 @@ public class SinglyLinkedListTest<E> {
     //This runs before all the tests, therefore must be static, previously @BeforeClass 
     @BeforeAll
     public static void setup(){
-        System.out.println("Starting SinglyLinkedTest");
+        System.out.println("SinglyLinkedList Unit Testing has begun...");
     }
 
     @BeforeEach
@@ -106,11 +106,31 @@ public class SinglyLinkedListTest<E> {
         //After removal we expect empty, 0 size, and null first/last
         singly.removeLast();
         assertAll("singly",
-        () -> assertEquals(true,singly.isEmpty()),
-        () -> assertEquals(0,singly.size()),
-        () -> assertEquals(null,singly.first()),
-        () -> assertEquals(null,singly.last())
-    );
+            () -> assertEquals(true,singly.isEmpty()),
+            () -> assertEquals(0,singly.size()),
+            () -> assertEquals(null,singly.first()),
+            () -> assertEquals(null,singly.last())
+        );
+    }
+
+    @Test
+    public void removeMiddleElement(){
+        singly = makeList(7); 
+        System.out.println(singly.toString());
+        assertAll("singly",
+            () -> assertEquals(false,singly.isEmpty()),
+            () -> assertEquals(7,singly.size()),
+            () -> assertEquals(1,singly.first()),
+            () -> assertEquals(7,singly.last())
+        );
+
+        assertAll("singly",
+            () -> assertEquals(4,singly.remove(4)),
+            () -> assertFalse(singly.isEmpty()),
+            () -> assertEquals(6,singly.size()),
+            () -> assertEquals(1,singly.first()),
+            () -> assertEquals(1,singly.last())
+        );
     }
 
     @Test
@@ -143,5 +163,18 @@ public class SinglyLinkedListTest<E> {
         SinglyLinkedList<Integer> list2 = new SinglyLinkedList<Integer>();
         list2.addLast(2);
         assertEquals(false, singly.equals(list2));
+    }
+
+    @AfterEach
+    void tearDown() {
+        while(!singly.isEmpty()){
+            singly.removeFirst();
+        }
+        singly = null;
+	}
+
+    @AfterAll
+    static void tearDownAll() {
+		System.out.println("SinglyLinkedList Unit Testing is complete.");
     }
 }
