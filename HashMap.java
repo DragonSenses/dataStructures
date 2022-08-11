@@ -42,7 +42,7 @@ public class HashMap<K, V> {
 
 		@Override
 		public String toString(){
-			return "<" + String.valueOf(key) + " , " + String.valueOf(value) + ">";
+			return "<" + String.valueOf(key) + "," + String.valueOf(value) + ">";
 		}
 	}
 	//** HashMap Instance Variables  **/
@@ -486,12 +486,15 @@ public class HashMap<K, V> {
 		this.shift = newHashMap.shift;
 	}
 
-	private String toStringKeys(){
-		List<K> keys = this.keys();
+	public String toStringWithNull(){
 		StringBuilder str = new StringBuilder("[");
-        for (int k = 0; k < keys.size(); k++) {
-            if (k > 0) { str.append(", "); }
-            
+		
+        for (int k = 0; k < entries.length; k++) {
+			if(entries[k] != null){
+				str.append(entries[k].toString());
+			} 
+
+            if (k < entries.length-1) { str.append(", "); }
         }
         str.append("]");
         return str.toString();
@@ -500,12 +503,12 @@ public class HashMap<K, V> {
 	@Override
 	public String toString(){
 		StringBuilder str = new StringBuilder("[");
-		String prefix;
+		
         for (int k = 0; k < entries.length; k++) {
-			prefix = (entries[k] != null) ? (entries[k].toString()) 
-				: "<null>";
-			str.append(prefix);
-            if (k > 0) { str.append(", "); }
+			if(entries[k] != null){
+				str.append(entries[k].toString());
+			} 
+
         }
         str.append("]");
         return str.toString();
@@ -516,25 +519,20 @@ public class HashMap<K, V> {
 		m.put("2", "2");
 		System.out.println(m);
 
-		// HashMap<String, String> map4 = new HashMap<>(4, HashMap.DEFAULT_LOAD_FACTOR);
+		HashMap<String, String> map4 = new HashMap<>(4, HashMap.DEFAULT_LOAD_FACTOR);
 		
-		// //add different entries 16 times
-		// for(int i=0; i<16; i++) {
-		// 	map4.put(String.valueOf(i),String.valueOf(i)); //1st entry: <0,0>
-		// }
+		//add different entries 16 times
+		for(int i=0; i<16; i++) {
+			map4.put(String.valueOf(i),String.valueOf(i)); //1st entry: <0,0>
+		}
 		
-		// for(int i=0; i<12; i++) {
-		// 	map4.remove(String.valueOf(i));
-		// }
+		for(int i=0; i<12; i++) {
+			map4.remove(String.valueOf(i));
+		}
 		
 		//List<String> actualKeys = map4.keys();
 		
-		//We expect 4 keys, 16-12 = 4
-		// for(String s:actualKeys){
-		// 	System.out.println(s);
-		// }
-		
-		// System.out.println(map4.toString());
+		System.out.println(map4.toString());
 
 	}
 } //end of HashMap class
