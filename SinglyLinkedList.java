@@ -139,18 +139,18 @@ public class SinglyLinkedList <E> {
      */
     @Override
     public String toString() {
-        StringBuilder list = new StringBuilder();
-        list.append("LinkedList: ");
+        StringBuilder list = new StringBuilder("LinkedList: ");
 
-        //Traverse through each node to add data to String
+        //Traverse through each node to add data to StringBuilder
         for(Node<E> curr = this.first; curr.next != null; curr = curr.next){
-            list.append(curr.getData() + "");
-            list.append(" ");
+            list.append("(");
+            list.append(String.valueOf(curr.getData()));
+            list.append(")");
+            list.append(" -> ");
         }
         //Condition stops at the tail node since curr.next == null
         //Still must print out the last Node's data
-        list.append(this.last.getData() + "");
-        list.append("\n");
+        list.append("(" + String.valueOf(this.last.getData()) + ")");
         return list.toString();
     }
 
@@ -211,10 +211,10 @@ public class SinglyLinkedList <E> {
         list.addFirst(1);
         list.addLast(5);
 
-        System.out.println(list.toString());
-        System.out.println(list.removeFirst());
-        System.out.println(list.toString());
-        System.out.println(list.removeLast());
-        System.out.println(list.toString());
+        System.out.println(list.toString() + "\n");
+        System.out.println("Removed node: (" + list.removeFirst() + ")");
+        System.out.println(list.toString() + "\n");
+        System.out.println("Removed node: (" + list.removeLast() + ")");
+        System.out.println(list.toString() + "\n");
     }
 }
