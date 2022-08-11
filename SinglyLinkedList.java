@@ -249,5 +249,7 @@ public class SinglyLinkedList <E> {
         System.out.println(list.toString() + "\n");
         System.out.println("Removed node: (" + list.removeLast() + ")");
         System.out.println(list.toString() + "\n");
+        System.out.println("Removed node: (" + list.remove(3) + ")");
+        System.out.println(list.toString() + "\n");
     }
 }
