@@ -154,6 +154,7 @@ public class SinglyLinkedList <E> {
                 E removed = curr.next.getData(); // Hold curr.next data
                 // Remove curr.next by updating curr's link
                 curr.next = curr.next.next;
+                this.size--;
                 return removed;
             }
             curr = curr.next;  // Iterate

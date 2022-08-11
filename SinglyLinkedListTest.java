@@ -129,7 +129,7 @@ public class SinglyLinkedListTest<E> {
             () -> assertFalse(singly.isEmpty()),
             () -> assertEquals(6,singly.size()),
             () -> assertEquals(1,singly.first()),
-            () -> assertEquals(1,singly.last())
+            () -> assertEquals(7,singly.last())
         );
     }
 
