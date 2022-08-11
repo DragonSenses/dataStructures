@@ -38,5 +38,5 @@ Implemented but needs testing:
 
 Data Structures that are a Work In Progress (Not fully tested or implemented):
 
-- HashMap.java          (Not fully tested, fails remove twice test)
+- HashMap.java          (Not fully tested, passes remove twice test but now fails containsKey test)
 

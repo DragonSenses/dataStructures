@@ -183,6 +183,9 @@ public class HashTable<Key, Value> {
         this.values = newTable.values;
         this.capacity = newTable.capacity;
 		this.size = newTable.size;
+		this.p = newTable.p;
+		this.scale = newTable.scale;
+		this.shift = newTable.shift;
     }
 
 	/** Access Methods **/
