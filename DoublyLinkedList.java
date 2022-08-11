@@ -177,8 +177,10 @@ public class DoublyLinkedList <E> { // Generics allows for variety of data types
 
         //Traverse through each node to add data to StringBuilder
         for(; curr.next != null; curr = curr.next){
-            list.append(curr.getData() + "");
-            list.append(" ");
+            list.append("(" + String.valueOf(curr.getData()) + ")");
+			if(curr.next != tail){
+				list.append(" -> ");
+			}
         }
         //Condition stops at the tail sentinel node since curr.next == null
         return list.toString();
