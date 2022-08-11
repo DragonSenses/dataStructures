@@ -152,14 +152,12 @@ public class CircularlyLinkedList<E> {
 		// Traverse through each node to add data to String
 		Node<E> curr = this.tail.getNext();
 		for (; curr.next != tail; curr = curr.next) {
-			list.append(curr.getData() + "");
-			list.append(" ");
+			list.append("(" + String.valueOf(curr.getData())+ ") -> ");
 		}
 		// Condition stops at the penultimate node to tail since curr.next == tail
-		list.append(curr.getData() + "");
-		list.append(" ");
+		list.append("("+ String.valueOf(curr.getData()) + ") -> ");
 		// Still must print out the last Node's data
-		list.append(this.tail.getData() + "");
+		list.append("(" + String.valueOf(this.tail.getData()) + ")");
 
 		return list.toString();
 	}
@@ -226,10 +224,10 @@ public class CircularlyLinkedList<E> {
 			list.addFirst(2);
 			list.addFirst(1);
 			list.addLast(5);
-			System.out.println(list.toString()); // Expect List 1-5
+			System.out.println(list.toString() + "\n"); // Expect List 1-5
 			System.out.println("Size is: " + list.size());
-			list.removeFirst();
-			System.out.println(list.toString()); // Expect List 2-5
+			System.out.println("\nRemoving node: " + list.removeFirst() + "\n");
+			System.out.println(list.toString() + "\n"); // Expect List 2-5
 			System.out.println("Size is: " + list.size());
 		}
 	}
