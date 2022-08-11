@@ -135,6 +135,39 @@ public class SinglyLinkedList <E> {
     }
 
     /**
+     * Removes the first occurence of the element from the list. 
+     * This method runs in O(n) as it traverses through the list until
+     * a match is found. If no element is found, returns null
+     * @param toRemove the element to remove from the list
+     * @return the data of the node removed
+     */
+    public E remove(E toRemove){
+        Node<E> curr = this.first;
+        if(toRemove.equals(curr.getData())){
+            return removeFirst(); 
+        } 
+
+        // Iterate through the list until we arrived at tail node
+        while(curr != this.last){
+            // if curr.next is the Node to remove
+            if(curr.next.getData().equals(toRemove)){
+                E removed = curr.next.getData(); // Hold curr.next data
+                // Remove curr.next by updating curr's link
+                curr.next = curr.next.next;
+                return removed;
+            }
+            curr = curr.next;  // Iterate
+        }
+
+        // current node is now the last/tail node, check its data
+        if(curr == last && curr.getData().equals(toRemove)){
+            return removeLast();
+        }
+
+        return null; // Search Failed
+    }
+
+    /**
      * @returns A String representation of SinglyLinkedList
      */
     @Override
