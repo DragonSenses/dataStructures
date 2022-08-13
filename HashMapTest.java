@@ -7,12 +7,12 @@ import org.junit.jupiter.api.AfterEach;
 // import static org.junit.jupiter.api.Assumptions.assumeTrue;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 
 /**
  * HashMap Tester class.
@@ -62,20 +62,6 @@ public class HashMapTest {
 			map.put(String.valueOf(i),String.valueOf(i)); //1st entry: <0,0>
 		}
 	}
-
-	/** Helper method that returns a String representation of a HashMap<String,String> */
-	public static String print(HashMap<String,String> map){
-		List<String> keys = map.keys();
-
-		StringBuilder str = new StringBuilder("[");
-        for (int k = 0; k < keys.size(); k++) {
-            if (k > 0) { str.append(", "); }
-            str.append(map.get(keys.get(k)));
-        }
-        str.append("]");
-		return str.toString();
-	}
-
 
 	@Test
 	public void zeroSizeConstructor(){
@@ -217,13 +203,23 @@ public class HashMapTest {
 	}
 
 	@Test
-	public void toStringCheck(){
+	public void toStringOneEntry(){
+		testMap.put("A","A");
+		String expected = "[<A,A>]";
+		assertEquals(expected,testMap.toString());
+	}
+
+	@Test
+	public void toStringTwoEntries(){
 		testMap.put("A","A");
 		testMap.put("B","B");
-		testMap.put("C","C");
-		testMap.put("D","D");
-		String expected = print(testMap);
-		assertEquals(expected,testMap.toString());
+		String expected = "[<A,A>, <B,B>]";
+		String expected2 = "[<B,B>, <A,A>]";
+		
+		// Can expect one of out of two choices since
+		// hashing does not guarantee the order
+		assertTrue(expected.equals(testMap.toString())
+			|| expected2.equals(testMap.toString()));
 	}
 
 	@Test
