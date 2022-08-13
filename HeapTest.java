@@ -12,6 +12,9 @@ import static org.junit.Assume.assumeFalse;
 public class HeapTest  {
     Heap<Integer,Integer> heap;
 
+    // Error Message
+    private static final String ILLEGAL_ARG = "Incompatible Key";
+
     @BeforeAll
     public static void setup() {
         System.out.println("Heap Unit Testing has begun ...");
@@ -38,6 +41,13 @@ public class HeapTest  {
     public void emptyHeap(){         //Tests default constructor
         assumeTrue(heap.isEmpty());  // Expect an empty list
         assertEquals(0,heap.size()); // Expect the size to be 0
+    }
+
+    @Test
+    public void insertInvalidKey(){
+        IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
+            () -> heap.insert(null,null));
+        assertEquals(ILLEGAL_ARG, e.getMessage());
     }
 
     @AfterEach
