@@ -53,7 +53,7 @@ public class Heap<K,V> {
         }
 	}
 
-    public class KeySorter implements Comparator<Entry<K,V>> {
+    public class KeySorter implements Comparator<K> {
         /**
          * Compares two entries according to key
          * @param a First entry to compare
@@ -61,22 +61,22 @@ public class Heap<K,V> {
          * @return  The result of comparing two entries according to key
          */
         @Override
-        public int compare(Entry<K,V> a, Entry<K,V> b){
-            return c.compare(a.getKey(), b.getKey());
+        public int compare(K a, K b){
+            return c.compare(a, b);
         }
     }
 
     //Member Fields of Heap 
     protected ArrayList<Entry<K,V>> heap = new ArrayList<>();
-    private Comparator<Entry<K,V>> c; //Comparator allows us to compare the keys in varying orders
+    private Comparator<K> c; //Comparator allows us to compare the keys in varying orders
     private static final String ILLEGAL_ARG = "Incompatible Key";
 
     /** Constructors **/
     public Heap() {
        this.c = new KeySorter();
     }
-    
-    public Heap(Comparator<Entry<K,V>> c) { 
+
+    public Heap(Comparator<K> c) { 
         this.c = c;
     }
 
