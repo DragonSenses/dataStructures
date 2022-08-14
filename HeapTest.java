@@ -5,9 +5,9 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThrows;
-import static org.junit.jupiter.api.Assumptions.assumeTrue;
-import static org.junit.Assume.assumeFalse;
 
 public class HeapTest  {
     Heap<Integer,Integer> heap;
@@ -39,8 +39,14 @@ public class HeapTest  {
 
     @Test
     public void emptyHeap(){         //Tests default constructor
-        assumeTrue(heap.isEmpty());  // Expect an empty list
+        assertTrue(heap.isEmpty());  // Expect an empty list
         assertEquals(0,heap.size()); // Expect the size to be 0
+    }
+
+    @Test
+    public void isEmptyFalse(){
+        heap.insert(1,1);
+        assertFalse(heap.isEmpty());
     }
 
     @Test
