@@ -53,20 +53,6 @@ public class Heap <K,V extends Comparable<K>> {
         }
 	}
 
-    public class KeySorter <K extends Comparable<K>> implements Comparator<K> {
-        /**
-         * Compares two entries according to their key for order. Returns a negative
-         * integer, zero, or positive integer as the first argument is less than, equal
-         * to, or greather than the second argument.
-         * @param k1 First entry to compare
-         * @param k2 Second entry to compare
-         * @return  The result of comparing two entries according to key
-         */
-        public boolean compareTwoKeys(K k1, K k2){
-            return k1.compareTo(k2) < 0;
-        }
-    }
-
     //Member Fields of Heap 
     protected ArrayList<Entry<K,V>> heap = new ArrayList<>();
     private Comparator<K> c; //Comparator allows us to compare the keys in varying orders
@@ -74,7 +60,7 @@ public class Heap <K,V extends Comparable<K>> {
 
     /** Constructors **/
     public Heap() {
-       this.c = Comparator.naturalOrder();
+       this.c = new DefaultComparator<K>();
     }
 
     public Heap(Comparator<K> c) { 
