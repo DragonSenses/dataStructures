@@ -104,7 +104,9 @@ public class Heap <K,V extends Comparable<K>> {
     protected boolean checkKey(K key) throws IllegalArgumentException {
         try{
             return(c.compare(key,key) == 0); // Can key be compared to itself?
-        } catch(ClassCastException e) {
+        } catch(Exception e) {
+            // Can either be a NullPointerException if key is null, or 
+            // ClassCastException if generic K key type is not Comparable<T>
             throw new IllegalArgumentException(ILLEGAL_ARG);
         }
     }
