@@ -20,7 +20,7 @@ import java.util.Comparator;
  * remaining nodes at the last level reside in the leftmost possible positions
  * @author kendr
  */
-public class Heap<K,V> {
+public class Heap <K,V extends Comparable<K>> {
     /**
 	 * Entry class represents the Heap Entries of Key-Value pairs.
 	 * @param <K>		Keys
@@ -53,16 +53,17 @@ public class Heap<K,V> {
         }
 	}
 
-    public class KeySorter implements Comparator<K> {
+    public class KeySorter <K extends Comparable<K>> {
         /**
-         * Compares two entries according to key
-         * @param a First entry to compare
-         * @param b Second entry to compare
+         * Compares two entries according to their key for order. Returns a negative
+         * integer, zero, or positive integer as the first argument is less than, equal
+         * to, or greather than the second argument.
+         * @param k1 First entry to compare
+         * @param k2 Second entry to compare
          * @return  The result of comparing two entries according to key
          */
-        @Override
-        public int compare(K a, K b){
-            return c.compare(a, b);
+        public boolean compareTwoKeys(K k1, K k2){
+            return k1.compareTo(k2) < 0;
         }
     }
 
