@@ -9,8 +9,8 @@ public class DefaultComparator<T> implements Comparator<T> {
      * Compares two entries according to their key for order. Returns a negative
      * integer, zero, or positive integer as the first argument is less than, equal
      * to, or greather than the second argument.
-     * @param k1 First entry to compare
-     * @param k2 Second entry to compare
+     * @param a First entry to compare
+     * @param b Second entry to compare
      * @return  The result of comparing two entries according to key
      */
     @SuppressWarnings("unchecked")
