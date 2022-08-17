@@ -173,9 +173,9 @@ public class Heap <K,V extends Comparable<K>> {
      * Returns, but does not remove, an entry with the minimal key
      * @return  Entry with the smallest key, null if list is empty
      */
-    public Entry<K,V> min() {
+    public V min() {
         if (heap.isEmpty()) { return null; }
-        return heap.get(0);
+        return heap.get(0).getValue();
     }
 
     /** Update Methods **/
@@ -186,25 +186,25 @@ public class Heap <K,V extends Comparable<K>> {
      * @return The entry added to the heap when insertion was successful
      * @throws IllegalArgumentException If the key is incompatible
      */
-    public Entry<K,V> insert(K key, V value) throws IllegalArgumentException {
+    public String insert(K key, V value) throws IllegalArgumentException {
         checkKey(key);      // Check for valid key (could throw Exception)
         Entry<K,V> entry = new Entry<>(key, value);
         heap.add(entry);                       // append to the end of the list
         upheap(heap.size() - 1);               // upheap newly added entry
-        return entry;
+        return entry.toString();
     }
 
     /**
      * Removes and reutrns the entry with the minimal key (root) 
      * @return The entry with the minimal key, null if heap was empty
      */
-    public Entry<K,V> removeMin() {
+    public V removeMin() {
         if (heap.isEmpty()) { return null; } // Nothing to remove
         Entry<K,V> removed = heap.get(0);   // Remove the entry with minimal key (index 0)
         swap(0, heap.size() - 1);     // Move the last entry of the array list (index n-1) to index 0
         heap.remove(heap.size() - 1);   // Remove the old minimal key, now at index n-1, from the list
         downheap(0);                 // Restore the heap property by using downheap to reposition
-        return removed;
+        return removed.getValue();
     }
 
     public Entry<K,V> makeEntry(K key, V value){
