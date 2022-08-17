@@ -56,6 +56,30 @@ public class HeapTest  {
         assertEquals(ILLEGAL_ARG, e.getMessage());
     }
 
+    @Test
+    void addOne(){
+        heap.insert(1,1);
+        String expected = "<1, 1>";
+        assertAll("heap",
+            () -> assertFalse(heap.isEmpty()),
+            () -> assertEquals(1,heap.size()),
+            () -> assertEquals(expected,heap.min())
+        );
+    }
+
+    @Test
+    void removeOne(){
+        heap.insert(1,1);
+        assertAll("heap",
+            () -> assertFalse(heap.isEmpty()),
+            () -> assertEquals(1,heap.size()),
+            () -> assertEquals(1,heap.min()),
+            () -> assertEquals(1,heap.removeMin())
+        );
+
+
+    }
+
     @AfterEach
     void tearDown() {
         while (!heap.isEmpty()) {
