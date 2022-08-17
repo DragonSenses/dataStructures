@@ -31,7 +31,7 @@ public class Heap <K,V extends Comparable<K>> {
 		
 		//Constructor
 		private Entry(K key, V value) {
-			this.key = key;
+			this.setKey(key);
 			this.setValue(value);
 		}
 
@@ -42,6 +42,10 @@ public class Heap <K,V extends Comparable<K>> {
 		public V getValue() {
 			return value;
 		}
+
+        private void setKey(K key){
+            this.key = key;
+        }
 		
 		private void setValue(V value) {
 			this.value = value;
@@ -202,5 +206,10 @@ public class Heap <K,V extends Comparable<K>> {
         downheap(0);                 // Restore the heap property by using downheap to reposition
         return removed;
     }
+
+    public Entry<K,V> makeEntry(K key, V value){
+        return new Entry<K,V>(key,value);
+    }
+
 }// end of Heap class
 
