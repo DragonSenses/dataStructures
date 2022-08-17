@@ -59,7 +59,7 @@ public class HeapTest  {
     @Test
     void addOne(){
         heap.insert(1,1);
-        String expected = "<1, 1>";
+        int expected = 1;
         assertAll("heap",
             () -> assertFalse(heap.isEmpty()),
             () -> assertEquals(1,heap.size()),
@@ -70,14 +70,30 @@ public class HeapTest  {
     @Test
     void removeOne(){
         heap.insert(1,1);
+        int expected = 1;
         assertAll("heap",
             () -> assertFalse(heap.isEmpty()),
             () -> assertEquals(1,heap.size()),
-            () -> assertEquals(1,heap.min()),
-            () -> assertEquals(1,heap.removeMin())
+            () -> assertEquals(expected,heap.min()),
+            () -> assertEquals(expected,heap.removeMin()),
+            () -> assertTrue(heap.isEmpty()),
+            () -> assertEquals(0,heap.size())
         );
+    }
 
-
+    @Test
+    void addNineRemoveOne(){
+        fill(heap,9);
+        int expected = 1;
+        int nextExpected = 2;
+        assertAll("heap",
+            () -> assertFalse(heap.isEmpty()),
+            () -> assertEquals(9,heap.size()),
+            () -> assertEquals(expected,heap.min()),
+            () -> assertEquals(expected,heap.removeMin()),
+            () -> assertEquals(8,heap.size()),
+            () -> assertEquals(nextExpected,heap.min())
+        );
     }
 
     @AfterEach
