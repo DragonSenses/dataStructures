@@ -1,7 +1,8 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
+
 /**
  * My HashMap implementation. WARNING: THIS IS A WORK IN PROGRESS. This current implementation still
  * does not pass the required tests. Example tests: remove(), set(), and toString(). 
@@ -102,9 +103,11 @@ public class HashMap<K, V> {
 		//Set the prime, shift, scale to make a hashFunction later
 		//Prime numbers to choose from: 29; 73;  5039; 314,159; 27644437 ; 
 		this.p = 131071; //2^17 -1 = 131071 ; 1001001
-		Random r = new Random();				//y = scale*f(x) + shift
-		this.shift = r.nextInt((int)p); 		//a vertical shift
-		this.scale = r.nextInt((int)p-1)+1; 	//a vertical scale, stretch
+		// y = scale*f(x) + shift
+		// a vertical shift
+		this.shift = ThreadLocalRandom.current().nextInt((int)p); 
+		// a vertical scale, stretch
+		this.scale = ThreadLocalRandom.current().nextInt((int)p - 1) + 1; 
 	}
 
 	
