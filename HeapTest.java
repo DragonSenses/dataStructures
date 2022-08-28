@@ -68,10 +68,58 @@ public class HeapTest  {
     }
 
     @Test
+    void addNewMin(){
+        int min = 31;
+        int max = 73; // Insert Keys [31,73] 
+        int size = max - min + 1;   // 73-31 = 42 +1 elements added
+        for(int i = min; i < max+1; i++){
+            heap.insert(i,i);
+        }
+        
+        assertAll("heap",
+            () -> assertFalse(heap.isEmpty()),
+            () -> assertEquals(size,heap.size()),
+            () -> assertEquals(min,heap.min())
+        );
+
+        int expected = 2;   // new minimum
+        heap.insert(expected,expected);   
+        assertAll("heap",
+            () -> assertFalse(heap.isEmpty()),
+            () -> assertEquals(size+1,heap.size()),
+            () -> assertEquals(expected,heap.min())
+        );
+    }
+
+    @Test
+    void addMiddleKey(){
+        int min = 31;
+        int max = 73; // Insert Keys [31,73] 
+        int size = max - min + 1;   // 73-31 = 42 +1 elements added
+        for(int i = min; i < max+1; i++){
+            heap.insert(i,i);
+        }
+        
+        assertAll("heap",
+            () -> assertFalse(heap.isEmpty()),
+            () -> assertEquals(size,heap.size()),
+            () -> assertEquals(min,heap.min())
+        );
+        
+        // add key 52, so minimum does not change
+        heap.insert(52,52);   
+        assertAll("heap",
+            () -> assertFalse(heap.isEmpty()),
+            () -> assertEquals(size+1,heap.size()),
+            () -> assertEquals(min,heap.min())  
+        );
+    }
+
+    @Test
     void addZero(){
-        int expected = 0;
-        fill(heap,9);       // fill heap with [1,9]
-        heap.insert(expected,expected);   // insert negative key
+        int expected = 0;       // expect 0 key
+        fill(heap,9);        // fill heap with [1,9]
+        heap.insert(expected,expected);   
         assertAll("heap",
             () -> assertFalse(heap.isEmpty()),
             () -> assertEquals(10,heap.size()),
@@ -80,7 +128,7 @@ public class HeapTest  {
     }
 
     @Test
-    void negativeKey(){
+    void addNegative(){
         int expected = -1;
         fill(heap,9);       // fill heap with [1,9]
         heap.insert(expected,expected);   // insert negative key
