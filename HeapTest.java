@@ -82,6 +82,53 @@ public class HeapTest  {
     }
 
     @Test
+    void addTwoRemoveTwo(){
+        heap.insert(5,5);
+        heap.insert(10,10);
+        int expected = 5;
+
+        assertAll("heap",
+            () -> assertFalse(heap.isEmpty()),
+            () -> assertEquals(2,heap.size()),
+            () -> assertEquals(expected,heap.min()),
+            () -> assertEquals(expected,heap.removeMin()),
+            () -> assertFalse(heap.isEmpty()),
+            () -> assertEquals(1,heap.size()),
+            () -> assertEquals(10,heap.removeMin())
+        );
+    }
+
+    @Test
+    void addRemoveTwice(){
+        heap.insert(5,5);
+        heap.insert(10,10);
+        int expected = 5;
+
+        // Add and Remove Two Elements
+        assertAll("heap",
+            () -> assertFalse(heap.isEmpty()),
+            () -> assertEquals(2,heap.size()),
+            () -> assertEquals(expected,heap.min()),
+            () -> assertEquals(expected,heap.removeMin()),
+            () -> assertFalse(heap.isEmpty()),
+            () -> assertEquals(1,heap.size()),
+            () -> assertEquals(10,heap.removeMin())
+        );
+
+        // Add and Remove Two elements again
+        fill(heap, 2);
+        assertAll("heap",
+            () -> assertFalse(heap.isEmpty()),
+            () -> assertEquals(2,heap.size()),
+            () -> assertEquals(1,heap.min()),
+            () -> assertEquals(1,heap.removeMin()),
+            () -> assertFalse(heap.isEmpty()),
+            () -> assertEquals(1,heap.size()),
+            () -> assertEquals(2,heap.removeMin())
+        );
+    }
+
+    @Test
     void addNineRemoveOne(){
         fill(heap,9);
         int expected = 1;
