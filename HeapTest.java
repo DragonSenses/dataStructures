@@ -5,6 +5,9 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.util.NoSuchElementException;
+
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThrows;
@@ -59,7 +62,9 @@ public class HeapTest  {
 
     @Test
     void removeEmptyHeap(){
-
+        NoSuchElementException e = assertThrows(NoSuchElementException.class,
+            () -> heap.removeMin());
+        assertEquals(UNDERFLOW, e.getMessage());
     }
 
     @Test
