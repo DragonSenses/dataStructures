@@ -14,6 +14,7 @@ public class HeapTest  {
 
     // Error Message
     private static final String ILLEGAL_ARG = "Incompatible Key";
+    private static final String UNDERFLOW = "Heap Underflow: There is no elements in the Heap.";
 
     @BeforeAll
     public static void setup() {
@@ -54,6 +55,16 @@ public class HeapTest  {
         IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
             () -> heap.insert(null,null));
         assertEquals(ILLEGAL_ARG, e.getMessage());
+    }
+
+    @Test
+    void removeEmptyHeap(){
+
+    }
+
+    @Test
+    void minEmptyHeap(){
+
     }
 
     @Test
@@ -269,6 +280,10 @@ public class HeapTest  {
         for(int i = 1; i < n+1; i++){
             assertEquals(i, heap.removeMin());
         }
+
+        assertAll("heap",
+            () -> assertTrue(heap.isEmpty())
+        );
     }
 
     @AfterEach
