@@ -255,6 +255,22 @@ public class HeapTest  {
         );
     }
 
+    @Test
+    void addAndRemove1024(){
+        int n = 1024;
+        fill(heap,n);
+        int expected = 1;
+        assertAll("heap",
+            () -> assertFalse(heap.isEmpty()),
+            () -> assertEquals(1024,heap.size()),
+            () -> assertEquals(expected,heap.min())
+        );
+
+        for(int i = 1; i < n+1; i++){
+            assertEquals(i, heap.removeMin());
+        }
+    }
+
     @AfterEach
     void tearDown() {
         while (!heap.isEmpty()) {
