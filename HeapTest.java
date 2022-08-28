@@ -239,6 +239,22 @@ public class HeapTest  {
         );
     }
 
+    
+    @Test
+    void add1024(){
+        fill(heap,1024);
+        int expected = 1;
+        int nextExpected = 2;
+        assertAll("heap",
+            () -> assertFalse(heap.isEmpty()),
+            () -> assertEquals(1024,heap.size()),
+            () -> assertEquals(expected,heap.min()),
+            () -> assertEquals(expected,heap.removeMin()),
+            () -> assertEquals(1023,heap.size()),
+            () -> assertEquals(nextExpected,heap.min())
+        );
+    }
+
     @AfterEach
     void tearDown() {
         while (!heap.isEmpty()) {
