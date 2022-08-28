@@ -69,7 +69,9 @@ public class HeapTest  {
 
     @Test
     void minEmptyHeap(){
-
+        NoSuchElementException e = assertThrows(NoSuchElementException.class,
+            () -> heap.min());
+        assertEquals(UNDERFLOW, e.getMessage());
     }
 
     @Test
