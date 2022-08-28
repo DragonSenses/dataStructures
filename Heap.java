@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.NoSuchElementException;
 
 /** 
  * Binary Heap data structure allows for both inserations and removals in logarithmic time,
@@ -61,6 +62,7 @@ public class Heap <K,V extends Comparable<K>> {
     protected ArrayList<Entry<K,V>> heap = new ArrayList<>();
     private Comparator<K> c; //Comparator allows us to compare the keys in varying orders
     private static final String ILLEGAL_ARG = "Incompatible Key";
+    private static final String UNDERFLOW = "Heap Underflow: There is no elements in the Heap.";
 
     /** Constructors **/
     public Heap() {
@@ -173,8 +175,8 @@ public class Heap <K,V extends Comparable<K>> {
      * Returns, but does not remove, an entry with the minimal key
      * @return  Entry with the smallest key, null if list is empty
      */
-    public V min() {
-        if (heap.isEmpty()) { return null; }
+    public V min() throws NoSuchElementException {
+        if (heap.isEmpty()) { throw new NoSuchElementException(UNDERFLOW); }
         return heap.get(0).getValue();
     }
 
@@ -198,8 +200,8 @@ public class Heap <K,V extends Comparable<K>> {
      * Removes and reutrns the entry with the minimal key (root) 
      * @return The entry with the minimal key, null if heap was empty
      */
-    public V removeMin() {
-        if (heap.isEmpty()) { return null; } // Nothing to remove
+    public V removeMin() throws NoSuchElementException {
+        if (heap.isEmpty()) { throw new NoSuchElementException(UNDERFLOW); } // Nothing to remove
         Entry<K,V> removed = heap.get(0);   // Remove the entry with minimal key (index 0)
         swap(0, heap.size() - 1);     // Move the last entry of the array list (index n-1) to index 0
         heap.remove(heap.size() - 1);   // Remove the old minimal key, now at index n-1, from the list
