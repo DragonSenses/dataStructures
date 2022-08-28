@@ -68,6 +68,30 @@ public class HeapTest  {
     }
 
     @Test
+    void addZero(){
+        int expected = 0;
+        fill(heap,9);       // fill heap with [1,9]
+        heap.insert(expected,expected);   // insert negative key
+        assertAll("heap",
+            () -> assertFalse(heap.isEmpty()),
+            () -> assertEquals(10,heap.size()),
+            () -> assertEquals(expected,heap.min())
+        );
+    }
+
+    @Test
+    void negativeKey(){
+        int expected = -1;
+        fill(heap,9);       // fill heap with [1,9]
+        heap.insert(expected,expected);   // insert negative key
+        assertAll("heap",
+            () -> assertFalse(heap.isEmpty()),
+            () -> assertEquals(10,heap.size()),
+            () -> assertEquals(expected,heap.min())
+        );
+    }
+
+    @Test
     void removeOne(){
         heap.insert(1,1);
         int expected = 1;
