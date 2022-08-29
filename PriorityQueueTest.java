@@ -14,6 +14,10 @@ import static org.junit.Assert.assertThrows;
 
 public class PriorityQueueTest {
     PriorityQueue<Integer,Integer> pq;
+
+    /** Error Messages **/
+    public static final String ILLEGAL_ARG_NULL_KEY = "Keys must be non-null";
+
     @BeforeAll
     public static void setup() {
         System.out.println("PriorityQueue Unit Testing has begun ...");
@@ -45,6 +49,13 @@ public class PriorityQueueTest {
     public void isEmptyFalse(){
         pq.insert(1,1);
         assertFalse(pq.isEmpty());
+    }
+
+    @Test
+    public void insertInvalidKey(){
+        IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
+            () -> pq.insert(null,null));
+        assertEquals(ILLEGAL_ARG_NULL_KEY, e.getMessage());
     }
 
     @AfterEach
