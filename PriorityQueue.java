@@ -35,7 +35,8 @@ public class PriorityQueue <K,V extends Comparable<K>> {
 
     /** Error Messages */
     public static final String ILLEGAL_ARG_NULL_KEY = "Keys must be non-null";
-    private static final String UNDERFLOW = "Heap Underflow: There is no elements in the Heap.";
+    private static final String UNDERFLOW = "PriorityQueue Underflow: There is"
+        + "no elements in the PriorityQueue.";
 
     public PriorityQueue(){
         super();
