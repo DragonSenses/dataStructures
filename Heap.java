@@ -209,11 +209,11 @@ public class Heap <K,V extends Comparable<K>> {
     }
 
     @SuppressWarnings("unchecked")
-    public static <K,V> void printHeap(Heap<K,V> h){
-        K[] keys = (K[]) new Object[h.size()];
+    public void printHeap(){
+        K[] keys = (K[]) new Object[heap.size()];
         
-        for(int i = 0; i < h.heap.size(); i++){
-            keys[i] = h.heap.get(i).getKey();
+        for(int i = 0; i < heap.size(); i++){
+            keys[i] = heap.get(i).getKey();
         }
 
         for(K key: keys){
@@ -228,7 +228,7 @@ public class Heap <K,V extends Comparable<K>> {
         for(int k = 0; k < arr.length; k++){
             h.insert(arr[k], arr[k]);
         }
-        printHeap(h);
+        h.printHeap();
     }
 }// end of Heap class
 
