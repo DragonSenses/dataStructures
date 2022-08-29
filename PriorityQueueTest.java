@@ -68,6 +68,13 @@ public class PriorityQueueTest {
         assertEquals(UNDERFLOW, e.getMessage());
     }
 
+    @Test
+    void removeEmptyPQ(){
+        NoSuchElementException e = assertThrows(NoSuchElementException.class,
+            () -> pq.removeMin());
+        assertEquals(UNDERFLOW, e.getMessage());
+    }
+
     @AfterEach
     void tearDown() {
         while (!pq.isEmpty()) {
