@@ -24,6 +24,28 @@ public class PriorityQueueTest {
         this.pq =  new PriorityQueue<>();
     }
 
+    /**
+     * Populates the PriorityQueue with Key,Value pairs of integers, [1-n]
+     * @param p The PriorityQueue to fill
+     * @param n the number of integers to fill it with
+     */
+    private static void fill(PriorityQueue<Integer,Integer> p, int n) {
+        for(int i = 1; i < n+1; i++){
+            p.insert(i,i);
+        }
+    }
+
+    @Test
+    public void isEmptyTrue(){         //Tests default constructor
+        assertTrue(pq.isEmpty());    // Expect an empty list
+        assertEquals(0,pq.size());  // Expect the size to be 0
+    }
+
+    @Test
+    public void isEmptyFalse(){
+        pq.insert(1,1);
+        assertFalse(pq.isEmpty());
+    }
 
     @AfterEach
     void tearDown() {
