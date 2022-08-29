@@ -58,6 +58,14 @@ public class PriorityQueueTest {
         assertEquals(ILLEGAL_ARG_NULL_KEY, e.getMessage());
     }
 
+    
+    @Test
+    void minEmptyPQ(){
+        NoSuchElementException e = assertThrows(NoSuchElementException.class,
+            () -> pq.min());
+        assertEquals(UNDERFLOW, e.getMessage());
+    }
+
     @AfterEach
     void tearDown() {
         while (!pq.isEmpty()) {
