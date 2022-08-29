@@ -170,6 +170,18 @@ public class HeapTest  {
     }
 
     @Test
+    void addRemoveRoot(){
+        fill(heap,7);
+        int root = 1;
+
+        for(int i = 0; i < 4; i++){
+            assertEquals(root,heap.removeMin());
+            heap.insert(root,root);
+            assertEquals(root,heap.min());
+        }
+    }
+
+    @Test
     void addNegative(){
         int expected = -1;
         fill(heap,9);       // fill heap with [1,9]
