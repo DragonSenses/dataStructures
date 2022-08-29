@@ -111,7 +111,7 @@ public class PriorityQueue <K,V extends Comparable<K>> {
     /** Access Methods **/
     /** @return The number of Entries within the Priority Queue
      */
-    public int size() { return size(); }
+    public int size() { return list.size(); }
 
     /** @return True if Priority Queue is empty, false otherwise */
     public boolean isEmpty() { return size() == 0; }
