@@ -125,7 +125,7 @@ public class PriorityQueue <K,V extends Comparable<K>> {
      * @return Entry with the smallest key (or null if empty)
      */
     public Entry<K,V> min() throws NoSuchElementException {
-        if(list.isEmpty()) { return null; }
+        if(list.isEmpty()) { throw new NoSuchElementException(UNDERFLOW); }
         return list.first().getElement();
     }
 
@@ -133,8 +133,8 @@ public class PriorityQueue <K,V extends Comparable<K>> {
      * Returns and removes an entry with minimal key.
      * @return The removed entry ( or null if empty)
      */
-    public Entry<K,V> removeMin() {
-        if (list.isEmpty()) { return null; }
+    public Entry<K,V> removeMin() throws NoSuchElementException {
+        if (list.isEmpty()) { throw new NoSuchElementException(UNDERFLOW); }
         return list.remove(list.first());
     }
 
