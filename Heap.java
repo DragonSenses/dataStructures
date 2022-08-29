@@ -2,8 +2,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.NoSuchElementException;
 
-import static java.util.stream.Collectors.toList;   
-
 /** 
  * Binary Heap data structure allows for both inserations and removals in logarithmic time,
  * by using the structure of a binary tree to find a compromise between elements being 
@@ -210,12 +208,27 @@ public class Heap <K,V extends Comparable<K>> {
         return removed.getValue();
     }
 
-    public void printHeap(){
-        List<K> entries = heap.stream()
-            .map(Heap.Entry::getKey)
-            .collect(toList());
-        System.out.println(entries);
+    @SuppressWarnings("unchecked")
+    public static <K,V> void printHeap(Heap<K,V> h){
+        K[] keys = (K[]) new Object[h.size()];
+        
+        for(int i = 0; i < h.heap.size(); i++){
+            keys[i] = h.heap.get(i).getKey();
+        }
+
+        for(K key: keys){
+            System.out.println(key);
+        }
     }
 	
+
+    public static void main(String[] args){
+        Heap<Integer,Integer> h = new Heap<>();
+        int[] arr = {1,3,9,5,7,11};
+        for(int k = 0; k < arr.length; k++){
+            h.insert(arr[k], arr[k]);
+        }
+        printHeap(h);
+    }
 }// end of Heap class
 
