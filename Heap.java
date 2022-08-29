@@ -188,12 +188,11 @@ public class Heap <K,V extends Comparable<K>> {
      * @return The entry added to the heap when insertion was successful
      * @throws IllegalArgumentException If the key is incompatible
      */
-    public String insert(K key, V value) throws IllegalArgumentException {
+    public void insert(K key, V value) throws IllegalArgumentException {
         checkKey(key);      // Check for valid key (could throw Exception)
         Entry<K,V> entry = new Entry<>(key, value);
         heap.add(entry);                       // append to the end of the list
         upheap(heap.size() - 1);               // upheap newly added entry
-        return entry.toString();
     }
 
     /**
