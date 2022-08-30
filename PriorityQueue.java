@@ -31,7 +31,7 @@ public class PriorityQueue <K,V extends Comparable<K>> {
     // private DoublyLinkedList<Entry<K,V>> list = new DoublyLinkedList<>();
     // A Positional List implemented via Doubly Linked List
     private LinkedPositionalList<Entry<K,V>> list = new LinkedPositionalList<>();
-    Comparator<K> comp = (K k1, K k2) -> compare(k1,k2);
+    Comparator<K> comp;
 
     /** Error Messages */
     public static final String ILLEGAL_ARG_NULL_KEY = "Keys must be non-null";
@@ -39,11 +39,12 @@ public class PriorityQueue <K,V extends Comparable<K>> {
         + " no elements in the PriorityQueue.";
 
     public PriorityQueue(){
-        super();
+        this.comp = new DefaultComparator<>();
     }
 
     public PriorityQueue(Comparator<K> c){
         if(c == null) {
+            this.comp = new DefaultComparator<>();
             throw new IllegalArgumentException("Invalid Comparator!");
         } else {
             this.comp = c;
