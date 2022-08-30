@@ -42,6 +42,14 @@ public class PriorityQueueTest {
     }
 
     @Test
+    public void initInvalidComparator(){
+        
+        IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
+            () -> pq = new PriorityQueue<>(null));
+        assertEquals("Invalid Comparator!", e.getMessage());
+    }
+
+    @Test
     public void isEmptyTrue(){         //Tests default constructor
         assertTrue(pq.isEmpty());    // Expect an empty list
         assertEquals(0,pq.size());  // Expect the size to be 0
