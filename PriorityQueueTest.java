@@ -96,6 +96,17 @@ public class PriorityQueueTest {
     }
 
     @Test
+    void addSeven(){
+        fill(pq,7);
+        expected = new Entry<>(1,1);
+        assertAll("pq",
+            () -> assertFalse(pq.isEmpty()),
+            () -> assertEquals(7,pq.size()),
+            () -> assertEquals(expected,pq.min())
+        );
+    }
+
+    @Test
     void addNewMin(){
         int min = 31;
         int max = 73; // Insert Keys [31,73] 
