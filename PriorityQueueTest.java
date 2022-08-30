@@ -14,6 +14,7 @@ import static org.junit.Assert.assertThrows;
 
 public class PriorityQueueTest {
     PriorityQueue<Integer,Integer> pq;
+    Entry<Integer, Integer> expected; 
 
     /** Error Messages **/
     public static final String ILLEGAL_ARG_NULL_KEY = "Keys must be non-null";
@@ -94,11 +95,37 @@ public class PriorityQueueTest {
         );
     }
 
+    @Test
+    void addNewMin(){
+        int min = 31;
+        int max = 73; // Insert Keys [31,73] 
+        int size = max - min + 1;   // 73-31 = 42 +1 elements added
+        for(int i = min; i < max+1; i++){
+            pq.insert(i,i);
+        }
+        expected = new Entry<>(min,min);
+        assertAll("pq",
+            () -> assertFalse(pq.isEmpty()),
+            () -> assertEquals(size,pq.size()),
+            () -> assertEquals(expected,pq.min())
+        );
+
+        int newMin = 2;
+        expected = new Entry<>(newMin,newMin);   // new minimum
+        pq.insert(newMin,newMin);   
+        assertAll("pq",
+            () -> assertFalse(pq.isEmpty()),
+            () -> assertEquals(size+1,pq.size()),
+            () -> assertEquals(expected,pq.min())
+        );
+    }
+
     @AfterEach
     void tearDown() {
         while (!pq.isEmpty()) {
             pq.removeMin();
         }
+        expected = null;
     }
 
     @AfterAll
