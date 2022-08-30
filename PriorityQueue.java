@@ -43,7 +43,11 @@ public class PriorityQueue <K,V extends Comparable<K>> {
     }
 
     public PriorityQueue(Comparator<K> c){
-        this.comp = c;
+        if(c == null) {
+            throw new IllegalArgumentException("Invalid Comparator!");
+        } else {
+            this.comp = c;
+        }
     }
 
     /** Private Utility Methods **/
