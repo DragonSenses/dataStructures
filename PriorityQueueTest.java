@@ -90,7 +90,7 @@ public class PriorityQueueTest {
         assertAll("pq",
             () -> assertFalse(pq.isEmpty()),
             () -> assertEquals(1,pq.size()),
-            () -> assertEquals(expected,pq.min())
+            () -> assertEquals(expected,pq.min().getValue())
         );
     }
 
