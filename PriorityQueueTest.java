@@ -131,6 +131,32 @@ public class PriorityQueueTest {
         );
     }
 
+    @Test
+    void addMiddleKey(){
+        int min = 31;
+        int max = 73; // Insert Keys [31,73] 
+        int size = max - min + 1;   // 73-31 = 42 +1 elements added
+        for(int i = min; i < max+1; i++){
+            pq.insert(i,i);
+        }
+
+        expected = new Entry<>(min,min);
+
+        assertAll("pq",
+            () -> assertFalse(pq.isEmpty()),
+            () -> assertEquals(size,pq.size()),
+            () -> assertEquals(expected,pq.min())
+        );
+        
+        // add key 52, so minimum does not change
+        pq.insert(52,52);   
+        assertAll("pq",
+            () -> assertFalse(pq.isEmpty()),
+            () -> assertEquals(size+1,pq.size()),
+            () -> assertEquals(expected,pq.min())  
+        );
+    }
+
     @AfterEach
     void tearDown() {
         while (!pq.isEmpty()) {
