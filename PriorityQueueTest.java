@@ -86,11 +86,11 @@ public class PriorityQueueTest {
     @Test
     void addOne(){
         pq.insert(1,1);
-        int expected = 1;
+        Entry<Integer,Integer> expected = new Entry<>(1,1);
         assertAll("pq",
             () -> assertFalse(pq.isEmpty()),
             () -> assertEquals(1,pq.size()),
-            () -> assertEquals(expected,pq.min().getValue())
+            () -> assertEquals(expected,pq.min())
         );
     }
 
