@@ -83,6 +83,17 @@ public class PriorityQueueTest {
         assertEquals(UNDERFLOW, e.getMessage());
     }
 
+    @Test
+    void addOne(){
+        pq.insert(1,1);
+        int expected = 1;
+        assertAll("pq",
+            () -> assertFalse(pq.isEmpty()),
+            () -> assertEquals(1,pq.size()),
+            () -> assertEquals(expected,pq.min())
+        );
+    }
+
     @AfterEach
     void tearDown() {
         while (!pq.isEmpty()) {
