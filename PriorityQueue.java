@@ -142,26 +142,4 @@ public class PriorityQueue <K,V extends Comparable<K>> {
         if (list.isEmpty()) { throw new NoSuchElementException(UNDERFLOW); }
         return list.remove(list.first());
     }
-
-    private static class Entry<K, V> { //inner Entry Class
-		protected K key;
-		private V value;
-		
-		//Constructor
-		private Entry(K key, V value) {
-			this.key = key;
-			this.value = value;
-		}
-
-		public K getKey() { return key; }
-
-		public V getValue() { return value; }
-		
-		@Override
-		public String toString(){
-			return "<" + String.valueOf(key) + " , " + String.valueOf(this.getValue()) + ">";
-		}
-	}
-
-
 }
