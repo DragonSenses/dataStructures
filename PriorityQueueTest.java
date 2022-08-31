@@ -286,17 +286,14 @@ public class PriorityQueueTest {
     @Test
     void add1024(){
         fill(pq,1024);
-        int expected = 1;
-        int nextExpected = 2;
+
+        for(int k = 0; k < 1024; k++){
+            assertEquals(1024-k,pq.size());
+            assertEquals(k+1,pq.min().getValue());
+            assertEquals(k+1,pq.removeMin().getValue());
+        }
         
-        assertAll("pq",
-            () -> assertFalse(pq.isEmpty()),
-            () -> assertEquals(1024,pq.size()),
-            () -> assertEquals(expected,pq.min()),
-            () -> assertEquals(expected,pq.removeMin()),
-            () -> assertEquals(1023,pq.size()),
-            () -> assertEquals(nextExpected,pq.min())
-        );
+        assertTrue(pq.isEmpty());
     }
 
     @AfterEach
