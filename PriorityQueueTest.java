@@ -195,6 +195,18 @@ public class PriorityQueueTest {
         );
     }
 
+    @Test
+    void addNegative(){
+        expected = new Entry<>(-1,-1);
+        fill(pq,9);       // fill heap with [1,9]
+        pq.insert(-1,-1);   // insert negative key
+        assertAll("heap",
+            () -> assertFalse(pq.isEmpty()),
+            () -> assertEquals(10,pq.size()),
+            () -> assertEquals(expected,pq.min())
+        );
+    }
+
     @AfterEach
     void tearDown() {
         while (!pq.isEmpty()) {
