@@ -98,7 +98,7 @@ public class PriorityQueueTest {
     @Test
     void addZero(){
         expected = new Entry<>(0,0);       // expect 0 key
-        fill(pq,9);        // fill heap with [1,9]
+        fill(pq,9);        // fill pq with [1,9]
         pq.insert(0,0);   
         assertAll("pq",
             () -> assertFalse(pq.isEmpty()),
@@ -180,7 +180,7 @@ public class PriorityQueueTest {
         
         expected = new Entry<>(min,min);
 
-        assertAll("heap",
+        assertAll("pq",
             () -> assertFalse(pq.isEmpty()),
             () -> assertEquals(size,pq.size()),
             () -> assertEquals(expected,pq.min())
@@ -188,7 +188,7 @@ public class PriorityQueueTest {
         
         // add key 74, so minimum does not change
         pq.insert(74,74);   
-        assertAll("heap",
+        assertAll("pq",
             () -> assertFalse(pq.isEmpty()),
             () -> assertEquals(size+1,pq.size()),
             () -> assertEquals(expected,pq.min())  
@@ -198,9 +198,9 @@ public class PriorityQueueTest {
     @Test
     void addNegative(){
         expected = new Entry<>(-1,-1);
-        fill(pq,9);       // fill heap with [1,9]
+        fill(pq,9);       // fill pq with [1,9]
         pq.insert(-1,-1);   // insert negative key
-        assertAll("heap",
+        assertAll("pq",
             () -> assertFalse(pq.isEmpty()),
             () -> assertEquals(10,pq.size()),
             () -> assertEquals(expected,pq.min())
@@ -218,6 +218,24 @@ public class PriorityQueueTest {
             assertEquals(expected,pq.min());
         }
     }
+
+    @Test
+    void addTwoRemoveTwo(){
+        pq.insert(1,1);
+        pq.insert(2,2);
+        expected = new Entry<>(1,1);
+
+        assertAll("pq",
+            () -> assertFalse(pq.isEmpty()),
+            () -> assertEquals(2,pq.size()),
+            () -> assertEquals(expected,pq.min()),
+            () -> assertEquals(expected,pq.removeMin()),
+            () -> assertFalse(pq.isEmpty()),
+            () -> assertEquals(1,pq.size()),
+            () -> assertEquals(2,pq.removeMin().getValue())
+        );
+    }
+
 
     @AfterEach
     void tearDown() {
