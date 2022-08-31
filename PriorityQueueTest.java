@@ -259,7 +259,7 @@ public class PriorityQueueTest {
         assertAll("pq",
             () -> assertFalse(pq.isEmpty()),
             () -> assertEquals(2,pq.size()),
-            () -> assertEquals(1,pq.min()),
+            () -> assertEquals(1,pq.min().getKey()),
             () -> assertEquals(1,pq.removeMin().getKey()),
             () -> assertFalse(pq.isEmpty()),
             () -> assertEquals(1,pq.size()),
