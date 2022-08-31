@@ -267,6 +267,22 @@ public class PriorityQueueTest {
         );
     }
 
+    
+    @Test
+    void addNineRemoveOne(){
+        fill(pq,9);
+        int expected = 1;
+        int nextExpected = 2;
+        assertAll("pq",
+            () -> assertFalse(pq.isEmpty()),
+            () -> assertEquals(9,pq.size()),
+            () -> assertEquals(expected,pq.min().getValue()),
+            () -> assertEquals(expected,pq.removeMin().getValue()),
+            () -> assertEquals(8,pq.size()),
+            () -> assertEquals(nextExpected,pq.min().getValue())
+        );
+    }
+
     @AfterEach
     void tearDown() {
         while (!pq.isEmpty()) {
