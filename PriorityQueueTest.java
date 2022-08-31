@@ -236,6 +236,36 @@ public class PriorityQueueTest {
         );
     }
 
+    @Test
+    void addRemoveTwice(){
+        pq.insert(5,5);
+        pq.insert(10,10);
+
+        expected = new Entry<>(5,5);
+
+        // Add and Remove Two Elements
+        assertAll("pq",
+            () -> assertFalse(pq.isEmpty()),
+            () -> assertEquals(2,pq.size()),
+            () -> assertEquals(expected,pq.min()),
+            () -> assertEquals(expected,pq.removeMin()),
+            () -> assertFalse(pq.isEmpty()),
+            () -> assertEquals(1,pq.size()),
+            () -> assertEquals(10,pq.removeMin().getKey())
+        );
+
+        // Add and Remove Two elements again
+        fill(pq, 2);
+        assertAll("pq",
+            () -> assertFalse(pq.isEmpty()),
+            () -> assertEquals(2,pq.size()),
+            () -> assertEquals(1,pq.min()),
+            () -> assertEquals(1,pq.removeMin().getKey()),
+            () -> assertFalse(pq.isEmpty()),
+            () -> assertEquals(1,pq.size()),
+            () -> assertEquals(2,pq.removeMin().getKey())
+        );
+    }
 
     @AfterEach
     void tearDown() {
