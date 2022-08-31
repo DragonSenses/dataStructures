@@ -207,6 +207,18 @@ public class PriorityQueueTest {
         );
     }
 
+    @Test
+    void addRemoveRoot(){
+        fill(pq,7);
+        int root = 1;
+        expected = new Entry<>(root,root);
+        for(int i = 0; i < 4; i++){
+            assertEquals(expected,pq.removeMin());
+            pq.insert(root,root);
+            assertEquals(expected,pq.min());
+        }
+    }
+
     @AfterEach
     void tearDown() {
         while (!pq.isEmpty()) {
