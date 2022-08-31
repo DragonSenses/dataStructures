@@ -87,10 +87,22 @@ public class PriorityQueueTest {
     @Test
     void addOne(){
         pq.insert(1,1);
-        Entry<Integer,Integer> expected = new Entry<>(1,1);
+        expected = new Entry<>(1,1);
         assertAll("pq",
             () -> assertFalse(pq.isEmpty()),
             () -> assertEquals(1,pq.size()),
+            () -> assertEquals(expected,pq.min())
+        );
+    }
+
+    @Test
+    void addZero(){
+        expected = new Entry<>(0,0);       // expect 0 key
+        fill(pq,9);        // fill heap with [1,9]
+        pq.insert(0,0);   
+        assertAll("pq",
+            () -> assertFalse(pq.isEmpty()),
+            () -> assertEquals(10,pq.size()),
             () -> assertEquals(expected,pq.min())
         );
     }
