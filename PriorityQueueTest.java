@@ -296,6 +296,16 @@ public class PriorityQueueTest {
         assertTrue(pq.isEmpty());
     }
 
+    @Test   
+    public void inOrder(){
+        int n = 65536;
+        fill(pq,n); // Fill PriorityQueue with integers [1,2^16]
+        // We expect the PriorityQueue to return the values in order of minimum
+        for(int k=1; k < n+1; k++){
+            assertEquals(k,pq.removeMin());
+        }
+    }
+
     @AfterEach
     void tearDown() {
         while (!pq.isEmpty()) {
