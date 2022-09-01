@@ -1,19 +1,21 @@
+// JUnit imports
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-// import org.junit.jupiter.api.AfterAll;
-// import org.junit.jupiter.api.AfterEach;
-// import static org.junit.jupiter.api.Assertions.fail;
-import static org.junit.jupiter.api.Assumptions.assumeTrue;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertThrows;
 
 public class DoublyLinkedListTest {
     DoublyLinkedList<Integer> list;
 
     @BeforeAll
     public static void setup(){
-        System.out.println("Starting DoublyLinkedTest");
+        System.out.println("DoublyLinkedList Unit Testing has begun....");
     }
 
     @BeforeEach
@@ -22,9 +24,15 @@ public class DoublyLinkedListTest {
     }
     
     @Test
-    public void emptyList(){ //Tests default constructor
-        assumeTrue(list.isEmpty()); // Expect an empty list
+    public void emptyList(){         // Tests default constructor
+        assertTrue(list.isEmpty());  // Expect an empty list
         assertEquals(0,list.size()); // Expect the size to be 0
+    }
+
+    @Test
+    public void isEmptyFalse(){
+        list.addFirst(1);
+        assertFalse(list.isEmpty());
     }
 
     @Test
@@ -118,5 +126,18 @@ public class DoublyLinkedListTest {
         DoublyLinkedList<Integer> list2 = new DoublyLinkedList<Integer>();
         list2.addLast(2);
         assertEquals(false, list.equals(list2));
+    }
+
+    @AfterEach
+    void tearDown() {
+        while (!list.isEmpty()) {
+            list.removeLast();
+        }
+        list = null;
+    }
+
+    @AfterAll
+    static void tearDownAll() {
+        System.out.println("DoublyLinkedList Unit Testing is complete.");
     }
 }
