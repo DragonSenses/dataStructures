@@ -45,7 +45,7 @@ public class PriorityQueueTest {
         }
     }
 
-    private static boolean debug = true; 
+    private static boolean debug = false; 
     /**
      * Shuffles an array of integers for testing order property
      * @param arr array of integers, in order
@@ -347,6 +347,21 @@ public class PriorityQueueTest {
     @Test
     void shuffleAndSort(){
         int n = 10;
+        int[] arr = IntStream.rangeClosed(1,n).toArray();
+        shuffle(arr);
+        // Insert the shuffled values
+        for(int i : arr){
+            pq.insert(i,i);
+        }
+        // Assert that the values are in order in pq
+        for(int k = 1; k < n+1; k++){
+            assertEquals(k,pq.removeMin().getValue());
+        }
+    }
+
+    @Test
+    void shuffleAndSortN(){
+        int n = 8192;
         int[] arr = IntStream.rangeClosed(1,n).toArray();
         shuffle(arr);
         // Insert the shuffled values
