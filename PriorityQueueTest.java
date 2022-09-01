@@ -315,12 +315,15 @@ public class PriorityQueueTest {
         pq.insert(7,7);
         pq.insert(2,2);
         pq.insert(4,4);
-        pq.insert(3,3);
         pq.insert(6,6);
 
-        for(int k = 1; k < 8; k++){
-            assertEquals(k,pq.removeMin().getValue());
-        }
+        assertEquals(1,pq.removeMin().getValue());
+        assertEquals(2,pq.removeMin().getValue());
+        assertEquals(3,pq.removeMin().getValue());
+        assertEquals(4,pq.removeMin().getValue());
+        assertEquals(5,pq.removeMin().getValue());
+        assertEquals(6,pq.removeMin().getValue());
+        assertEquals(7,pq.removeMin().getValue());
     }
 
     @AfterEach
