@@ -79,7 +79,22 @@ public class DoublyLinkedListTest {
         assertEquals(UNDERFLOW, e.getMessage());
     }
 
-    
+    @Test
+    void removeFirstEmptyList(){
+        assertTrue(list.isEmpty());
+        NoSuchElementException e = assertThrows(NoSuchElementException.class,
+            () -> list.last());
+        assertEquals(UNDERFLOW, e.getMessage());
+    }
+
+    @Test
+    void removeLastEmptyList(){
+        assertTrue(list.isEmpty());
+        NoSuchElementException e = assertThrows(NoSuchElementException.class,
+            () -> list.last());
+        assertEquals(UNDERFLOW, e.getMessage());
+    }
+
     @Test
     public void removeFirstOneElement(){
         list.addFirst(1);
