@@ -13,10 +13,11 @@ import java.util.NoSuchElementException;
  * 
  * Note that the most of these access methods return the associated positions
  * not the elements. The advantage of receiving a position as a return value
- * is that we can subsequently use that position to traverse the list. In this
- * implementation the null reference is returned when after() is called on the
- * last position, or before() is called at the front of the list, or when 
- * first() or last() are called on an empty list. 
+ * is that we can subsequently use that position to traverse the list. 
+ * 
+ * In this implementation the null reference is returned when after() is called
+ * on the last position, or before() is called at the front of the list, or
+ * when first() or last() are called on an empty list [see validate() or position()]. 
  * 
  * Update Methods: addFirst(e), addLast(e), addBefore(p,e), addAfter(p,e), 
  * set(p,e), remove(p).
@@ -29,7 +30,7 @@ public class LinkedPositionalList<E> {
      * order to identify locations withn the linked list we set nodes
      * as the positions. 
      */
-    private static class Node<E> implements Position<E> {
+    public static class Node<E> implements Position<E> {
         private E element; // reference to the element stored at this node
         private Node<E> prev; // reference to the previous node in the list
         private Node<E> next; // reference to the subsequent node in the list
@@ -127,7 +128,7 @@ public class LinkedPositionalList<E> {
     /** Private Utility Methods **/
 
     /**
-     * Veriies that a Position belongs to the appropriate class, and is not one
+     * Verifies that a Position belongs to the appropriate class, and is not one
      * that has been previously removed. NOTE: Does not verify if position
      * belongs to this particular list instance.
      * 
