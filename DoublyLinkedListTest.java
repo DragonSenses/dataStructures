@@ -6,12 +6,18 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.util.NoSuchElementException;
+
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThrows;
 
 public class DoublyLinkedListTest {
     DoublyLinkedList<Integer> list;
+
+    /** Error Messages **/
+	private static final String UNDERFLOW = "List Underflow: There is nothing to remove!";
 
     @BeforeAll
     public static void setup(){
@@ -57,6 +63,23 @@ public class DoublyLinkedListTest {
         );
     }
 
+    @Test
+    void firstEmptyList(){
+        assertTrue(list.isEmpty());
+        NoSuchElementException e = assertThrows(NoSuchElementException.class,
+            () -> list.first());
+        assertEquals(UNDERFLOW, e.getMessage());
+    }
+
+    @Test
+    void lastEmptyList(){
+        assertTrue(list.isEmpty());
+        NoSuchElementException e = assertThrows(NoSuchElementException.class,
+            () -> list.last());
+        assertEquals(UNDERFLOW, e.getMessage());
+    }
+
+    
     @Test
     public void removeFirstOneElement(){
         list.addFirst(1);
