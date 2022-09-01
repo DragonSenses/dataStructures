@@ -1,14 +1,16 @@
+// JUnit imports
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
-import static org.junit.jupiter.api.Assumptions.assumeTrue;
-
-import java.util.Iterator;
-
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertThrows;
+
+import java.util.Iterator;
 
 /**
  * Methods to test: size, isEmpty, first, last, before, after addFirst, addLast,
@@ -29,9 +31,31 @@ public class LinkedPositionalTest {
         this.list = new LinkedPositionalList<Integer>();
     }
 
+    @Test   // Uninitialized list should be empty
+    public void isEmptyTrue(){
+        assertTrue(list.isEmpty());
+    }
+
     @Test
-    public void addOne(){
+    public void isEmptyFalse(){
         list.addFirst(1);
+        assertFalse(list.isEmpty());
+    }
+
+    @Test   
+    public void addFirstOne(){
+        list.addFirst(1);
+        assertAll("list",
+            () -> assertEquals(false,list.isEmpty()),
+            () -> assertEquals(1,list.size()),
+            () -> assertEquals(1,list.first()),
+            () -> assertEquals(1,list.last())
+        );
+    }
+
+    @Test
+    public void addLastOne(){
+        list.addLast(1);
         assertAll("list",
             () -> assertEquals(false,list.isEmpty()),
             () -> assertEquals(1,list.size()),
