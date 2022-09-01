@@ -6,7 +6,10 @@ import org.junit.jupiter.api.BeforeEach;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.Arrays;
 import java.util.NoSuchElementException;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.IntStream;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
@@ -40,6 +43,26 @@ public class PriorityQueueTest {
         for(int i = 1; i < n+1; i++){
             p.insert(i,i);
         }
+    }
+
+    private static boolean debug = false; 
+    /**
+     * Shuffles an array of integers for testing order property
+     * @param arr array of integers, in order
+     * @return a shuffled array of integers
+     */
+    private static int[] shuffle(int[] arr){
+        int randomIndex;
+        int temp;
+        for(int i = 0; i < arr.length; i++){
+            randomIndex = ThreadLocalRandom.current().nextInt(arr.length);
+            temp = arr[randomIndex]; // Store the integer value at random index
+            // Swap the Values
+            arr[randomIndex] = arr[i];
+            arr[i] = temp;  
+        }
+        if(debug) {System.out.println(Arrays.toString(arr)); }
+        return arr;
     }
 
     @Test
@@ -297,7 +320,7 @@ public class PriorityQueueTest {
     }
 
     @Test   
-    public void inOrder(){
+    void inOrder(){
         int n = 65536;
         fill(pq,n); // Fill PriorityQueue with integers [1,2^16]
         // We expect the PriorityQueue to return the values in order of minimum
@@ -307,7 +330,7 @@ public class PriorityQueueTest {
     }
 
     @Test
-    public void inDifferentOrder(){
+    void inDifferentOrder(){
         // Insert Elements with a different insertion order
         pq.insert(5,5);
         pq.insert(3,3);
@@ -317,13 +340,17 @@ public class PriorityQueueTest {
         pq.insert(4,4);
         pq.insert(6,6);
 
-        assertEquals(1,pq.removeMin().getValue());
-        assertEquals(2,pq.removeMin().getValue());
-        assertEquals(3,pq.removeMin().getValue());
-        assertEquals(4,pq.removeMin().getValue());
-        assertEquals(5,pq.removeMin().getValue());
-        assertEquals(6,pq.removeMin().getValue());
-        assertEquals(7,pq.removeMin().getValue());
+        for(int k = 1; k < 8; k++){
+            assertEquals(k,pq.removeMin().getValue());
+        }
+    }
+
+    @Test
+    void shuffleAndSort(){
+        int n = 10;
+        int[] arr = IntStream.rangeClosed(1,n).toArray();
+        arr = shuffle(arr);
+
     }
 
     @AfterEach
