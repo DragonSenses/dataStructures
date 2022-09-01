@@ -45,13 +45,13 @@ public class PriorityQueueTest {
         }
     }
 
-    private static boolean debug = false; 
+    private static boolean debug = true; 
     /**
      * Shuffles an array of integers for testing order property
      * @param arr array of integers, in order
      * @return a shuffled array of integers
      */
-    private static int[] shuffle(int[] arr){
+    private static void shuffle(int[] arr){
         int randomIndex;
         int temp;
         for(int i = 0; i < arr.length; i++){
@@ -62,7 +62,6 @@ public class PriorityQueueTest {
             arr[i] = temp;  
         }
         if(debug) {System.out.println(Arrays.toString(arr)); }
-        return arr;
     }
 
     @Test
@@ -349,8 +348,15 @@ public class PriorityQueueTest {
     void shuffleAndSort(){
         int n = 10;
         int[] arr = IntStream.rangeClosed(1,n).toArray();
-        arr = shuffle(arr);
-
+        shuffle(arr);
+        // Insert the shuffled values
+        for(int i : arr){
+            pq.insert(i,i);
+        }
+        // Assert that the values are in order in pq
+        for(int k = 1; k < n+1; k++){
+            assertEquals(k,pq.removeMin().getValue());
+        }
     }
 
     @AfterEach
