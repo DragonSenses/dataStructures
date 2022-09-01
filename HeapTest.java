@@ -75,6 +75,13 @@ public class HeapTest  {
     }
 
     @Test
+    public void initInvalidComparator(){
+        IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
+            () -> heap = new Heap<>(null));
+        assertEquals("Invalid Comparator!", e.getMessage());
+    }
+
+    @Test
     void addOne(){
         heap.insert(1,1);
         int expected = 1;
