@@ -21,6 +21,10 @@ import java.util.Iterator;
 public class LinkedPositionalTest {
     LinkedPositionalList<Integer> list;
 
+    /** Error Messages **/
+    private final static String ILLEGAL_POS = "Invalid Position";
+    private final static String NULL_NODE = "Node at Position is no longer in the list";
+
     @BeforeAll
     public static void setup(){
         System.out.println("PositionalList Unit Testing has begun ...");
@@ -62,6 +66,17 @@ public class LinkedPositionalTest {
             () -> assertEquals(1,list.first()),
             () -> assertEquals(1,list.last())
         );
+    }
+
+    // Exception Testing - Many methods validate() the position passed in
+    // before, after, addBefore, addAfter, set(), remove()
+
+    // if first/last returns a sentinel node, the node should return null
+    @Test
+    void beforeNull(){
+        IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
+            () -> list.before(null));
+        assertEquals(NULL_NODE, e.getMessage());
     }
 
     @AfterEach
