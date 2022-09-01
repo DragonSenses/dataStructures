@@ -1,4 +1,5 @@
 import java.lang.StringBuilder;
+import java.util.NoSuchElementException;
 /**
  * Downside to SinglyLinkedLists is inefficiency in deleting arbitrary
  * node in the interior of the list, since one needs access to the node
@@ -60,10 +61,14 @@ public class DoublyLinkedList <E> { // Generics allows for variety of data types
 			this.next = n;
 		}
 	} // end of Nested Node Class
+
 	//Instance Variables of DoublyLinkedList
 	private Node<E> head; // Sentinel node head
 	private Node<E> tail; // Sentinel node tail
 	private int size = 0;
+
+	/** Error Messages **/
+	private static final String UNDERFLOW = "List Underflow: There is nothing to remove!";
 
 	/** Default Constructor **/
 	public DoublyLinkedList(){
@@ -88,8 +93,8 @@ public class DoublyLinkedList <E> { // Generics allows for variety of data types
 	 * Returns but does not remove the first node.data of the list
 	 * @return The first element of the list
 	 */
-	public E first(){
-		if(isEmpty()) { return null; }
+	public E first() throws NoSuchElementException {
+		if(isEmpty()) { throw new NoSuchElementException(UNDERFLOW); }
 		return head.getNext().getData(); //First element is after the sentinel head node
 	}
 
@@ -97,8 +102,8 @@ public class DoublyLinkedList <E> { // Generics allows for variety of data types
 	 * Returns but does not remove the last node.data of the list
 	 * @return The last element of the list
 	 */
-	public E last(){
-		if(isEmpty()) { return null; }
+	public E last() throws NoSuchElementException {
+		if(isEmpty()) { throw new NoSuchElementException(UNDERFLOW); }
 		return tail.getPrev().getData(); //Last element is before the sentinel tail node
 	}
 
@@ -150,8 +155,8 @@ public class DoublyLinkedList <E> { // Generics allows for variety of data types
 	 * Removes and returns first element of the list
 	 * @return The data of the node removed
 	 */
-	public E removeFirst(){
-		if(isEmpty()) { return null; } // Nothing to Remove
+	public E removeFirst() throws NoSuchElementException {
+		if(isEmpty()) { throw new NoSuchElementException(UNDERFLOW); }
 		return remove(head.getNext()); // Remember, first element is after sentinel head node
 	}
 
@@ -159,8 +164,8 @@ public class DoublyLinkedList <E> { // Generics allows for variety of data types
 	 * Removes and returns the last element of the list
 	 * @return The data of the node removed
 	 */
-	public E removeLast(){
-		if(isEmpty()) { return null; } // Nothing to Remove
+	public E removeLast() throws NoSuchElementException {
+		if(isEmpty()) { throw new NoSuchElementException(UNDERFLOW); }
 		return remove(tail.getPrev()); // Remember, last element is before sentinel tail node
 	}
 	
