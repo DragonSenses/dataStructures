@@ -70,7 +70,12 @@ public class Heap <K,V extends Comparable<K>> {
     }
 
     public Heap(Comparator<K> c) { 
-        this.c = c;
+        if(c == null) {
+            this.c = new DefaultComparator<>();
+            throw new IllegalArgumentException("Invalid Comparator!");
+        } else {
+            this.c = c;
+        }
     }
 
     /** Protected Helper Methods **/
