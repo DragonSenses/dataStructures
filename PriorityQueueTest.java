@@ -302,7 +302,24 @@ public class PriorityQueueTest {
         fill(pq,n); // Fill PriorityQueue with integers [1,2^16]
         // We expect the PriorityQueue to return the values in order of minimum
         for(int k=1; k < n+1; k++){
-            assertEquals(k,pq.removeMin());
+            assertEquals(k,pq.removeMin().getValue());
+        }
+    }
+
+    @Test
+    public void inDifferentOrder(){
+        // Insert Elements with a different insertion order
+        pq.insert(5,5);
+        pq.insert(3,3);
+        pq.insert(1,1);
+        pq.insert(7,7);
+        pq.insert(2,2);
+        pq.insert(4,4);
+        pq.insert(3,3);
+        pq.insert(6,6);
+
+        for(int k = 1; k < 8; k++){
+            assertEquals(k,pq.removeMin().getValue());
         }
     }
 
