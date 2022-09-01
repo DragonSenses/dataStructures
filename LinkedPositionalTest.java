@@ -4,6 +4,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
+
+import java.util.Iterator;
+
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -22,8 +25,9 @@ public class LinkedPositionalTest {
 
     @AfterEach
     void tearDown() {
+        Iterator<Integer> it = list.iterator();
         while (!list.isEmpty()) {
-            list.removeMin();
+            list.remove(list.before(list.last()));
         }
         list = null;
     }
