@@ -146,6 +146,54 @@ public class DoublyLinkedListTest {
     }
 
     @Test
+    void pollEmptyList(){
+        assertAll("list",
+            () -> assertTrue(list.isEmpty()),
+            () -> assertEquals(0,list.size()),
+            () -> assertEquals(null,list.pollFirst()),
+            () -> assertEquals(null,list.pollLast())
+        );
+    }
+
+    @Test
+    public void pollFirstOneElement(){
+        list.addFirst(1);
+        assertAll("list",
+            () -> assertEquals(false,list.isEmpty()),
+            () -> assertEquals(1,list.size()),
+            () -> assertEquals(1,list.first()),
+            () -> assertEquals(1,list.last())
+        );
+        //After removal we expect empty, 0 size, and first/last return null
+        list.removeFirst();
+        assertAll("list",
+            () -> assertEquals(true,list.isEmpty()),
+            () -> assertEquals(0,list.size()),
+            () -> assertEquals(null,list.pollFirst()),
+            () -> assertEquals(null,list.pollLast())
+        );
+    }
+
+    @Test
+    public void pollLastOneElement(){
+        list.addFirst(1);
+        assertAll("list",
+            () -> assertEquals(false,list.isEmpty()),
+            () -> assertEquals(1,list.size()),
+            () -> assertEquals(1,list.first()),
+            () -> assertEquals(1,list.last())
+        );
+        //After removal we expect empty, 0 size
+        list.removeLast();
+        assertAll("list",
+            () -> assertEquals(true,list.isEmpty()),
+            () -> assertEquals(0,list.size()),
+            () -> assertEquals(null,list.pollFirst()),
+            () -> assertEquals(null,list.pollLast())
+        );
+    }
+
+    @Test
     public void equalsNull(){
         assertEquals(false,list.equals(null));
     }
