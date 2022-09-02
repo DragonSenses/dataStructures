@@ -80,6 +80,16 @@ public class DoublyLinkedListTest {
     }
 
     @Test
+    void peekEmptyList(){
+        assertAll("list",
+            () -> assertTrue(list.isEmpty()),
+            () -> assertEquals(0,list.size()),
+            () -> assertEquals(null,list.peekFirst()),
+            () -> assertEquals(null,list.peekLast())
+        );
+    }
+
+    @Test
     void removeFirstEmptyList(){
         assertTrue(list.isEmpty());
         NoSuchElementException e = assertThrows(NoSuchElementException.class,
