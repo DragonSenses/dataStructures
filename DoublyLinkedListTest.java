@@ -47,7 +47,7 @@ public class DoublyLinkedListTest {
      * @param l The DoublyLinkedList to fill
      * @param n the number of integers to fill it with
      */
-    private static void fillLast(DoublyLinkedList<Integer> l, int n) {
+    private static void fill(DoublyLinkedList<Integer> l, int n) {
         for(int i = 1; i < n+1; i++){
             l.addLast(i);
         }
@@ -124,6 +124,35 @@ public class DoublyLinkedListTest {
         );
     }
 
+    @Test
+    void addCopy(){
+        list.addFirst(1);
+        list.addLast(1);
+        assertAll("list",
+            () -> assertFalse(list.isEmpty()),
+            () -> assertEquals(2,list.size()),
+            () -> assertEquals(1,list.first()),
+            () -> assertEquals(1,list.last()),
+            () -> assertEquals(1,list.removeFirst()),
+            () -> assertEquals(1,list.removeLast())
+        );
+    }
+
+    @Test
+    void addNegative(){
+        fillFirst(list,5);
+        list.addFirst(-1);
+        assertAll("list",
+            () -> assertFalse(list.isEmpty()),
+            () -> assertEquals(6,list.size()),
+            () -> assertEquals(-1,list.first()),
+            () -> assertEquals(1,list.last()),
+            () -> assertEquals(-1,list.removeFirst()),
+            () -> assertEquals(1,list.removeLast()),
+            () -> assertEquals(5,list.first()),
+            () -> assertEquals(2,list.last())
+        );
+    }
 
     @Test
     public void addFiveRemoveTwo(){
@@ -290,7 +319,7 @@ public class DoublyLinkedListTest {
     @Test   // Test Order Property of addLast() and removeFirst()
     public void inOrderN(){
         int n = 1024;
-        fillLast(list,n); // Fill list with n integers, addLast()
+        fill(list,n); // Fill list with n integers, addLast()
         // We expect the list to return the values in in order
         for(int k = 1; k < n+1; k++){
             assertEquals(k,list.removeFirst());
