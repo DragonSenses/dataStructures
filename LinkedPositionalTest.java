@@ -23,7 +23,7 @@ public class LinkedPositionalTest {
 
     /** Error Messages **/
     private final static String ILLEGAL_POS = "Invalid Position";
-    private final static String NULL_NODE = "Node at Position is no longer in the list";
+    // private final static String NULL_NODE = "Node at Position is no longer in the list";
 
     @BeforeAll
     public static void setup(){
@@ -52,8 +52,8 @@ public class LinkedPositionalTest {
         assertAll("list",
             () -> assertEquals(false,list.isEmpty()),
             () -> assertEquals(1,list.size()),
-            () -> assertEquals(1,list.first()),
-            () -> assertEquals(1,list.last())
+            () -> assertEquals(1,list.first().getElement()),
+            () -> assertEquals(1,list.last().getElement())
         );
     }
 
@@ -63,8 +63,8 @@ public class LinkedPositionalTest {
         assertAll("list",
             () -> assertEquals(false,list.isEmpty()),
             () -> assertEquals(1,list.size()),
-            () -> assertEquals(1,list.first()),
-            () -> assertEquals(1,list.last())
+            () -> assertEquals(1,list.first().getElement()),
+            () -> assertEquals(1,list.last().getElement())
         );
     }
 
@@ -76,15 +76,15 @@ public class LinkedPositionalTest {
     void beforeNull(){
         IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
             () -> list.before(null));
-        assertEquals(NULL_NODE, e.getMessage());
+        assertEquals(ILLEGAL_POS, e.getMessage());
     }
 
     @AfterEach
     void tearDown() {
         Iterator<Integer> it = list.iterator();
         while (it.hasNext()) {
-            it.remove();
             it.next();
+            it.remove();
         }
         list = null;
     }
