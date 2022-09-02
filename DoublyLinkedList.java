@@ -109,6 +109,24 @@ public class DoublyLinkedList <E> { // Generics allows for variety of data types
 		return tail.getPrev().getData(); //Last element is before the sentinel tail node
 	}
 
+	/**
+	 * Returns but does not remove the first element of the list
+	 * @return The first element of the list, null if list is empty
+	 */
+	public E peekFirst() {
+		if(isEmpty()) { return null; }
+		return head.getNext().getData(); //First element is after the sentinel head node
+	}
+
+	/**
+	 * Returns but does not remove the last element of the list
+	 * @return The last element of the list, null if list is empty
+	 */
+	public E peekLast() {
+		if(isEmpty()) { return null; }
+		return tail.getPrev().getData(); //Last element is before the sentinel tail node
+	}
+
 	/** Private Helper Methods **/
 	/**
 	 * Private update method that adds element e in betwixt two given nodes
