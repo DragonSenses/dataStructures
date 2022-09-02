@@ -28,6 +28,30 @@ public class DoublyLinkedListTest {
     public void init(){
         this.list = new DoublyLinkedList<Integer>();
     }
+
+    /**
+     * Populates the DoublyLinkedList with n integers in order of n to 1, 
+     * or reverse order since it uses addFirst
+     * @param l The DoublyLinkedList to fill
+     * @param n the number of integers to fill it with
+     */
+    private static void fillFirst(DoublyLinkedList<Integer> l, int n) {
+        for(int i = 1; i < n+1; i++){
+            l.addFirst(i);
+        }
+    }
+    
+    /**
+     * Populates the DoublyLinkedList with n integers in order of 1 to n, 
+     * or in order order since it uses addLast
+     * @param l The DoublyLinkedList to fill
+     * @param n the number of integers to fill it with
+     */
+    private static void fillLast(DoublyLinkedList<Integer> l, int n) {
+        for(int i = 1; i < n+1; i++){
+            l.addLast(i);
+        }
+    }
     
     @Test
     public void emptyList(){         // Tests default constructor
@@ -212,6 +236,16 @@ public class DoublyLinkedListTest {
             () -> assertEquals(null,list.pollFirst()),
             () -> assertEquals(null,list.pollLast())
         );
+    }
+
+    @Test   // Test Order Property of addFirst() and removeFirst()
+    public void reverseOrderN(){
+        int n = 1024;
+        fillFirst(list,n); // Fill Stack with integers [1,2^16]
+        // We expect the list to return the values in reverse order
+        for(int k = n; k > 0; k--){
+            assertEquals(k,list.removeFirst());
+        }
     }
 
     @Test
