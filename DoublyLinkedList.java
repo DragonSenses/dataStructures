@@ -92,6 +92,7 @@ public class DoublyLinkedList <E> { // Generics allows for variety of data types
 	/**
 	 * Returns but does not remove the first node.data of the list
 	 * @return The first element of the list
+	 * @throws NoSuchElementException when list is empty 
 	 */
 	public E first() throws NoSuchElementException {
 		if(isEmpty()) { throw new NoSuchElementException(UNDERFLOW); }
@@ -101,6 +102,7 @@ public class DoublyLinkedList <E> { // Generics allows for variety of data types
 	/**
 	 * Returns but does not remove the last node.data of the list
 	 * @return The last element of the list
+	 * @throws NoSuchElementException when list is empty
 	 */
 	public E last() throws NoSuchElementException {
 		if(isEmpty()) { throw new NoSuchElementException(UNDERFLOW); }
@@ -154,6 +156,7 @@ public class DoublyLinkedList <E> { // Generics allows for variety of data types
 	/**
 	 * Removes and returns first element of the list
 	 * @return The data of the node removed
+	 * @throws NoSuchElementException when list is empty
 	 */
 	public E removeFirst() throws NoSuchElementException {
 		if(isEmpty()) { throw new NoSuchElementException(UNDERFLOW); }
@@ -163,9 +166,28 @@ public class DoublyLinkedList <E> { // Generics allows for variety of data types
 	/**
 	 * Removes and returns the last element of the list
 	 * @return The data of the node removed
+	 * @throws NoSuchElementException when list is empty
 	 */
 	public E removeLast() throws NoSuchElementException {
 		if(isEmpty()) { throw new NoSuchElementException(UNDERFLOW); }
+		return remove(tail.getPrev()); // Remember, last element is before sentinel tail node
+	}
+
+	/**
+	 * Removes and returns first element of the list
+	 * @return The data of the node removed, null if list is empty
+	 */
+	public E pollFirst() {
+		if(isEmpty()) { return null; }
+		return remove(head.getNext()); // Remember, first element is after sentinel head node
+	}
+
+	/**
+	 * Removes and returns the last element of the list
+	 * @return The data of the node removed, null if list is empty
+	 */
+	public E pollLast() {
+		if(isEmpty()) { return null; }
 		return remove(tail.getPrev()); // Remember, last element is before sentinel tail node
 	}
 	
