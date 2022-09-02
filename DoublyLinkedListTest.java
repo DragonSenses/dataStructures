@@ -124,6 +124,55 @@ public class DoublyLinkedListTest {
         );
     }
 
+
+    @Test
+    public void addFiveRemoveTwo(){
+        list.addFirst(4);
+        list.addFirst(3);
+        list.addFirst(2);
+        list.addFirst(1);
+        list.addLast(5);
+
+        assertAll("list",
+            () -> assertFalse(list.isEmpty()),
+            () -> assertEquals(5,list.size()),
+            () -> assertEquals(1,list.removeFirst()),
+            () -> assertEquals(5,list.removeLast()),
+            () -> assertEquals(3,list.size()),
+            () -> assertEquals(2,list.first()),
+            () -> assertEquals(4,list.last())
+        );
+    }
+
+    @Test
+    public void addFiveRemoveTwoAddTwo(){
+        list.addFirst(4);
+        list.addFirst(3);
+        list.addFirst(2);
+        list.addFirst(1);
+        list.addLast(5);
+
+        assertAll("list",
+            () -> assertFalse(list.isEmpty()),
+            () -> assertEquals(5,list.size()),
+            () -> assertEquals(1,list.removeFirst()),
+            () -> assertEquals(5,list.removeLast()),
+            () -> assertEquals(3,list.size()),
+            () -> assertEquals(2,list.first()),
+            () -> assertEquals(4,list.last())
+        );
+        
+        // Add Two elements again
+        list.addFirst(1);
+        list.addLast(5);
+        assertAll("list",
+            () -> assertFalse(list.isEmpty()),
+            () -> assertEquals(5,list.size()),
+            () -> assertEquals(1,list.first()),
+            () -> assertEquals(5,list.last())
+        );
+    }
+
     @Test
     void removeFirstEmptyList(){
         assertTrue(list.isEmpty());
