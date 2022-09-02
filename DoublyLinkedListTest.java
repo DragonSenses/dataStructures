@@ -238,10 +238,20 @@ public class DoublyLinkedListTest {
         );
     }
 
+    @Test   // Test Order Property of addLast() and removeFirst()
+    public void inOrderN(){
+        int n = 1024;
+        fillLast(list,n); // Fill list with n integers, addLast()
+        // We expect the list to return the values in in order
+        for(int k = 1; k < n+1; k++){
+            assertEquals(k,list.removeFirst());
+        }
+    }
+
     @Test   // Test Order Property of addFirst() and removeFirst()
     public void reverseOrderN(){
         int n = 1024;
-        fillFirst(list,n); // Fill Stack with integers [1,2^16]
+        fillFirst(list,n); // Fill list with n integers, addFirst()
         // We expect the list to return the values in reverse order
         for(int k = n; k > 0; k--){
             assertEquals(k,list.removeFirst());
