@@ -104,14 +104,20 @@ public class DoublyLinkedListTest {
             () -> assertEquals(1,list.first()),
             () -> assertEquals(1,list.last())
         );
-        //After removal we expect empty, 0 size, and null first/last
+        //After removal we expect empty, 0 size
         list.removeFirst();
         assertAll("list",
-        () -> assertEquals(true,list.isEmpty()),
-        () -> assertEquals(0,list.size()),
-        () -> assertEquals(null,list.first()),
-        () -> assertEquals(null,list.last())
-    );
+            () -> assertEquals(true,list.isEmpty()),
+            () -> assertEquals(0,list.size())
+        );
+
+        NoSuchElementException e = assertThrows(NoSuchElementException.class,
+            () -> list.first());
+        assertEquals(UNDERFLOW, e.getMessage());
+
+        e = assertThrows(NoSuchElementException.class,
+            () -> list.last());
+        assertEquals(UNDERFLOW, e.getMessage());
     }
 
     @Test
@@ -123,14 +129,20 @@ public class DoublyLinkedListTest {
             () -> assertEquals(1,list.first()),
             () -> assertEquals(1,list.last())
         );
-        //After removal we expect empty, 0 size, and null first/last
+        //After removal we expect empty, 0 size
         list.removeLast();
         assertAll("list",
-        () -> assertEquals(true,list.isEmpty()),
-        () -> assertEquals(0,list.size()),
-        () -> assertEquals(null,list.first()),
-        () -> assertEquals(null,list.last())
-    );
+            () -> assertEquals(true,list.isEmpty()),
+            () -> assertEquals(0,list.size())
+        );
+
+        NoSuchElementException e = assertThrows(NoSuchElementException.class,
+            () -> list.first());
+        assertEquals(UNDERFLOW, e.getMessage());
+
+        e = assertThrows(NoSuchElementException.class,
+            () -> list.last());
+        assertEquals(UNDERFLOW, e.getMessage());
     }
 
     @Test
