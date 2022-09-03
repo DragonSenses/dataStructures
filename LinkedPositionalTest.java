@@ -136,6 +136,14 @@ public class LinkedPositionalTest {
         assertEquals(ILLEGAL_POS, e.getMessage());
     }
     
+    @Test
+    void illegalStateRemoveWithoutNext(){
+        list.addFirst(1);
+        Iterator<Integer> it = list.iterator();
+        IllegalStateException e = assertThrows(IllegalStateException.class,
+            () -> it.remove());
+        assertEquals(ILLEGAL_STATE, e.getMessage());
+    }
 
     @Test
     void equalsTrue(){
