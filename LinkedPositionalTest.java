@@ -125,7 +125,18 @@ public class LinkedPositionalTest {
         assertEquals(false,list.equals(null));
     }
 
+    @Test
+    public void equalsItself(){
+        list.addFirst(1);
+        assertEquals(true, list.equals(list));
+    }
 
+    @Test
+    public void equalsItselfOneElement(){
+        list.addFirst(2);
+        assertEquals(true, list.equals(list));
+    }
+    
     @AfterEach
     void tearDown() {
         Iterator<Integer> it = list.iterator();
