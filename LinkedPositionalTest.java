@@ -109,7 +109,15 @@ public class LinkedPositionalTest {
         fill(list,3);
         LinkedPositionalList<Integer> list2 = new LinkedPositionalList<>();
         fill(list2,3);
-        list.equals(list2);
+        assertTrue(list.equals(list2));
+    }
+
+    @Test
+    void equalsFalse(){
+        list.addFirst(2);
+        LinkedPositionalList<Integer> list2 = new LinkedPositionalList<>();
+        list.addFirst(4);
+        assertFalse(list.equals(list2));
     }
 
     @AfterEach
