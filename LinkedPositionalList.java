@@ -126,7 +126,6 @@ public class LinkedPositionalList<E> {
     }
 
     /** Private Utility Methods **/
-
     /**
      * Verifies that a Position belongs to the appropriate class, and is not one
      * that has been previously removed. NOTE: Does not verify if position
@@ -319,6 +318,53 @@ public class LinkedPositionalList<E> {
     }
 
     /**
+	 * Higher level notion of equivalence where we define two LinkedPositionalList
+	 * as equivalent if:
+	 * I) They have the same Length
+	 * II) The contents that are element-by-element are equivalent
+	 * 
+	 * @param o - The LinkedPositionalList object parameter to compare with the
+	 *          caller
+	 * @return True, if both lists are the same size and the contents are
+	 *         element-by-element equivalent, otherwise false
+	 */
+	@Override
+	public boolean equals(Object o) {
+		// 1. Null Treatment
+		if (o == null) {
+			return false;
+		}
+
+		// 2. Check if o is of correct type
+		if (this.getClass() != o.getClass()) {
+			return false;
+		}
+
+		// 3. Cast argument o to the correct type
+		LinkedPositionalList<?> other = (LinkedPositionalList<?>) o; // Typecast and use unknown type 
+
+		// 4. Size Check
+		if (this.size != other.size) {
+			return false;
+		}
+		Node<?> ptrA = this.head.getNext(); // Traverses through the primary list
+		Node<?> ptrB = other.head.getNext(); // Traverse through the secondary list
+
+		//Remember that we must check when our ptr (runner) becomes the sentinel tail node and stop,
+		//otherwise when we call tail.getData() it will end up with NullPointerException. Therefore,
+		//Our conditional will be checking if its next link reference is null rather than the node 
+		//itself. Ex. ptr.next != null , and not ptr != null
+		//Traversal through both lists
+		for (;ptrA.getNext() != null; ptrA = ptrA.getNext()) {
+			if (!ptrA.getElement().equals(ptrB.getElement())) {
+				return false;
+			}
+			ptrB = ptrB.getNext();
+		}
+		return true; // When reached, every element matched successfuly
+	}
+
+    /**
      * Produce a String Representation of the contents of this Positional List.
      */
     @Override
@@ -334,6 +380,8 @@ public class LinkedPositionalList<E> {
         str.append("]");
         return str.toString();
       }
+
+
 
     /************************* nested Iterator class  ********************************/
     /**
