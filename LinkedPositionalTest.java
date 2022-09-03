@@ -13,10 +13,8 @@ import static org.junit.Assert.assertThrows;
 import java.util.Iterator;
 
 /**
- * Methods to test: size, isEmpty, first, last, before, after addFirst, addLast,
+ * Methods to test: first, last, before, after addFirst, addLast,
  * addBefore, addAfter, set, remove, toString, 
- * 
- * may override equals and hashcode
  */ 
 public class LinkedPositionalTest {
     LinkedPositionalList<Integer> list;
@@ -69,6 +67,24 @@ public class LinkedPositionalTest {
     public void isEmptyFalse(){
         list.addFirst(1);
         assertFalse(list.isEmpty());
+    }
+
+    @Test
+    void sizeZero(){
+        assertEquals(0,list.size());
+    }
+
+    @Test
+    void sizeOne(){
+        list.addFirst(1);
+        assertEquals(1,list.size());
+    }
+
+    @Test
+    void sizeN(){
+        int n = 2047;
+        fill(list,n);
+        assertEquals(n,list.size());
     }
 
     @Test   
