@@ -113,6 +113,15 @@ public class LinkedPositionalTest {
     }
 
     @Test
+    void equalsTrue1023(){
+        int n = 1023;
+        fill(list,n);
+        LinkedPositionalList<Integer> list2 = new LinkedPositionalList<>();
+        fill(list2,n);
+        assertTrue(list.equals(list2));
+    }
+
+    @Test
     void equalsFalse(){
         list.addFirst(2);
         LinkedPositionalList<Integer> list2 = new LinkedPositionalList<>();
@@ -126,6 +135,28 @@ public class LinkedPositionalTest {
         LinkedPositionalList<Integer> list2 = new LinkedPositionalList<>();
         fillFirst(list2,8); //addFirst, list2 = {8,7,6,5,4,3,2,1}
         assertFalse(list.equals(list2)); // Same elements but different order
+    }
+
+    @Test
+    void equalsFalseType(){
+        fill(list,4); 
+        DoublyLinkedList<Integer> list2 = new DoublyLinkedList<>();
+        for(int i = 1; i < 5; i++){
+            list2.addLast(i);
+        }
+        assertFalse(list.equals(list2));
+    }
+
+    @Test
+    void equalsFalseLastElement(){
+        int n = 1023;
+        fill(list,n);
+        LinkedPositionalList<Integer> list2 = new LinkedPositionalList<>();
+        fill(list2,n);
+        // Remove 1023 from list2, and addLast a different element
+        list2.remove(list2.last());
+        list2.addLast(1024);
+        assertFalse(list.equals(list2));
     }
 
     @Test
