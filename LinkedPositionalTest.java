@@ -25,6 +25,30 @@ public class LinkedPositionalTest {
     private final static String ILLEGAL_POS = "Invalid Position";
     // private final static String NULL_NODE = "Node at Position is no longer in the list";
 
+    /**
+     * Populates the LinkedPositionalList with n integers in order of 1 to n, 
+     * or in order order since it uses addLast
+     * @param l The LinkedPositionalList to fill
+     * @param n the number of integers to fill it with
+     */
+    private static void fill(LinkedPositionalList<Integer> l, int n) {
+        for(int i = 1; i < n+1; i++){
+            l.addLast(i);
+        }
+    }
+
+    /**
+     * Populates the LinkedPositionalList with n integers in order of n to 1, 
+     * or reverse order since it uses addFirst
+     * @param l The LinkedPositionalList to fill
+     * @param n the number of integers to fill it with
+     */
+    private static void fillFirst(LinkedPositionalList<Integer> l, int n) {
+        for(int i = 1; i < n+1; i++){
+            l.addFirst(i);
+        }
+    }
+
     @BeforeAll
     public static void setup(){
         System.out.println("PositionalList Unit Testing has begun ...");
@@ -34,6 +58,8 @@ public class LinkedPositionalTest {
     public void init(){
         this.list = new LinkedPositionalList<Integer>();
     }
+
+    
 
     @Test   // Uninitialized list should be empty
     public void isEmptyTrue(){
@@ -77,6 +103,11 @@ public class LinkedPositionalTest {
         IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
             () -> list.before(null));
         assertEquals(ILLEGAL_POS, e.getMessage());
+    }
+
+    @Test
+    void equalsTrue(){
+        
     }
 
     @AfterEach
