@@ -11,6 +11,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThrows;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * Methods to test: first, last, before, after addFirst, addLast,
@@ -143,6 +144,19 @@ public class LinkedPositionalTest {
         IllegalStateException e = assertThrows(IllegalStateException.class,
             () -> it.remove());
         assertEquals(ILLEGAL_STATE, e.getMessage());
+    }
+
+    @Test
+    void nextNoSuchElement(){
+        list.addFirst(1);
+        Iterator<Integer> it = list.iterator();
+        if(it.hasNext()){
+            it.next();
+            it.remove();
+        }
+        NoSuchElementException e = assertThrows(NoSuchElementException.class,
+            () -> it.next());
+        assertEquals(NO_SUCH_ELEM, e.getMessage());
     }
 
     @Test
