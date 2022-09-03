@@ -25,9 +25,10 @@ public class LinkedPositionalTest {
     private final static String ILLEGAL_POS = "Invalid Position";
     // private final static String NULL_NODE = "Node at Position is no longer in the list";
 
+    /** Private Utility Methods **/
     /**
      * Populates the LinkedPositionalList with n integers in order of 1 to n, 
-     * or in order order since it uses addLast
+     * or in order order using addLast()
      * @param l The LinkedPositionalList to fill
      * @param n the number of integers to fill it with
      */
@@ -39,7 +40,7 @@ public class LinkedPositionalTest {
 
     /**
      * Populates the LinkedPositionalList with n integers in order of n to 1, 
-     * or reverse order since it uses addFirst
+     * or reverse order using addFirst()
      * @param l The LinkedPositionalList to fill
      * @param n the number of integers to fill it with
      */
@@ -58,8 +59,6 @@ public class LinkedPositionalTest {
     public void init(){
         this.list = new LinkedPositionalList<Integer>();
     }
-
-    
 
     @Test   // Uninitialized list should be empty
     public void isEmptyTrue(){
@@ -107,7 +106,10 @@ public class LinkedPositionalTest {
 
     @Test
     void equalsTrue(){
-        
+        fill(list,3);
+        LinkedPositionalList<Integer> list2 = new LinkedPositionalList<>();
+        fill(list2,3);
+        list.equals(list2);
     }
 
     @AfterEach
