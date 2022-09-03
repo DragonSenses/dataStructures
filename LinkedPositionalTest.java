@@ -106,9 +106,9 @@ public class LinkedPositionalTest {
 
     @Test
     void equalsTrue(){
-        fill(list,3);
+        list.addLast(1);
         LinkedPositionalList<Integer> list2 = new LinkedPositionalList<>();
-        fill(list2,3);
+        list2.addLast(1);
         assertTrue(list.equals(list2));
     }
 
@@ -118,6 +118,14 @@ public class LinkedPositionalTest {
         LinkedPositionalList<Integer> list2 = new LinkedPositionalList<>();
         list.addFirst(4);
         assertFalse(list.equals(list2));
+    }
+
+    @Test
+    void equalsFalseOrder(){
+        fill(list,8); //addLast, list = {1,2,3,4,5,6,7,8}
+        LinkedPositionalList<Integer> list2 = new LinkedPositionalList<>();
+        fillFirst(list2,8); //addFirst, list2 = {8,7,6,5,4,3,2,1}
+        assertFalse(list.equals(list2)); // Same elements but different order
     }
 
     @Test
@@ -136,7 +144,7 @@ public class LinkedPositionalTest {
         list.addFirst(2);
         assertEquals(true, list.equals(list));
     }
-    
+
     @AfterEach
     void tearDown() {
         Iterator<Integer> it = list.iterator();
