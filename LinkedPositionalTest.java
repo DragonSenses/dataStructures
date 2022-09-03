@@ -120,6 +120,12 @@ public class LinkedPositionalTest {
         assertFalse(list.equals(list2));
     }
 
+    @Test
+    public void equalsNull(){
+        assertEquals(false,list.equals(null));
+    }
+
+
     @AfterEach
     void tearDown() {
         Iterator<Integer> it = list.iterator();
