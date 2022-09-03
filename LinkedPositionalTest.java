@@ -21,7 +21,8 @@ public class LinkedPositionalTest {
 
     /** Error Messages **/
     private final static String ILLEGAL_POS = "Invalid Position";
-    // private final static String NULL_NODE = "Node at Position is no longer in the list";
+    private static String NO_SUCH_ELEM = "There is no further elements to iterate on";
+    private static String ILLEGAL_STATE = "There is nothing to remove";
 
     /** Private Utility Methods **/
     /**
@@ -120,6 +121,22 @@ public class LinkedPositionalTest {
         assertEquals(ILLEGAL_POS, e.getMessage());
     }
 
+    // Add More Exception Tests
+    @Test
+    void nodeAlreadyRemoved(){
+        list.addFirst(1);
+        Iterator<Integer> it = list.iterator();
+        if(it.hasNext()){
+            it.next();
+            it.remove();
+        }
+
+        IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
+            () -> list.after(list.first()));
+        assertEquals(ILLEGAL_POS, e.getMessage());
+    }
+    
+
     @Test
     void equalsTrue(){
         list.addLast(1);
@@ -156,9 +173,9 @@ public class LinkedPositionalTest {
     @Test
     void equalsFalseType(){
         fill(list,4); 
-        DoublyLinkedList<Integer> list2 = new DoublyLinkedList<>();
+        LinkedPositionalList<String> list2 = new LinkedPositionalList<>();
         for(int i = 1; i < 5; i++){
-            list2.addLast(i);
+            list2.addLast(String.valueOf(i));
         }
         assertFalse(list.equals(list2));
     }
