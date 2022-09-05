@@ -11,6 +11,9 @@ import java.util.NoSuchElementException;
  * 
  * Access Methods: first(), last(), before(p), after(p), isEmpty(), size()
  * 
+ * Update Methods: addFirst(e), addLast(e), addBefore(p,e), addAfter(p,e), 
+ * set(p,e), remove(p).
+ * 
  * Note that the most of these access methods return the associated positions
  * not the elements. The advantage of receiving a position as a return value
  * is that we can subsequently use that position to traverse the list. 
@@ -19,8 +22,12 @@ import java.util.NoSuchElementException;
  * on the last position, or before() is called at the front of the list, or
  * when first() or last() are called on an empty list [see validate() or position()]. 
  * 
- * Update Methods: addFirst(e), addLast(e), addBefore(p,e), addAfter(p,e), 
- * set(p,e), remove(p).
+ * Update: Instead of throwing a null reference when a position method is called 
+ * on a sentinel nodes (head/tail), which throws an Unchecked Exception during
+ * runtime which is NullPointerException (when we attempt to access it), 
+ * we throw IndexOutOfBounds exception as runtime exceptions cannot be identified
+ * during compile time, so to catch it on compile time is best practice as it
+ * reduces overhead on the JVM.
  */
 public class LinkedPositionalList<E> {
 
@@ -117,6 +124,7 @@ public class LinkedPositionalList<E> {
 
     private final static String ILLEGAL_POS = "Invalid Position";
     private final static String NULL_NODE = "Node at Position is no longer in the list";
+    private final static String SENTINEL_NODE = "Position out of Bounds";
 
     /** Construct an empty PositionalList */
     public LinkedPositionalList(){
