@@ -111,6 +111,17 @@ public class LinkedPositionalTest {
         );
     }
 
+    // first() and last() return the position node, if sentinel node then null
+    @Test
+    void firstEmpty(){
+        assertEquals(null,list.first());
+    }
+
+    @Test
+    void lastEmpty(){
+        assertEquals(null,list.last());
+    }
+
     // Exception Testing - Many methods validate() the position passed in
     // before, after, addBefore, addAfter, set(), remove()
 
