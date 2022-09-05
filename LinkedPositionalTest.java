@@ -218,7 +218,7 @@ public class LinkedPositionalTest {
     @Test
     void beforeIterate(){
         int n = 1023; 
-        fill(list,1023);
+        fill(list,n);
         Position<Integer> p = list.last();
 
         for(int k = n; k > 0; k--){
@@ -230,7 +230,7 @@ public class LinkedPositionalTest {
     @Test
     void afterIterate(){
         int n = 1023; 
-        fill(list,1023);
+        fill(list,n);
         Position<Integer> p = list.first();
 
         for(int k = 1; k < n+1; k++){
@@ -239,9 +239,36 @@ public class LinkedPositionalTest {
         }
     }
 
-    @Test // Iterate the list twice using before and after()
-    void iterateTwice(){
+    @Test // Iterate through the list twice using before and after()
+    void traverseTwice(){
+        int n = 1023; 
+        fill(list,n);
+        Position<Integer> p = list.first();
 
+        for(int k = 1; k < n+1; k++){
+            assertEquals(k,p.getElement());
+            p = list.after(p);
+        }
+        // At this point position is at sentinel node
+        p = list.before(p);
+        for(int k = n; k > 0; k--){
+            assertEquals(k,p.getElement());
+            p = list.before(p);
+        }
+    }
+
+    @Test
+    void traverseByPosition(){
+        int n = 1023; 
+        fill(list,n);
+        Position<Integer> p;
+        int i = 1;
+        for(p = list.first(); p != null; p = list.after(p)){
+            assertEquals(i++,p.getElement());
+        }
+        for(p = list.last(); p != null; p = list.before(p)){
+            assertEquals(--i,p.getElement());
+        }
     }
 
     // Test insert positions - addBefore(), addAfter()
