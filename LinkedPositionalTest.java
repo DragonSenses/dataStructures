@@ -135,7 +135,19 @@ public class LinkedPositionalTest {
             () -> assertEquals(1,list.before(p).getElement())
         );
     }
-    
+
+    @Test
+    void afterOne(){
+        list.addFirst(1);
+        Position<Integer> p = list.first();
+        assertAll("list",
+            () -> assertEquals(false,list.isEmpty()),
+            () -> assertEquals(1,list.size()),
+            () -> assertEquals(1,p.getElement()),
+            () -> assertEquals(1,list.after(p).getElement())
+        );
+    }
+
     @Test
     void beforeMiddle(){
         fill(list,7);
