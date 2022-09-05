@@ -153,25 +153,25 @@ public class LinkedPositionalTest {
 
     @Test
     void beforeTwo(){
-        list.addFirst(1);
-        Position<Integer> p = list.first();
+        fill(list,2);
+        Position<Integer> p = list.last();
         assertAll("list",
             () -> assertEquals(false,list.isEmpty()),
-            () -> assertEquals(1,list.size()),
-            () -> assertEquals(1,p.getElement()),
+            () -> assertEquals(2,list.size()),
+            () -> assertEquals(2,p.getElement()),
             () -> assertEquals(1,list.before(p).getElement())
         );
     }
 
     @Test
     void afterTwo(){
-        list.addFirst(1);
+        fill(list,2);
         Position<Integer> p = list.first();
         assertAll("list",
             () -> assertEquals(false,list.isEmpty()),
-            () -> assertEquals(1,list.size()),
+            () -> assertEquals(2,list.size()),
             () -> assertEquals(1,p.getElement()),
-            () -> assertEquals(1,list.after(p).getElement())
+            () -> assertEquals(2,list.after(p).getElement())
         );
     }
 
