@@ -24,6 +24,7 @@ public class LinkedPositionalTest {
     private final static String ILLEGAL_POS = "Invalid Position";
     private static String NO_SUCH_ELEM = "There is no further elements to iterate on";
     private static String ILLEGAL_STATE = "There is nothing to remove";
+    private final static String SENTINEL_NODE = "Position out of Bounds";
 
     /** Private Utility Methods **/
     /**
@@ -134,9 +135,12 @@ public class LinkedPositionalTest {
         assertAll("list",
             () -> assertEquals(false,list.isEmpty()),
             () -> assertEquals(1,list.size()),
-            () -> assertEquals(1,p.getElement()),
-            () -> assertEquals(1,list.before(p).getElement())
+            () -> assertEquals(1,p.getElement())
         );
+
+        IndexOutOfBoundsException e = assertThrows(IndexOutOfBoundsException.class,
+            () -> list.before(p).getElement());
+        assertEquals(SENTINEL_NODE, e.getMessage());
     }
 
     @Test
