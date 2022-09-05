@@ -122,6 +122,29 @@ public class LinkedPositionalTest {
         assertEquals(null,list.last());
     }
 
+    // Test Positions - before(), after()
+    @Test
+    void beforeMiddle(){
+        fill(list,7);
+
+        assertAll("list",
+            () -> assertEquals(false,list.isEmpty()),
+            () -> assertEquals(7,list.size()),
+            () -> assertEquals(7,list.last().getElement())
+        );
+
+        // Starting from 7, reach 4 using before()
+        Position<Integer> p = list.last();
+        for(int i = 7; i > 4; i--){
+            assertEquals(i, p.getElement());
+            p = list.before(p);
+        }
+
+        assertEquals(4,p.getElement()); // Position is at middle point
+    }
+    // Test insert positions - addBefore(), addAfter()
+
+
     // Exception Testing - Many methods validate() the position passed in
     // before, after, addBefore, addAfter, set(), remove()
 
