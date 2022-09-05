@@ -157,10 +157,14 @@ public class LinkedPositionalList<E> {
      * which case null is returned (user must not be exposed to sentinels)
      * @param node The node to be returned as a Position
      * @return The node as a Position, otherwise null if it is a sentinel node
+     * @throwws IndexOutOfBoundsException when node is the sentinel head or tail
      */
-    private Position<E> position(Node<E> node) {
+    private Position<E> position(Node<E> node) 
+        throws IndexOutOfBoundsException {
         // If node is either one of the sentinel nodes
-        if (node == head || node == tail) { return null; }
+        if (node == head || node == tail) { 
+            throw new IndexOutOfBoundsException(SENTINEL_NODE);
+        }
         return node;
     }
 
