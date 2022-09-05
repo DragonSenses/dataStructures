@@ -219,17 +219,24 @@ public class LinkedPositionalTest {
     void beforeIterate(){
         int n = 1023; 
         fill(list,1023);
+        Position<Integer> p = list.last();
+
+        for(int k = n; k > 0; k--){
+            assertEquals(k,p.getElement());
+            p = list.before(p);
+        }
+    }
+
+    @Test
+    void afterIterate(){
+        int n = 1023; 
+        fill(list,1023);
         Position<Integer> p = list.first();
 
         for(int k = 1; k < n+1; k++){
             assertEquals(k,p.getElement());
             p = list.after(p);
         }
-    }
-
-    @Test
-    void afterIterate(){
-
     }
 
     @Test // Iterate the list twice using before and after()
