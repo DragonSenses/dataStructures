@@ -124,6 +124,9 @@ public class LinkedPositionalTest {
 
     // Test Positions - before(), after()
 
+    // position() private utility used in before/after , when user exposed to
+    // sentinel node returns a NullPointerException since sentinel nodes return
+    // as null ; is this the behavior wanted?
     @Test
     void beforeOne(){
         list.addFirst(1);
@@ -138,6 +141,30 @@ public class LinkedPositionalTest {
 
     @Test
     void afterOne(){
+        list.addFirst(1);
+        Position<Integer> p = list.first();
+        assertAll("list",
+            () -> assertEquals(false,list.isEmpty()),
+            () -> assertEquals(1,list.size()),
+            () -> assertEquals(1,p.getElement()),
+            () -> assertEquals(1,list.after(p).getElement())
+        );
+    }
+
+    @Test
+    void beforeTwo(){
+        list.addFirst(1);
+        Position<Integer> p = list.first();
+        assertAll("list",
+            () -> assertEquals(false,list.isEmpty()),
+            () -> assertEquals(1,list.size()),
+            () -> assertEquals(1,p.getElement()),
+            () -> assertEquals(1,list.before(p).getElement())
+        );
+    }
+
+    @Test
+    void afterTwo(){
         list.addFirst(1);
         Position<Integer> p = list.first();
         assertAll("list",
