@@ -126,7 +126,7 @@ public class LinkedPositionalTest {
     @Test
     void beforeMiddle(){
         fill(list,7);
-
+        // Start from 7, using list.last()
         assertAll("list",
             () -> assertEquals(false,list.isEmpty()),
             () -> assertEquals(7,list.size()),
@@ -142,6 +142,27 @@ public class LinkedPositionalTest {
 
         assertEquals(4,p.getElement()); // Position is at middle point
     }
+
+    @Test
+    void afterMiddle(){
+        fill(list,7);
+        // Start from 1, using list.first()
+        assertAll("list",
+            () -> assertEquals(false,list.isEmpty()),
+            () -> assertEquals(7,list.size()),
+            () -> assertEquals(1,list.first().getElement())
+        );
+
+        // Starting from 1, reach 4 using after()
+        Position<Integer> p = list.first();
+        for(int i = 1; i < 4; i++){
+            assertEquals(i, p.getElement());
+            p = list.after(p);
+        }
+
+        assertEquals(4,p.getElement()); // Position is at middle point
+    }
+
     // Test insert positions - addBefore(), addAfter()
 
 
