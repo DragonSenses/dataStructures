@@ -282,17 +282,20 @@ public class LinkedPositionalTest {
             p = list.after(p);
         }
     }
+    private static boolean debug = true; 
 
     @Test // Iterate through the list twice using before and after()
     void traverseTwice(){
-        int n = 1023; 
+        int n = 4; 
         fill(list,n);
         Position<Integer> p = list.first();
 
         for(int k = 1; k < n+1; k++){
             assertEquals(k,p.getElement());
+            if(debug) System.out.println(p.getElement());
             p = list.next(p);
         }
+        if(debug) System.out.println(p.getElement());
         // At this point position is at sentinel node
         p = list.precede(p);
         for(int k = n; k > 0; k--){
