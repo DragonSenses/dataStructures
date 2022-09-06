@@ -58,6 +58,9 @@ public class LinkedPositionalTest {
 
     @BeforeEach
     public void init(){
+        // Recall that node has element, prev, next
+        // tail = null, head, null
+        // head = null, null, tail 
         this.list = new LinkedPositionalList<Integer>();
     }
 
@@ -278,7 +281,7 @@ public class LinkedPositionalTest {
             p = list.after(p);
         }
     }
-    private static boolean debug = true; 
+    private static boolean debug = false; 
 
     @Test // Iterate through the list twice using before and after()
     void traverseTwice(){
@@ -286,20 +289,25 @@ public class LinkedPositionalTest {
         fill(list,n);
         Position<Integer> p = list.first();
 
+        // A DoublyLinked Positional list is not circular
+        // so tail's next is null, and head's prev is null
+        // Before reassigning position, check if their next links are null
+
         for(int k = 1; k < n+1; k++){
             assertEquals(k,p.getElement());
             if(debug) System.out.println(p.getElement());
-            p = list.next(p);
+            if(list.next(p) != null ) p = list.next(p);
         }
-        // Discovered a flaw here where tails preceding reference is not
-        // updated
-        if(debug) System.out.println(list.before(p).getElement());
-        // At this point position is at sentinel node
-        p = list.precede(p);
+
+        if(debug) System.out.println("1st Loop last element: " + p.getElement());
+
         for(int k = n; k > 0; k--){
+            if(debug) System.out.println(p.getElement());
             assertEquals(k,p.getElement());
-            p = list.precede(p);
+            if(list.before(p) != null ) p = list.before(p);
         }
+
+        if(debug) System.out.println("2nd Loop last element: " + p.getElement());
     }
 
     @Test
