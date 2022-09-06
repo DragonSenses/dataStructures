@@ -191,7 +191,7 @@ public class LinkedPositionalTest {
         );
 
         IndexOutOfBoundsException e = assertThrows(IndexOutOfBoundsException.class,
-            () -> list.after(p).getElement());
+            () -> list.getData(list.after(p)));
         assertEquals(SENTINEL_NODE, e.getMessage());
     }
 

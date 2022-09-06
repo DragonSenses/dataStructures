@@ -210,7 +210,7 @@ public class LinkedPositionalList<E> {
      */
     public E getData(Position<E> node) throws IndexOutOfBoundsException {
         // If node is either one of the sentinel nodes
-        if (node == head || node == tail) { 
+        if (node == head || node == tail || node == null) { 
             throw new IndexOutOfBoundsException(SENTINEL_NODE);
         }
         return node.getElement();
