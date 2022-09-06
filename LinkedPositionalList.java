@@ -257,6 +257,28 @@ public class LinkedPositionalList<E> {
     }
 
     /**
+     * Returns the Position immediately before Position p. Alias for before.
+     * @param p   a Position of the list
+     * @return the Position of the preceding element 
+     * @throws IllegalArgumentException if p is not a valid position for this list
+     */
+    public Position<E> precede(Position<E> p) throws IllegalArgumentException {
+        Node<E> node = validate(p);
+        return position(node.getPrev());
+    }
+
+    /**
+     * Returns the Position immediately after Position p. Alias for after.
+     * @param p   a Position of the list
+     * @return the Position of the following element
+     * @throws IllegalArgumentException if p is not a valid position for this list
+     */
+    public Position<E> succeed(Position<E> p) throws IllegalArgumentException {
+        Node<E> node = validate(p);
+        return position(node.getNext());
+    }
+
+    /**
      * Returns the Position immediately after Position p. This is an alias to
      * after, and returns null when position is a sentinel tail node. 
      * @param p   a Position of the list
