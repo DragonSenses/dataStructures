@@ -18,11 +18,12 @@ import java.util.NoSuchElementException;
  * not the elements. The advantage of receiving a position as a return value
  * is that we can subsequently use that position to traverse the list. 
  * 
- * In this implementation the null reference is returned when after() is called
- * on the last position, or before() is called at the front of the list, or
- * when first() or last() are called on an empty list [see validate() or position()]. 
+ * In this implementation the null reference is returned when succeed() is called
+ * on the last position, or precede() is called at the front of the list, or
+ * when precede() or succeed() are called on an empty list [see validate() or position()]. 
  * 
- * Update: Instead of throwing a null reference when a position method is called 
+ * Update: before() and after() now throws an exception when called on sentinel nodes; 
+ * Instead of throwing a null reference when a position method is called 
  * on a sentinel nodes (head/tail), which throws an Unchecked Exception during
  * runtime which is NullPointerException (when we attempt to access it), 
  * we throw IndexOutOfBounds exception as runtime exceptions cannot be identified
@@ -154,16 +155,28 @@ public class LinkedPositionalList<E> {
     
     /**
      * Returns the given node as a Position, unless it is a sentinel node, in
-     * which case null is returned (user must not be exposed to sentinels)
+     * which case an exception is thrown (user must not be exposed to sentinels).
      * @param node The node to be returned as a Position
      * @return The node as a Position, otherwise null if it is a sentinel node
-     * @throwws IndexOutOfBoundsException when node is the sentinel head or tail
+     * @throws IndexOutOfBoundsException when node is the sentinel head or tail
      */
     private Position<E> position(Node<E> node) throws IndexOutOfBoundsException {
         // If node is either one of the sentinel nodes
         if (node == head || node == tail) { 
             throw new IndexOutOfBoundsException(SENTINEL_NODE);
         }
+        return node;
+    }
+
+    /**
+     * Returns the given node as a Position, unless it is a sentinel node, in
+     * which case null is returned (user must not be exposed to sentinels)
+     * @param node The node to be returned as a Position
+     * @return The node as a Position, otherwise null if it is a sentinel node
+     */
+    private Position<E> getPosition(Node<E> node) throws IndexOutOfBoundsException {
+        // If node is either one of the sentinel nodes
+        if (node == head || node == tail) { return null; }
         return node;
     }
 
@@ -220,8 +233,9 @@ public class LinkedPositionalList<E> {
     /**
      * Returns the Position immediately before Position p.
      * @param p   a Position of the list
-     * @return the Position of the preceding element (or null, if p is first)
+     * @return the Position of the preceding element 
      * @throws IllegalArgumentException if p is not a valid position for this list
+     * @throws IndexOutOfBoundsException if p is sentinel head node (first)
      */
     public Position<E> before(Position<E> p) 
         throws IllegalArgumentException, IndexOutOfBoundsException {
@@ -232,8 +246,9 @@ public class LinkedPositionalList<E> {
     /**
      * Returns the Position immediately after Position p.
      * @param p   a Position of the list
-     * @return the Position of the following element (or null, if p is last)
+     * @return the Position of the following element
      * @throws IllegalArgumentException if p is not a valid position for this list
+     * @throws IndexOutOfBoundsException if p is sentinel tail node (last)
      */
     public Position<E> after(Position<E> p) 
         throws IllegalArgumentException, IndexOutOfBoundsException {
@@ -242,24 +257,27 @@ public class LinkedPositionalList<E> {
     }
 
     /**
-     * Returns the Position immediately before Position p.
+     * Returns the Position immediately before Position p. Difference from before
+     * is that it returns null when position is sentinel head node.
      * @param p   a Position of the list
      * @return the Position of the preceding element (or null, if p is first)
      * @throws IllegalArgumentException if p is not a valid position for this list
      */
-    public Position<E> prior(Position<E> p) {
+    public Position<E> precede(Position<E> p) {
         Node<E> node = validate(p);
-        return position(node.getPrev());
+        return getPosition(node.getPrev());
     }
 
     /**
-     * Returns the Position immediately after Position p.
+     * Returns the Position immediately after Position p. Difference from after
+     * is that it returns null when position is sentinel tail node.
      * @param p   a Position of the list
      * @return the Position of the following element (or null, if p is last)
+     * @throws IllegalArgumentException if p is not a valid position for this list
      */
-    public Position<E> next(Position<E> p) {
+    public Position<E> succeed(Position<E> p) {
         Node<E> node = validate(p);
-        return position(node.getNext());
+        return getPosition(node.getNext());
     }
 
     /** Public Update Methods **/
@@ -441,7 +459,7 @@ public class LinkedPositionalList<E> {
         public Position<E> next() throws NoSuchElementException {
             if (pointer == null) { throw new NoSuchElementException(NO_SUCH_ELEM); }
             recent = pointer;   // Save the current pointer element as it may be removed later
-            pointer = after(pointer); // Reassign the pointer to position immediately after it
+            pointer = succeed(pointer); // Reassign the pointer to position immediately after it
             return recent; 
         }
 
