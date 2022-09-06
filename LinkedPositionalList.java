@@ -159,8 +159,7 @@ public class LinkedPositionalList<E> {
      * @return The node as a Position, otherwise null if it is a sentinel node
      * @throwws IndexOutOfBoundsException when node is the sentinel head or tail
      */
-    private Position<E> position(Node<E> node) 
-        throws IndexOutOfBoundsException {
+    private Position<E> position(Node<E> node) throws IndexOutOfBoundsException {
         // If node is either one of the sentinel nodes
         if (node == head || node == tail) { 
             throw new IndexOutOfBoundsException(SENTINEL_NODE);
@@ -224,7 +223,8 @@ public class LinkedPositionalList<E> {
      * @return the Position of the preceding element (or null, if p is first)
      * @throws IllegalArgumentException if p is not a valid position for this list
      */
-    public Position<E> before(Position<E> p) throws IllegalArgumentException {
+    public Position<E> before(Position<E> p) 
+        throws IllegalArgumentException, IndexOutOfBoundsException {
         Node<E> node = validate(p);
         return position(node.getPrev());
     }
@@ -235,7 +235,29 @@ public class LinkedPositionalList<E> {
      * @return the Position of the following element (or null, if p is last)
      * @throws IllegalArgumentException if p is not a valid position for this list
      */
-    public Position<E> after(Position<E> p) throws IllegalArgumentException {
+    public Position<E> after(Position<E> p) 
+        throws IllegalArgumentException, IndexOutOfBoundsException {
+        Node<E> node = validate(p);
+        return position(node.getNext());
+    }
+
+    /**
+     * Returns the Position immediately before Position p.
+     * @param p   a Position of the list
+     * @return the Position of the preceding element (or null, if p is first)
+     * @throws IllegalArgumentException if p is not a valid position for this list
+     */
+    public Position<E> prior(Position<E> p) {
+        Node<E> node = validate(p);
+        return position(node.getPrev());
+    }
+
+    /**
+     * Returns the Position immediately after Position p.
+     * @param p   a Position of the list
+     * @return the Position of the following element (or null, if p is last)
+     */
+    public Position<E> next(Position<E> p) {
         Node<E> node = validate(p);
         return position(node.getNext());
     }
