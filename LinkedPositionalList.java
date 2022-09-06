@@ -221,10 +221,8 @@ public class LinkedPositionalList<E> {
      * @param p   a Position of the list
      * @return the Position of the preceding element 
      * @throws IllegalArgumentException if p is not a valid position for this list
-     * @throws IndexOutOfBoundsException if p is sentinel head node (first)
      */
-    public Position<E> before(Position<E> p) 
-        throws IllegalArgumentException, IndexOutOfBoundsException {
+    public Position<E> before(Position<E> p) throws IllegalArgumentException {
         Node<E> node = validate(p);
         return position(node.getPrev());
     }
@@ -234,47 +232,21 @@ public class LinkedPositionalList<E> {
      * @param p   a Position of the list
      * @return the Position of the following element
      * @throws IllegalArgumentException if p is not a valid position for this list
-     * @throws IndexOutOfBoundsException if p is sentinel tail node (last)
      */
-    public Position<E> after(Position<E> p) 
-        throws IllegalArgumentException, IndexOutOfBoundsException {
-        Node<E> node = validate(p);
-        return position(node.getNext());
-    }
-
-    /**
-     * Returns the Position immediately before Position p. Difference from before
-     * is that it returns null when position is sentinel head node.
-     * @param p   a Position of the list
-     * @return the Position of the preceding element (or null, if p is first)
-     * @throws IllegalArgumentException if p is not a valid position for this list
-     */
-    public Position<E> precede(Position<E> p) throws IllegalArgumentException {
-        Node<E> node = validate(p);
-        return position(node.getPrev());
-    }
-
-    /**
-     * Returns the Position immediately after Position p. Difference from after
-     * is that it returns null when position is sentinel tail node.
-     * @param p   a Position of the list
-     * @return the Position of the following element (or null, if p is last)
-     * @throws IllegalArgumentException if p is not a valid position for this list
-     */
-    public Position<E> succeed(Position<E> p) throws IllegalArgumentException {
+    public Position<E> after(Position<E> p) throws IllegalArgumentException {
         Node<E> node = validate(p);
         return position(node.getNext());
     }
 
     /**
      * Returns the Position immediately after Position p. This is an alias to
-     * succeed, and returns null when position is a sentinel tail node. 
+     * after, and returns null when position is a sentinel tail node. 
      * @param p   a Position of the list
      * @return the Position of the following element (or null, if p is last)
      * @throws IllegalArgumentException if p is not a valid position for this list
      */
     public Position<E> next(Position<E> p) throws IllegalArgumentException{
-        return succeed(p);
+        return after(p);
     }
 
     /** Public Update Methods **/
