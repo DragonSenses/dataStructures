@@ -123,8 +123,10 @@ public class LinkedPositionalList<E> {
     private Node<E> tail;   // Sentinel Tail Node
     private int size = 0;   // The number of elements within the list
 
+    /** Error Messages **/
     private final static String ILLEGAL_POS = "Invalid Position";
     private final static String NULL_NODE = "Node at Position is no longer in the list";
+    private final static String SENTINEL_NODE = "Position out of Bounds";
 
     /** Construct an empty PositionalList */
     public LinkedPositionalList(){
@@ -197,6 +199,22 @@ public class LinkedPositionalList<E> {
      * @return true if the list is empty, false otherwise
      */
     public boolean isEmpty() { return size == 0; }
+
+    /**
+     * Returns and retrieves the element stored within the passed in 
+     * position node. More safer than node's getElement as a small check
+     * prevents the user from being exposed to sentinel nodes. 
+     * @param p The position node to retrieve thhe data element from
+     * @return returns the data stored in position
+     * @throws IndexOutOfBoundsException if position is a sentinel node
+     */
+    public E getData(Position<E> node) throws IndexOutOfBoundsException {
+        // If node is either one of the sentinel nodes
+        if (node == head || node == tail) { 
+            throw new IndexOutOfBoundsException(SENTINEL_NODE);
+        }
+        return node.getElement();
+    }
 
     /**
      * Returns the first Position in the list.
