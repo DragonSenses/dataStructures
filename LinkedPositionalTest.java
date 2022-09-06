@@ -123,6 +123,12 @@ public class LinkedPositionalTest {
         assertEquals(null,list.last());
     }
 
+    /**
+     * A new private utility method contains the old behavior of position()
+     * to return null when position is at a sentinel node. The methods
+     * precede() and succeed() relies on getPosition() to return the node 
+     * as a position, and null if it is a sentinel node. 
+     */
     @Test
     void precedeOne(){
         list.addFirst(1);
@@ -130,7 +136,20 @@ public class LinkedPositionalTest {
         assertAll("list",
             () -> assertEquals(false,list.isEmpty()),
             () -> assertEquals(1,list.size()),
-            () -> assertEquals(1,p.getElement())
+            () -> assertEquals(1,p.getElement()),
+            () -> assertEquals(null,list.precede(p))
+        );
+    }
+
+    @Test
+    void succeedOne(){
+        list.addFirst(1);
+        Position<Integer> p = list.first();
+        assertAll("list",
+            () -> assertEquals(false,list.isEmpty()),
+            () -> assertEquals(1,list.size()),
+            () -> assertEquals(1,p.getElement()),
+            () -> assertEquals(null,list.succeed(p))
         );
     }
 
