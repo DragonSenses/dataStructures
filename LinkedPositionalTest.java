@@ -123,11 +123,29 @@ public class LinkedPositionalTest {
         assertEquals(null,list.last());
     }
 
+    @Test
+    void precedeOne(){
+        list.addFirst(1);
+        Position<Integer> p = list.first();
+        assertAll("list",
+            () -> assertEquals(false,list.isEmpty()),
+            () -> assertEquals(1,list.size()),
+            () -> assertEquals(1,p.getElement())
+        );
+    }
+
     // Test Positions - before(), after()
 
-    // position() private utility used in before/after , when user exposed to
-    // sentinel node returns a NullPointerException since sentinel nodes return
-    // as null ; is this the behavior wanted?
+    /**
+     * position() is private utility method is used in before/after that 
+     * checks the node if is either a sentinel node or not, then returns
+     * the node as a position. If node is a sentinel node, originally
+     * returns null which exposes the user to a runtime Exception : 
+     * NullPointerException when attempting to access the sentinel node.
+     * The code has been modified to make a small check for sentinel nodes,
+     * if true then instead of returning null we throw an IndexOutOfBounds
+     * exception instead. This reduces overhead on the JVM. 
+     */
     @Test
     void beforeOne(){
         list.addFirst(1);
@@ -138,9 +156,9 @@ public class LinkedPositionalTest {
             () -> assertEquals(1,p.getElement())
         );
 
-        // IndexOutOfBoundsException e = assertThrows(IndexOutOfBoundsException.class,
-        //     () -> list.before(p).getElement());
-        // assertEquals(SENTINEL_NODE, e.getMessage());
+        IndexOutOfBoundsException e = assertThrows(IndexOutOfBoundsException.class,
+            () -> list.before(p).getElement());
+        assertEquals(SENTINEL_NODE, e.getMessage());
     }
 
     @Test
@@ -150,9 +168,12 @@ public class LinkedPositionalTest {
         assertAll("list",
             () -> assertEquals(false,list.isEmpty()),
             () -> assertEquals(1,list.size()),
-            () -> assertEquals(1,p.getElement()),
-            () -> assertEquals(1,list.after(p).getElement())
+            () -> assertEquals(1,p.getElement())
         );
+
+        IndexOutOfBoundsException e = assertThrows(IndexOutOfBoundsException.class,
+            () -> list.after(p).getElement());
+        assertEquals(SENTINEL_NODE, e.getMessage());
     }
 
     @Test
