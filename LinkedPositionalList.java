@@ -125,7 +125,6 @@ public class LinkedPositionalList<E> {
 
     private final static String ILLEGAL_POS = "Invalid Position";
     private final static String NULL_NODE = "Node at Position is no longer in the list";
-    private final static String SENTINEL_NODE = "Position out of Bounds";
 
     /** Construct an empty PositionalList */
     public LinkedPositionalList(){
@@ -158,25 +157,12 @@ public class LinkedPositionalList<E> {
      * which case an exception is thrown (user must not be exposed to sentinels).
      * @param node The node to be returned as a Position
      * @return The node as a Position, otherwise null if it is a sentinel node
-     * @throws IndexOutOfBoundsException when node is the sentinel head or tail
      */
-    private Position<E> position(Node<E> node) throws IndexOutOfBoundsException {
+    private Position<E> position(Node<E> node) {
         // If node is either one of the sentinel nodes
         if (node == head || node == tail) { 
-            throw new IndexOutOfBoundsException(SENTINEL_NODE);
+            return null;
         }
-        return node;
-    }
-
-    /**
-     * Returns the given node as a Position, unless it is a sentinel node, in
-     * which case null is returned (user must not be exposed to sentinels)
-     * @param node The node to be returned as a Position
-     * @return The node as a Position, otherwise null if it is a sentinel node
-     */
-    private Position<E> getPosition(Node<E> node) throws IndexOutOfBoundsException {
-        // If node is either one of the sentinel nodes
-        if (node == head || node == tail) { return null; }
         return node;
     }
 
@@ -265,7 +251,7 @@ public class LinkedPositionalList<E> {
      */
     public Position<E> precede(Position<E> p) throws IllegalArgumentException {
         Node<E> node = validate(p);
-        return getPosition(node.getPrev());
+        return position(node.getPrev());
     }
 
     /**
@@ -277,7 +263,7 @@ public class LinkedPositionalList<E> {
      */
     public Position<E> succeed(Position<E> p) throws IllegalArgumentException {
         Node<E> node = validate(p);
-        return getPosition(node.getNext());
+        return position(node.getNext());
     }
 
     /**
@@ -470,7 +456,7 @@ public class LinkedPositionalList<E> {
         public Position<E> next() throws NoSuchElementException {
             if (pointer == null) { throw new NoSuchElementException(NO_SUCH_ELEM); }
             recent = pointer;   // Save the current pointer element as it may be removed later
-            pointer = succeed(pointer); // Reassign the pointer to position immediately after it
+            pointer = after(pointer); // Reassign the pointer to position immediately after it
             return recent; 
         }
 
