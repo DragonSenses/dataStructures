@@ -291,13 +291,13 @@ public class LinkedPositionalTest {
 
         for(int k = 1; k < n+1; k++){
             assertEquals(k,p.getElement());
-            p = list.after(p);
+            p = list.next(p);
         }
         // At this point position is at sentinel node
-        p = list.before(p);
+        p = list.precede(p);
         for(int k = n; k > 0; k--){
             assertEquals(k,p.getElement());
-            p = list.before(p);
+            p = list.precede(p);
         }
     }
 
