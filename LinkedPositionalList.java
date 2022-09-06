@@ -263,7 +263,7 @@ public class LinkedPositionalList<E> {
      * @return the Position of the preceding element (or null, if p is first)
      * @throws IllegalArgumentException if p is not a valid position for this list
      */
-    public Position<E> precede(Position<E> p) {
+    public Position<E> precede(Position<E> p) throws IllegalArgumentException {
         Node<E> node = validate(p);
         return getPosition(node.getPrev());
     }
@@ -275,9 +275,20 @@ public class LinkedPositionalList<E> {
      * @return the Position of the following element (or null, if p is last)
      * @throws IllegalArgumentException if p is not a valid position for this list
      */
-    public Position<E> succeed(Position<E> p) {
+    public Position<E> succeed(Position<E> p) throws IllegalArgumentException {
         Node<E> node = validate(p);
         return getPosition(node.getNext());
+    }
+
+    /**
+     * Returns the Position immediately after Position p. This is an alias to
+     * succeed, and returns null when position is a sentinel tail node. 
+     * @param p   a Position of the list
+     * @return the Position of the following element (or null, if p is last)
+     * @throws IllegalArgumentException if p is not a valid position for this list
+     */
+    public Position<E> next(Position<E> p) throws IllegalArgumentException{
+        return succeed(p);
     }
 
     /** Public Update Methods **/
