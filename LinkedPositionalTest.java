@@ -126,6 +126,20 @@ public class LinkedPositionalTest {
         assertEquals(null,list.last());
     }
 
+    // Test insert positions - addBefore(), addAfter()
+    @Test
+    void addAfterFirst(){
+        fill(list,7);
+        Position<Integer> p = list.first();
+        list.addAfter(p,31);
+        assertAll("list",
+            () -> assertEquals(false,list.isEmpty()),
+            () -> assertEquals(8,list.size()),
+            () -> assertEquals(1,p.getElement()),
+            () -> assertEquals(31,list.after(p).getElement())
+        );
+    }
+
     @Test
     void precedeOne(){
         list.addFirst(1);
@@ -323,9 +337,6 @@ public class LinkedPositionalTest {
             assertEquals(--i,p.getElement());
         }
     }
-
-    // Test insert positions - addBefore(), addAfter()
-
 
     // Exception Testing - Many methods validate() the position passed in
     // before, after, addBefore, addAfter, set(), remove()
