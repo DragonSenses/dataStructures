@@ -123,12 +123,6 @@ public class LinkedPositionalTest {
         assertEquals(null,list.last());
     }
 
-    /**
-     * A new private utility method contains the old behavior of position()
-     * to return null when position is at a sentinel node. The methods
-     * precede() and succeed() relies on getPosition() to return the node 
-     * as a position, and null if it is a sentinel node. 
-     */
     @Test
     void precedeOne(){
         list.addFirst(1);
@@ -161,8 +155,10 @@ public class LinkedPositionalTest {
      * the node as a position. If node is a sentinel node, originally
      * returns null which exposes the user to a runtime Exception : 
      * NullPointerException when attempting to access the sentinel node.
-     * The code has been modified to make a small check for sentinel nodes,
-     * if true then instead of returning null we throw an IndexOutOfBounds
+     * 
+     * List's method getData() emulates the Node's getElement() but provides
+     * a small check whether the position is null or one of the sentinel
+     * nodes. if true then instead of returning null we throw an IndexOutOfBounds
      * exception instead. This reduces overhead on the JVM. 
      */
     @Test
@@ -176,7 +172,7 @@ public class LinkedPositionalTest {
         );
 
         IndexOutOfBoundsException e = assertThrows(IndexOutOfBoundsException.class,
-            () -> list.getData(list.before(p)));
+            () -> list.getData(list.before(p))); // Instead of getElement(), we getData()
         assertEquals(SENTINEL_NODE, e.getMessage());
     }
 
@@ -191,7 +187,7 @@ public class LinkedPositionalTest {
         );
 
         IndexOutOfBoundsException e = assertThrows(IndexOutOfBoundsException.class,
-            () -> list.getData(list.after(p)));
+            () -> list.getData(list.after(p))); // Instead of getElement(), we getData()
         assertEquals(SENTINEL_NODE, e.getMessage());
     }
 
@@ -295,7 +291,9 @@ public class LinkedPositionalTest {
             if(debug) System.out.println(p.getElement());
             p = list.next(p);
         }
-        if(debug) System.out.println(p.getElement());
+        // Discovered a flaw here where tails preceding reference is not
+        // updated
+        if(debug) System.out.println(list.before(p).getElement());
         // At this point position is at sentinel node
         p = list.precede(p);
         for(int k = n; k > 0; k--){
