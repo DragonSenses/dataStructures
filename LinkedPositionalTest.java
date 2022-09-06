@@ -166,7 +166,7 @@ public class LinkedPositionalTest {
      * exception instead. This reduces overhead on the JVM. 
      */
     @Test
-    void beforeOne(){
+    void getDataBeforeOne(){
         list.addFirst(1);
         Position<Integer> p = list.first();
         assertAll("list",
@@ -176,12 +176,12 @@ public class LinkedPositionalTest {
         );
 
         IndexOutOfBoundsException e = assertThrows(IndexOutOfBoundsException.class,
-            () -> list.before(p).getElement());
+            () -> list.getData(list.before(p)));
         assertEquals(SENTINEL_NODE, e.getMessage());
     }
 
     @Test
-    void afterOne(){
+    void getDataAfterOne(){
         list.addFirst(1);
         Position<Integer> p = list.first();
         assertAll("list",
