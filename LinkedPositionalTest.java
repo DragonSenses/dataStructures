@@ -158,14 +158,14 @@ public class LinkedPositionalTest {
     void addAfterTwo(){
         fill(list,7);
         list.addAfter(list.after(list.first()),9);
-        System.out.println(list.toString());
+        list.print();
         Position<Integer> p;
+        Position<Integer> newPosition = list.after(list.after(list.first()));
         int i = 1;
         for(p = list.first(); p != null; p = list.after(p)){
-            if(i == 3){
+            if(p == newPosition){
                 assertEquals(9,p.getElement());
             } else{
-                System.out.println(p.getElement());
                 assertEquals(i++,p.getElement());
             }
         }
