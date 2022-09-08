@@ -155,6 +155,33 @@ public class LinkedPositionalTest {
     }
 
     @Test
+    void addAfterInBetween(){
+        fill(list,7);
+        Position<Integer> p = list.first();
+
+        for(int k = 0; k < 7/2; k++){
+            p = list.after(p);
+        }
+
+        list.addAfter(p,31);
+
+        assertAll("list",
+            () -> assertEquals(false,list.isEmpty()),
+            () -> assertEquals(8,list.size())
+        );
+
+        p = list.first();
+        for(int i = 1; i < 8; i++){
+            if(i == 7/2) {
+                assertEquals(31,p.getElement());
+                continue;
+            }
+            assertEquals(i,p.getElement());
+            p = list.after(p);
+        }
+    }
+
+    @Test
     void precedeOne(){
         list.addFirst(1);
         Position<Integer> p = list.first();
