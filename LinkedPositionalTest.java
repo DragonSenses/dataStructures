@@ -175,27 +175,31 @@ public class LinkedPositionalTest {
     void addAfterInBetween(){
         fill(list,7);
         Position<Integer> p = list.first();
-        System.out.println(list.toString());
-        for(int k = 0; k < 7/2; k++){
+        for(int k = 0; k < 3; k++){
             p = list.after(p);
         }
 
         list.addAfter(p,31);
+
+        // get the new Position added after
+        Position<Integer> newPosition = list.first();
+        for(int k = 0; k < 4; k++){
+            newPosition = list.after(p);
+        }
 
         assertAll("list",
             () -> assertEquals(false,list.isEmpty()),
             () -> assertEquals(8,list.size())
         );
 
-        System.out.println(list.toString());
+        list.print();
 
-        p = list.first();
-        for(int i = 1; i < 8; i++){
-            if(i == 6) {
+        int i = 1;
+        for(p = list.first(); p != null; p = list.after(p)){
+            if(p == newPosition){
                 assertEquals(31,p.getElement());
-            } else {
-                assertEquals(i,p.getElement());
-                p = list.after(p);
+            } else{
+                assertEquals(i++,p.getElement());
             }
         }
     }
