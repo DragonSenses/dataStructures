@@ -165,6 +165,7 @@ public class LinkedPositionalTest {
             if(i == 3){
                 assertEquals(9,p.getElement());
             } else{
+                System.out.println(p.getElement());
                 assertEquals(i++,p.getElement());
             }
         }
@@ -197,6 +198,20 @@ public class LinkedPositionalTest {
                 p = list.after(p);
             }
         }
+    }
+
+    @Test
+    void addBeforeFirst(){
+        fill(list,7);
+        Position<Integer> p = list.first();
+        list.addBefore(p,31);
+        assertAll("list",
+            () -> assertEquals(false,list.isEmpty()),
+            () -> assertEquals(8,list.size()),
+            () -> assertEquals(1,p.getElement()),
+            () -> assertEquals(31,list.before(p).getElement()),
+            () -> assertEquals(31,list.first().getElement())
+        );
     }
 
     @Test
