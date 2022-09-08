@@ -170,13 +170,15 @@ public class LinkedPositionalTest {
             () -> assertEquals(8,list.size())
         );
 
+        System.out.println(list.toString());
+
         p = list.first();
-        for(int i = 1; i < 8; i++){
-            if(i == 7/2) {
+        for(int i = 0; i < 7; i++){
+            if(i == (7/2) + 1) {
                 assertEquals(31,p.getElement());
                 continue;
             }
-            assertEquals(i,p.getElement());
+            assertEquals(i+1,p.getElement());
             p = list.after(p);
         }
     }
@@ -336,7 +338,6 @@ public class LinkedPositionalTest {
             p = list.after(p);
         }
     }
-    private static boolean debug = false; 
 
     @Test // Iterate through the list twice using before and after()
     void traverseTwice(){
@@ -350,19 +351,14 @@ public class LinkedPositionalTest {
 
         for(int k = 1; k < n+1; k++){
             assertEquals(k,p.getElement());
-            if(debug) System.out.println(p.getElement());
             if(list.next(p) != null ) p = list.next(p);
         }
 
-        if(debug) System.out.println("1st Loop last element: " + p.getElement());
 
         for(int k = n; k > 0; k--){
-            if(debug) System.out.println(p.getElement());
             assertEquals(k,p.getElement());
             if(list.before(p) != null ) p = list.before(p);
         }
-
-        if(debug) System.out.println("2nd Loop last element: " + p.getElement());
     }
 
     @Test
