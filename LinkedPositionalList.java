@@ -447,11 +447,14 @@ public class LinkedPositionalList<E> {
        * position. For debugging purposes. 
        */
       public void print(){
+        StringBuilder sb = new StringBuilder("[");
         Position<E> p;
         for(p = this.first(); p != null; p = this.after(p)){
-            System.out.print(p.getElement());
-            if(p != tail) { System.out.print(", "); }
+            sb.append(p.getElement());
+            if(p != this.last()) { sb.append(", "); }
         }
+        sb.append("]");
+        System.out.println(sb.toString());
       }
 
     /************************* nested Iterator class  ********************************/
