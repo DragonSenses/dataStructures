@@ -442,7 +442,17 @@ public class LinkedPositionalList<E> {
         return str.toString();
       }
 
-
+      /**
+       * Print out the contents of the LinkedPositionalList, traversing by
+       * position. For debugging purposes. 
+       */
+      public void print(){
+        Position<E> p;
+        for(p = this.first(); p != null; p = this.after(p)){
+            System.out.print(p.getElement());
+            if(p != tail) { System.out.print(", "); }
+        }
+      }
 
     /************************* nested Iterator class  ********************************/
     /**
