@@ -264,7 +264,12 @@ public class LinkedPositionalTest {
                 found = true;
             } else{
                 System.out.println(p.getElement());
-                assertEquals(k,p.getElement());
+                if(found) {
+                    assertEquals(--k,p.getElement());
+                    k++;
+                } else {
+                    assertEquals(k,p.getElement());
+                }
             }
             p = list.after(p); 
         }
