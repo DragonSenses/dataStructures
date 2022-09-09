@@ -244,9 +244,9 @@ public class LinkedPositionalTest {
 
         assertAll("list",
             () -> assertEquals(false,list.isEmpty()),
-            () -> assertEquals(8,list.size()),
+            () -> assertEquals(n+1,list.size()),
             () -> assertEquals(1,list.first().getElement()),
-            () -> assertEquals(7,list.last().getElement())
+            () -> assertEquals(n,list.last().getElement())
         );
 
         p = list.first(); // reset 
@@ -482,6 +482,44 @@ public class LinkedPositionalTest {
             () -> assertEquals(1,list.remove(list.last())),
             () -> assertTrue(list.isEmpty())
         );
+    }
+
+    @Test
+    void removeInBetween(){
+        int n = 7;
+        int mid = (n+1)/2;
+        fill(list,n);
+        Position<Integer> p = list.first();
+        for(int k = 1; k < mid; k++){
+            p = list.after(p);
+        }
+
+        list.remove(p);
+        list.print();
+
+        assertAll("list",
+            () -> assertEquals(false,list.isEmpty()),
+            () -> assertEquals(n-1,list.size()),
+            () -> assertEquals(1,list.first().getElement()),
+            () -> assertEquals(n,list.last().getElement())
+        );
+
+        p = list.first(); // reset 
+        boolean found = false;
+        for(int k = 1; k < n+1; k++){
+            if(k == mid && !found){
+                assertEquals(31,p.getElement());
+                found = true;
+            } else{
+                if(found) {
+                    assertEquals(--k,p.getElement());
+                    k++;
+                } else {
+                    assertEquals(k,p.getElement());
+                }
+            }
+            p = list.after(p); 
+        }
     }
 
     // Exception Testing - Many methods validate() the position passed in
