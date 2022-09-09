@@ -466,7 +466,9 @@ public class LinkedPositionalTest {
         assertAll("list",
             () -> assertEquals(false,list.isEmpty()),
             () -> assertEquals(1,list.size()),
-            () -> assertEquals(1,list.first().getElement())
+            () -> assertEquals(1,list.first().getElement()),
+            () -> assertEquals(1,list.remove(list.first())),
+            () -> assertTrue(list.isEmpty())
         );
     }
 
