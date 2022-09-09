@@ -232,19 +232,15 @@ public class LinkedPositionalTest {
 
     @Test
     void addBeforeInBetween(){
-        fill(list,7);
+        int n = 7;
+        int mid = (n+1)/2;
+        fill(list,n);
         Position<Integer> p = list.first();
-        for(int k = 1; k < 4; k++){
+        for(int k = 1; k < mid; k++){
             p = list.after(p);
         }
 
         list.addBefore(p,31);
-
-        // get the new Position added before
-        Position<Integer> newPosition = list.first();
-        for(int k = 1; k < 4; k++){
-            newPosition = list.after(p);
-        }
 
         assertAll("list",
             () -> assertEquals(false,list.isEmpty()),
@@ -257,8 +253,8 @@ public class LinkedPositionalTest {
 
         p = list.first(); // reset 
         boolean found = false;
-        for(int k = 1; k < 8; k++){
-            if(k == 4 && !found){
+        for(int k = 1; k < n+1; k++){
+            if(k == mid && !found){
                 System.out.println(p.getElement());
                 assertEquals(31,p.getElement());
                 found = true;
@@ -273,16 +269,6 @@ public class LinkedPositionalTest {
             }
             p = list.after(p); 
         }
-
-        // int i = 1;
-        // for(p = list.first(); p != null; p = list.after(p)){
-        //     if(p == newPosition){
-        //         assertEquals(31,p.getElement());
-        //     } else{
-        //         System.out.println(p.getElement());
-        //         assertEquals(i++,p.getElement());
-        //     }
-        // }
     }
 
     @Test
