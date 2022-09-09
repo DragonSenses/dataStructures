@@ -116,6 +116,11 @@ public class LinkedPositionalList<E> {
         public void setNext(Node<E> n) {
             next = n;
         }
+
+        @Override
+        public String toString(){
+            return String.valueOf(this.element);
+        }
     } //  end of nested Node class 
 
     /** Instance Variables of LinkedPositionalList **/
