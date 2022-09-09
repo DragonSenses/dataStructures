@@ -461,13 +461,25 @@ public class LinkedPositionalTest {
 
     // Removal Methods
     @Test
-    void removeFirst(){
+    void removeOneFirst(){
         fill(list,1);
         assertAll("list",
             () -> assertEquals(false,list.isEmpty()),
             () -> assertEquals(1,list.size()),
             () -> assertEquals(1,list.first().getElement()),
             () -> assertEquals(1,list.remove(list.first())),
+            () -> assertTrue(list.isEmpty())
+        );
+    }
+
+    @Test
+    void removeOneLast(){
+        fill(list,1);
+        assertAll("list",
+            () -> assertEquals(false,list.isEmpty()),
+            () -> assertEquals(1,list.size()),
+            () -> assertEquals(1,list.last().getElement()),
+            () -> assertEquals(1,list.remove(list.last())),
             () -> assertTrue(list.isEmpty())
         );
     }
