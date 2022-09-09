@@ -249,17 +249,13 @@ public class LinkedPositionalTest {
             () -> assertEquals(7,list.last().getElement())
         );
 
-        list.print();
-
         p = list.first(); // reset 
         boolean found = false;
         for(int k = 1; k < n+1; k++){
             if(k == mid && !found){
-                System.out.println(p.getElement());
                 assertEquals(31,p.getElement());
                 found = true;
             } else{
-                System.out.println(p.getElement());
                 if(found) {
                     assertEquals(--k,p.getElement());
                     k++;
@@ -461,6 +457,17 @@ public class LinkedPositionalTest {
         for(p = list.last(); p != null; p = list.before(p)){
             assertEquals(--i,p.getElement());
         }
+    }
+
+    // Removal Methods
+    @Test
+    void removeFirst(){
+        fill(list,1);
+        assertAll("list",
+            () -> assertEquals(false,list.isEmpty()),
+            () -> assertEquals(1,list.size()),
+            () -> assertEquals(1,list.first().getElement())
+        );
     }
 
     // Exception Testing - Many methods validate() the position passed in
