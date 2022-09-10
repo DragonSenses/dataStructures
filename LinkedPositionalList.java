@@ -358,6 +358,20 @@ public class LinkedPositionalList<E> {
     }
 
     /**
+     * Replaces every element stored by each node by the argument passed in, 
+     * every position will now store the single element. Useful when one 
+     * wants to reset the list.
+     * @param e the new element to replace every single position with
+     */
+    public void setAll(E e){
+        Node<E> curr = head.getNext();
+        while (curr != tail) {
+          curr.setElement(e);
+          curr = curr.getNext();
+        }
+    }
+
+    /**
      * Removes the element stored at the given Position and returns it.
      * The given position is invalidated as a result.
      *
