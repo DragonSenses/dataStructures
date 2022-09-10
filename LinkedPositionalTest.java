@@ -524,6 +524,26 @@ public class LinkedPositionalTest {
         }
     }
 
+    @Test
+    void removeTwice(){
+        int n = 8;
+        fill(list,n);
+        assertAll("list",
+            () -> assertEquals(false,list.isEmpty()),
+            () -> assertEquals(n,list.size()),
+            () -> assertEquals(1,list.first().getElement()),
+            () -> assertEquals(n,list.last().getElement()),
+            () -> assertEquals(1,list.remove(list.first())),
+            () -> assertEquals(2,list.remove(list.first()))
+        );
+
+        Position<Integer> p = list.first();
+        for(int k = 3; k < n+1; k++){
+            assertEquals(k, p.getElement());
+            p = list.after(p);
+        }
+    }
+
     // Exception Testing - Many methods validate() the position passed in
     // before, after, addBefore, addAfter, set(), remove()
 
