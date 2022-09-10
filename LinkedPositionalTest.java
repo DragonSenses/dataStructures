@@ -567,7 +567,7 @@ public class LinkedPositionalTest {
     @Test
     void setFirstOne(){
         list.addFirst(1);
-        list.set(list.first(),100);
+        assertEquals(1,list.set(list.first(),100));
         assertAll("list",
             () -> assertEquals(false,list.isEmpty()),
             () -> assertEquals(1,list.size()),
@@ -579,7 +579,7 @@ public class LinkedPositionalTest {
     @Test
     void setLastOne(){
         list.addFirst(1);
-        list.set(list.last(),100);
+        assertEquals(1,list.set(list.last(),100));
         assertAll("list",
             () -> assertEquals(false,list.isEmpty()),
             () -> assertEquals(1,list.size()),
@@ -598,8 +598,7 @@ public class LinkedPositionalTest {
             p = list.after(p);
         }
 
-        list.set(p,1024);
-        list.print();
+        assertEquals(mid,list.set(p,1024));
 
         // Check if list integrity, first/last/size
         assertAll("list",
@@ -613,7 +612,6 @@ public class LinkedPositionalTest {
     
         for(int k = 1; k < n+1; k++){
             if(k == mid){
-                System.out.println(p);
                 assertEquals(1024,p.getElement());
                
             } else {
@@ -646,6 +644,24 @@ public class LinkedPositionalTest {
 
         for(p = list.first(); p != null; p = list.after(p)){
             assertEquals(-1,p.getElement()); // verify elements [1,n] are -1
+        }
+    }
+
+    @Test
+    void setAllZeroes(){
+        int n = 8;
+        fill(list,n);
+        list.setAll(0);
+
+        assertAll("list",
+            () -> assertEquals(false,list.isEmpty()),
+            () -> assertEquals(n,list.size()),
+            () -> assertEquals(0,list.first().getElement()),
+            () -> assertEquals(0,list.last().getElement())
+        );
+
+        for(Position<Integer> p = list.first(); p != null; p = list.after(p)){
+            assertEquals(0,p.getElement()); // verify elements [1,n] are 0
         }
     }
 
