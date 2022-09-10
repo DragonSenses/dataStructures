@@ -603,29 +603,25 @@ public class LinkedPositionalTest {
         list.set(p,1024);
         list.print();
 
+        // Check if list integrity, first/last/size
         assertAll("list",
             () -> assertEquals(false,list.isEmpty()),
-            () -> assertEquals(n-1,list.size()),
+            () -> assertEquals(n,list.size()),
             () -> assertEquals(1,list.first().getElement()),
             () -> assertEquals(n,list.last().getElement())
         );
 
         p = list.first(); // reset 
-        boolean found = false;
+    
         for(int k = 1; k < n+1; k++){
-            if(k == mid && !found){
+            if(k == mid){
                 System.out.println(p);
-                assertEquals(++k,p.getElement());
-            } else{
-                if(found) {
-                    System.out.println(p);
-                    assertEquals(--k,p.getElement());
-                    k++;
-                } else {
-                    System.out.println(p);
-                    assertEquals(k,p.getElement());
-                }
+                assertEquals(1024,p.getElement());
+               
+            } else {
+                assertEquals(k,p.getElement());
             }
+            
             p = list.after(p); 
         }
     }
