@@ -591,6 +591,46 @@ public class LinkedPositionalTest {
     }
 
     @Test
+    void setMiddle(){
+        int n = 7;
+        int mid = (n+1)/2;
+        fill(list,n);
+        Position<Integer> p = list.first();
+        for(int k = 1; k < mid; k++){
+            p = list.after(p);
+        }
+
+        list.set(p,1024);
+        list.print();
+
+        assertAll("list",
+            () -> assertEquals(false,list.isEmpty()),
+            () -> assertEquals(n-1,list.size()),
+            () -> assertEquals(1,list.first().getElement()),
+            () -> assertEquals(n,list.last().getElement())
+        );
+
+        p = list.first(); // reset 
+        boolean found = false;
+        for(int k = 1; k < n+1; k++){
+            if(k == mid && !found){
+                System.out.println(p);
+                assertEquals(++k,p.getElement());
+            } else{
+                if(found) {
+                    System.out.println(p);
+                    assertEquals(--k,p.getElement());
+                    k++;
+                } else {
+                    System.out.println(p);
+                    assertEquals(k,p.getElement());
+                }
+            }
+            p = list.after(p); 
+        }
+    }
+
+    @Test
     void setAll(){
         int n = 8;
         fill(list,n);
