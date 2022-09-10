@@ -505,21 +505,16 @@ public class LinkedPositionalTest {
         );
 
         p = list.first(); // reset 
-        boolean found = false;
+        
         for(int k = 1; k < n+1; k++){
-            if(k == mid && !found){
+            if(k == mid){
                 System.out.println(p);
                 assertEquals(++k,p.getElement());
             } else{
-                if(found) {
-                    System.out.println(p);
-                    assertEquals(--k,p.getElement());
-                    k++;
-                } else {
-                    System.out.println(p);
-                    assertEquals(k,p.getElement());
-                }
+                System.out.println(p);
+                assertEquals(k,p.getElement());
             }
+            
             p = list.after(p); 
         }
     }
