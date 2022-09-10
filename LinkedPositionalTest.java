@@ -15,7 +15,10 @@ import java.util.NoSuchElementException;
 
 /**
  * Methods to test: first, last, before, after addFirst, addLast,
- * addBefore, addAfter, set, remove, toString, 
+ * addBefore, addAfter, set, remove, toString
+ * 
+ * Behavior of set() on uninitialized list, throws error now, but could
+ * change to add instead
  */ 
 public class LinkedPositionalTest {
     LinkedPositionalList<Integer> list;
@@ -644,7 +647,21 @@ public class LinkedPositionalTest {
         for(p = list.first(); p != null; p = list.after(p)){
             assertEquals(-1,p.getElement()); // verify elements [1,n] are -1
         }
+    }
 
+    // Throw Exception or Add element to list when setting on empty list?
+    @Test
+    void setEmptyList(){
+        IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
+            () ->  list.set(list.first(),1));
+        assertEquals(ILLEGAL_POS, e.getMessage());
+       
+        // assertAll("list",
+        //     () -> assertEquals(false,list.isEmpty()),
+        //     () -> assertEquals(1,list.size()),
+        //     () -> assertEquals(1,list.first().getElement()),
+        //     () -> assertEquals(1,list.last().getElement())
+        // );
     }
 
     // Exception Testing - Many methods validate() the position passed in
