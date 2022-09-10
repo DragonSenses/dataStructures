@@ -567,6 +567,18 @@ public class LinkedPositionalTest {
     }
 
     @Test
+    void setFirstOne(){
+        list.addFirst(1);
+        list.set(list.first(),100);
+        assertAll("list",
+            () -> assertEquals(false,list.isEmpty()),
+            () -> assertEquals(1,list.size()),
+            () -> assertEquals(100,list.first().getElement()),
+            () -> assertEquals(100,list.last().getElement())
+        );
+    }
+
+    @Test
     void setAll(){
         int n = 8;
         fill(list,n);
