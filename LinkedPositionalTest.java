@@ -566,6 +566,32 @@ public class LinkedPositionalTest {
         }
     }
 
+    @Test
+    void setAll(){
+        int n = 8;
+        fill(list,n);
+
+        Position<Integer> p;
+        int i = 1;
+
+        for(p = list.first(); p != null; p = list.after(p)){
+            assertEquals(i++,p.getElement()); // verify elements [1,n]
+            list.set(p,-1); // Set element to -1
+        }
+
+        assertAll("list",
+            () -> assertEquals(false,list.isEmpty()),
+            () -> assertEquals(n,list.size()),
+            () -> assertEquals(-1,list.first().getElement()),
+            () -> assertEquals(-1,list.last().getElement())
+        );
+
+        for(p = list.first(); p != null; p = list.after(p)){
+            assertEquals(-1,p.getElement()); // verify elements [1,n] are -1
+        }
+
+    }
+
     // Exception Testing - Many methods validate() the position passed in
     // before, after, addBefore, addAfter, set(), remove()
 
