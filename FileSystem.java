@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 /**
+ * Intermediate data structure that uses the Binary Search Tree to reflect a
  * File System represents a file hierarchy of a directory with its data
  * stored from an input text file and 
  * in the format {name, directory, YYYY/MM/DD}
@@ -50,12 +51,13 @@ public class FileSystem {
                 
                 // First, get the ArrayList that corresponds to the date
                 // if empty (i.e. BST.get() returns null, create new ArrayList
-                // otherwise put the data to existing List
-                
+                // otherwise put the data to existing List then add to dateTree
+
                 ArrayList<FileData> list = dateTree.get(data[2]);
                 if(list == null) {
                 	list = new ArrayList<>();
                 	list.add(input);
+					this.dateTree.put(data[2],list);
                 } else {
                 	list.add(input);
                 }
@@ -186,22 +188,34 @@ public class FileSystem {
      */
     public FileSystem filter(String startDate, String endDate) {
     	FileSystem fs = new FileSystem();
-    	List<String> dateRange = this.dateTree.keys();
-    	List<String> result = new ArrayList<>();
+    	List<String> keys = this.dateTree.keys();
+    	List<String> dateRange = new ArrayList<>();
     	
-    	for(String date: dateRange) {
+    	for(String date: keys) {
         	if(withinRange(date,startDate,endDate)) { 
     			// Add this to the result list
-        		result.add(date);
+				dateRange.add(date);
     		} else {
     			// do nothing
     		}
     	}
-    	
+
+		ArrayList<FileData> dateList;
     	// Add each FileData object into FileSystem by acceptable dates
-    	
-    	
-    	return fs;
+    	for(String date: dateRange){
+			dateList = dateTree.get(date); // get date list
+			fs.dateTree.put(date,dateList); // add it to new dateTree
+
+			// Populate the names list of new FileSystem from dateList
+			for(FileData obj: dateList){
+				fs.nameTree.put(obj.name, obj);
+			}
+		}
+
+		// TODO: To help Garbage Collection, null out references of old
+		// or "this" FileSystem
+
+    	return fs;	// Return newly filtered FileSystem
     }
     
     /**
@@ -216,16 +230,62 @@ public class FileSystem {
     	return (startDate.compareTo(date) <= 0) 
     			&& (date.compareTo(endDate) < 0);
     }
-    
-    
-    // TODO
-    public FileSystem filter(String wildCard) {
 
+	/**
+	 * Give a string wildCard, return a new FileSystem that contains only the
+	 * files with names that contain the wildCard string. Note that this
+	 * wildcard can be found anywhere in the file name (if the wild card is
+	 * test, then test.txt, thistest.txt and thistest would all be files that
+	 * should be selected in the filter)
+	 *
+	 * Assume the given parameter is valid and non-null.
+	 * @param wildCard
+	 * @return new FileSystem containing only files of wildCard String
+	 */
+	public FileSystem filter(String wildCard) {
+		FileSystem fs = new FileSystem();
+		List<String> keys = this.nameTree.keys();
+
+		// Result list stores all the filtered FileData by names
+		List<FileData> result = new ArrayList<>();
+
+		for(String name: keys){
+			if(name.equals(wildCard)){
+				// add FileData to the result list
+				result.add(this.nameTree.get(name));
+			}
+		}
+
+		// Populate the new FileSystem
+		for(FileData data: result){
+			fs.nameTree.put(data.name, data);
+
+			ArrayList<FileData> list =
+					dateTree.get(data.lastModifiedDate);
+
+			if(list == null) {
+				list = new ArrayList<>();
+				list.add(data);
+				fs.dateTree.put(data.lastModifiedDate,list);
+			} else { // List in dateTree already exists, append FileData
+				list.add(data);
+			}
+		}
+
+		return fs;
     }
-    
-    
-    // TODO
-    public List<String> outputNameTree(){
+
+
+	/**
+	 * Return a List that contains the nameTree
+	 * where each entry is formatted as: ": <FileData toString()>"
+	 *
+	 * This list should be in alphabetical order. In the examples below, the
+	 * quotations are there to indicate that the outputs are strings, thus “
+	 * should not show up in the actual output.
+	 * @return output of nameTree
+	 */
+	public List<String> outputNameTree(){
 
     }
     
