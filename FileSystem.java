@@ -34,7 +34,38 @@ public class FileSystem {
     // Public Constructor with inputFile as parameter
     public FileSystem(String inputFile) {
     	this(); // Initializes FileSystem via No-Arg Public Constructor
+        try {
+            File f = new File(inputFile);
+            Scanner sc = new Scanner(f);
+            while (sc.hasNextLine()) {
+                String[] data = sc.nextLine().split(", ");
+                // Create FileData input to store into BST
+                FileData input = new FileData(data[0],
+                		data[1],data[2]);
+                
+                // Add input into name BST
+                nameTree.put(data[0],input); 
+                
+                // Add input into date BST
+                
+                // First, get the ArrayList that corresponds to the date
+                // if empty (i.e. BST.get() returns null, create new ArrayList
+                // otherwise put the data to existing List
+                
+                ArrayList<FileData> list = dateTree.get(data[2]);
+                if(list == null) {
+                	list = new ArrayList<>();
+                	list.add(input);
+                } else {
+                	list.add(input);
+                }
+                
+            }
+            sc.close();
+        } catch (FileNotFoundException e) {
+            System.out.println(e);
 
+        }
     }
 
 
