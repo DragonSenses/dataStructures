@@ -1,7 +1,7 @@
 import java.util.List;
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Comparator;
+//import java.util.LinkedList;
+//import java.util.Comparator;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
@@ -280,21 +280,46 @@ public class FileSystem {
 	 * Return a List that contains the nameTree
 	 * where each entry is formatted as: ": <FileData toString()>"
 	 *
-	 * This list should be in alphabetical order. In the examples below, the
-	 * quotations are there to indicate that the outputs are strings, thus “
-	 * should not show up in the actual output.
+	 * This list should be in alphabetical order. The quotations are there to
+	 * indicate that the outputs are strings, thus “ should not show up in
+	 * the actual output.
 	 * @return output of nameTree
 	 */
 	public List<String> outputNameTree(){
+		List<String> output = new ArrayList<String>();
+		List<String> keys = this.nameTree.keys();
 
+		for(String key: keys){
+			output.add(key + ": " + key.toString());
+		}
+
+		return output;
     }
-    
-    
-    // TODO
-    public List<String> outputDateTree(){
 
+
+	/**
+	 * Return a List that contains the dateTree
+	 * where each entry is formatted as: ": <FileData toString()>"
+	 *
+	 * The List should be in order from most recent to oldest. If there are
+	 * multiple files associated with the same date, add them to the List in
+	 * reverse order they were added into the ArrayList.
+	 * @return output of dateTree
+	 */
+	public List<String> outputDateTree(){
+		List<String> output = new ArrayList<String>();
+		List<String> dates = this.dateTree.keys();
+
+		ArrayList<FileData> dateList;
+		for(String date: dates){
+			dateList = this.dateTree.get(date);
+
+			for(FileData data: dateList){
+				output.add(data.lastModifiedDate + ": " + data.toString());
+			}
+		}
+
+		return output;
     }
-    
-
-}
+} // end of FileSystem class
 
