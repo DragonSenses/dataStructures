@@ -1,3 +1,6 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 /**
  *  return the kth largest or smallest element from a list of n elements,
  *  where n is several times larger than k. An obvious approach to finding the
@@ -19,56 +22,96 @@
  * “largest”) would return 13.
  *
  * 1 4 6 8 9
- *
  * 10 13 14 0 1
  * 98 96 5 3 2
  */
 public class ElementFinder {
 
 	/**
-	 *Reading the file: You should read one line at the time, evaluate all the
+	 * Reading the file: You should read one line at the time, evaluate all the
 	 * numbers in that line and then read the next line. You should not load
 	 * the entire file at once. You can expect test cases where the file size
 	 * is bigger than the available memory.
 	 *
-	 * Return value: The method should return the kth largest/smallest element
-	 * if it exists. If no such element exists, the method should return -1.
-	 *
 	 * Algorithm: There are four steps to this algorithm:
 	 *
 	 * First, figure out the type of heap (Min-Heap or Max-Heap) you will need
-	 * depending upon the type of operation. There’s no programming involved
-	 * in this step.
-	 * Second, implement the comparators needed for each type of heap. Take a
-	 * look at the unit test for help.
-	 * The third step is to create a heap that allows you to find the required
-	 * element in O(nlogk) complexity. What it means is that the
-	 * bubbleUp/bubbleDown operations should only take about O(logk).
+	 * depending upon the type of operation.
+	 *
+	 * Second, implement the comparators needed for each type of heap.
+	 *
+	 * Third step is to create a heap that allows you to find the required
+	 * element in O(nlogk) complexity.
+	 *
 	 * Think of the input file as an infinite sequence of numbers. There’s
-	 * no possible way to store all of them. But we can store upto K elements
+	 * no possible way to store all of them. But we can store up to K elements
 	 * in the form of a heap. So far the complexity is only O(klogk).
 	 * The last step is to use this heap in a way that for every element after
 	 * the first k, you’d need at most O(logk) operations to figure out if this
 	 * element should be discarded or stored in the heap.
-	 * @param filename	String
-	 * @param K
-	 * @param operation
-	 * @return
+	 * @param filename	String filename to read input data to populate heap
+	 * @param K	the kth (smallest or largest) integer from file
+	 * @param operation "largest" or "smallest" determines min or max heap
+	 * @return the kth largest/smallest element if it exists. If no such
+	 * element exists, the method should return -1.
 	 */
 	public static int Kth_finder(String filename, int K, String operation) {
-		// Check Params
-		/* Filename proper try/catch
-		* K expect to always be smaller than size of input and greater
-		* than 0
-		* operation - either "largest" or "smallest"
-		* */
+		Heap<String, String> heap;
 
+		// Check Arguments
+		// 1. minHeap or maxHeap?
+		boolean minHeap = false;
+		// If operation is "largest" then maxHeap
+		if(operation.equals("largest")){
+			minHeap = false;
+		} else if(operation.equals("smallest")){
+			// minHeap is smallest
+			minHeap = true;
+		}
 
-		// Create a comparator depending upon the type of operation
-		// Heap<Integer, Integer> heap = new Heap<Integer, Integer>(comparator);
-		/** TODO **/
-		return -1;
+		// 2. Initialize Heap with Comparators based on minHeap or max Heap
+		if(minHeap){
+			heap = new Heap<>((x, y) -> x.compareTo(y));
+		} else {
+			heap = new Heap<>((x, y) -> y.compareTo(x));
+		}
+
+		/**  3. Verify filename argument with proper try/catch
+		 * Then populate the heap.
+		 */
+		try {
+			File f = new File(filename);
+			Scanner sc = new Scanner(f);
+			while (sc.hasNextLine()) {
+				// Read line by line, cannot load entire file at once
+				String[] data = sc.nextLine().split(" ");
+
+				// Populate the Heap with data
+				for(int i = 0; i < data.length; i++){
+					heap.add(data[i],data[i]);
+				}
+
+			}
+			sc.close();
+		} catch (FileNotFoundException e) {
+			System.out.println(e);
+			return -1;
+		}
+
+		// Now Keep polling "k" times to get kth integer
+		// We can only poll up to how many entries there are, so use size
+		int k = K;
+		Entry<String, String> temp = heap.peek();
+		for(int i = 0; i < K; i++){
+			if(heap.size() <= 0) {
+				// Failure Case
+				return -1; // not enough elements to pop
+			}
+
+			temp = heap.poll();
+		}
+
+		return Integer.valueOf(temp.getKey()); // return kth integer
 	}
 
-		
 }
