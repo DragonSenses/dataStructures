@@ -99,46 +99,81 @@ public class Trie {
         this.root = new TrieNode();
     }
 
+    /**
+     * @return true if trie is empty (root node is null), false otherwise
+     */
+    public boolean isEmpty(){
+        return root == null;
+    }
+
     /* Insertion */
     /**
      * Inserts the given string within the Trie, by updating each TrieNode
-     * for each character of the key.
-     * @param key String to insert in trie
+     * for each character of the word.
+     * @param word String to insert in trie
      */
-    public void insert(String key){
-        // Root Node
-        TrieNode root = this;
+    public void insert(String word){
+        // Set current node to Root Node
+        TrieNode curr = root;
 
         // For each character in the string. Populate the trie.
-        for(char c: key.toCharArray()){
+        for(char c: word.toCharArray()){
             // If the edge/path does not exist, create a new TrieNode
-            root.trie.putIfAbsent(c, new TrieNode());
+            curr.getChildren().computeIfAbsent(c, ch -> new TrieNode());
 
-            // Go to next node by moving up the root node
-            root = root.trie.get(c); 
+            // Go to next node by moving up the current node
+            curr = curr.getChildren().get(c); 
         }
 
         // Reaching this point means we are at the end of trie, a leaf node
-        node.isLeaf = true;
+        node.setLeaf(true);
     }
 
     /* Retrieval - Searching / Finding */
+
+
+
     /**
      * Finds the given word within the Trie
      * @param word string to find
      * @return true if present, false otherwise
      */
     public boolean find(String word){
-        TrieNode current = root;
+        TrieNode curr = root;   
+        TrieNode node;
+        char c;
+
+        // For each character in the word
+        for(int k = 0; k < word.length(); k++){
+            c = word.charAt(i); 
+            node = curr.getChildren().get(c);
+
+            if(node == null) {
+                return false;
+            }
+
+            curr = node;    // Move up the Trie
+        }
+
+        return curr.isEndOfWord(); // current node is leaf node
     }
 
     /**
-     * Finds the given word within the Trie
+     * Searches the given word within the Trie
      * @param word string to find
      * @return true if present, false otherwise
      */
     public boolean search(String word){
         return find(word); 
+    }
+
+    /**
+     * Retrieves the given word within the Trie
+     * @param word string to find
+     * @return true if present, false otherwise
+     */
+    public boolean retrieve(String word){
+        return find(word);
     }
 
     /* Deletion */
