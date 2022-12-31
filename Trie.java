@@ -177,21 +177,55 @@ public class Trie {
     }
 
     /* Deletion */
-    public void delete(String word){
+    public boolean delete(String word){
         searchAndDestroy(root, word, 0);
     }
 
 
     /**
-     * Private utility method that searches for the given word to delete
-     * and restores connections.
-     * @param curr
-     * @param word
-     * @param index
-     * @return
+     * Private utility method that retrieves the given word, then if
+     * found will delete it.
+     * i) If the node key is not found while searching, the delete operation 
+     * will stop and exit.
+     * ii) If the node key is found while searching the Trie, the delete 
+     * operation will delete the key.
+     * @param curr TrieNode to search and delete word from
+     * @param word word to retrieve
+     * @param index to start search and destroy
+     * @return true if given word is deleted, false otherwise
      */
     private boolean searchAndDestroy(TrieNode curr, String word, int index){
+        // Bounds checking for index parameter
+        if(index == word.length()) {
+            if(!curr.isLeaf()) {
+                return false;
+            }
+            curr.setEndOfWord(false);
+            return curr.getChildren().isEmpty();
+        }
 
+        // Get the TrieNode that contains the current character of the word
+        char c = word.charAt(index);
+        TrieNode node = curr.getChildren().get(c);
+        
+        // No Children found for given character
+        if(node == null) {
+            return false; // exit delete operation
+        }
+
+        // Check if current node is ready to be deleted
+        // Ensure that curr is not a leaf node (end of word) and recursively
+        // call searchAndDestroy for each of its child nodes (index + 1)
+        boolean canDelete = searchAndDestroy(node, word, index + 1) && 
+                            !node.isLeaf();
+
+        // If we can delete the current node then:
+        if(canDelete){
+            curr.getChildren().remove(c);
+            return curr.getChildren().isEmpty();
+        }
+
+        return false;
     }
 
 }
