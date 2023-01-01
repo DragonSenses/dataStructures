@@ -129,10 +129,15 @@ public class Trie {
         node.setLeaf(true);
     }
 
+    /**
+     * Adds the given string within the Trie
+     * @param word string to add
+     */
+    public void add(String word){
+        insert(word);
+    }
+
     /* Retrieval - Searching / Finding */
-
-
-
     /**
      * Finds the given word within the Trie
      * @param word string to find
@@ -178,7 +183,7 @@ public class Trie {
 
     /* Deletion */
     public boolean delete(String word){
-        searchAndDestroy(root, word, 0);
+        return searchAndDestroy(root, word, 0);
     }
 
 
